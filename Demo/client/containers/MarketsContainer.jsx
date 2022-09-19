@@ -34,8 +34,10 @@ const mapDispatchToProps = dispatch => ({
 class MarketsContainer extends Component {
   constructor(props) {
     super(props);
-    console.log(cardReducer.actions);
+    console.log(ADD_CARD());
   }
+
+
 
   render() {
     return(
