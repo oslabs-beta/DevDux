@@ -103,4 +103,5 @@ const marketsReducer = (state = initialState, action) => {
   }
 };
 
+//console.log(marketsReducer);
 export default marketsReducer;

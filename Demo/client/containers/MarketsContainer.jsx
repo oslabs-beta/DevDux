@@ -16,6 +16,8 @@ import * as actions from '../actions/actions';
 // import child components...
 import MarketCreator from '../components/MarketCreator.jsx';
 import MarketDisplay from '../components/MarketsDisplay.jsx';
+import {ADD_CARD, DELETE_CARD} from '../slices/cardSlice';
+import cardReducer from '../slices/cardSlice';
 
 const mapStateToProps = state => ({
   totalMarkets: state.markets.totalMarkets,
@@ -32,6 +34,7 @@ const mapDispatchToProps = dispatch => ({
 class MarketsContainer extends Component {
   constructor(props) {
     super(props);
+    console.log(cardReducer.actions);
   }
 
   render() {
