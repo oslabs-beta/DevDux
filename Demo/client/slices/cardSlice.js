@@ -2,20 +2,30 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const cardsInitialState = {
   totalCards: 0,
+
 };
 
 const cardSlice = createSlice({
   name: 'totalCards',
-  cardsInitialState,
+  initialState: 0,
   reducers: {
-    ADD_CARD(state) {
-      state.totalCards++;
+    addCard: (state, action) => {
+      console.log(action);
+      console.log('in add card');
+      for (let i = 0; i < state.marketList.length; i++) {
+        if (state.markets.marketList[i]['Market Id'] === action.payload) {
+          state.markets.marketList[i]['Cards'] = state.markets.marketList[i]['Cards'] + 1;
+        }
+      }
+      console.log(state.totalCards);
+      state.totalCards += 1;
+
     },
-    DELETE_CARD(state) {
-      state.totalCards--;
-    }
-  }
+    deleteCard: (state) => {
+      state.totalCards -= 1;
+    },
+  },
 });
 
-export const {ADD_CARD, DELETE_CARD} = cardSlice.actions;
+export const { addCard, deleteCard } = cardSlice.actions;
 export default cardSlice.reducer;

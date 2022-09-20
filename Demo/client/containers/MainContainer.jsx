@@ -31,17 +31,19 @@ const MainContainer = () => {
   // }
   //delete render()
   // render() {
+
   const totalCards = useSelector((state) => state.markets.totalCards);
   const totalMarkets = useSelector((state) => state.markets.totalMarkets);
-  return(
+
+  return (
     <div className="container">
       <div className="outerBox">
         <h1 id="header">MegaMarket Loyalty Cards</h1>
-        {<TotalsDisplay 
-          totalCards={totalCards} 
+        {<TotalsDisplay
+          totalCards={totalCards}
           totalMarkets={totalMarkets}
         />}
-        {<MarketsContainer/>}
+        {<MarketsContainer />}
       </div>
     </div>
   );

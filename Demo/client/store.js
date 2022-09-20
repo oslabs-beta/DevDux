@@ -18,7 +18,10 @@ import cardReducer from './slices/cardSlice';
 // we are adding composeWithDevTools here to get easy access to the Redux dev tools
 const store = configureStore({
   reducer: reducers,
+  // totalCards: cardReducer,
+  totalCards: cardReducer,
   // composeWithDevTools()
+  // }
 });
 
 export default store;

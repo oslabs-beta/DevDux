@@ -13,7 +13,7 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
   totalMarkets: 0,
-  totalCards: 0,
+  //totalCards: 0,
   marketList: [],
   lastMarketId: 10000,
   newLocation: '',
@@ -55,7 +55,7 @@ const marketsReducer = (state = initialState, action) => {
         newLocation: '',
       };
 
-      //case types.SET_NEW_LOCATION:
+    //case types.SET_NEW_LOCATION:
 
     // --------------- COME BACK TO ME ----------------------
     case types.ADD_CARD:
