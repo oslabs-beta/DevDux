@@ -25,7 +25,6 @@ const marketSlice = createSlice({
             state.marketList[i]['Cards'] = state.marketList[i]['Cards'] - 1;
         }
       }
-
     },
     addMarket: (state, action) => {
       state.lastMarketId = state.lastMarketId + 1;
@@ -36,17 +35,14 @@ const marketSlice = createSlice({
         'Market Id': state.lastMarketId,
         Location: document.querySelector('#input').value,
         Cards: 0,
-        // '% of total': 0,
       };
-      // newMarket['% of total'] = newMarket.Cards / state.totalCards;
 
-      // push the new market onto a copy of the market list
-      // deep copy JSON parse the JSON stringified version of the array
       state.marketList = state.marketList.slice();
       state.marketList.push(newMarket);
     },
   },
 });
 
-export const { addMarketCard, deleteMarketCard, addMarket } = marketSlice.actions;
+export const { addMarketCard, deleteMarketCard, addMarket } =
+  marketSlice.actions;
 export default marketSlice.reducer;
