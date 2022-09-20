@@ -32,8 +32,8 @@ const MainContainer = () => {
   //delete render()
   // render() {
 
-  const totalCards = useSelector((state) => state.markets.totalCards);
-  const totalMarkets = useSelector((state) => state.markets.totalMarkets);
+  const totalCards = useSelector((state) => state.cardReducer.totalCards);
+  const totalMarkets = useSelector((state) => state.marketsReducer.totalMarkets);
 
   return (
     <div className="container">

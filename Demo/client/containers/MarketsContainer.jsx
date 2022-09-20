@@ -36,8 +36,8 @@ const MarketsContainer = () => {
   // constructor(props) {
   //   super(props);
 
-  const totalCards = useSelector((state) => state.markets.totalCards);
-  const marketList = useSelector((state) => state.markets.marketList);
+  const totalCards = useSelector((state) => state.marketsReducer.totalCards);
+  const marketList = useSelector((state) => state.marketsReducer.marketList);
 
   const dispatch = useDispatch();
 
@@ -49,7 +49,7 @@ const MarketsContainer = () => {
       {<MarketDisplay
         marketlist={marketList}
         deleteCard={(id) => dispatch(actions.deleteCardActionCreator(id))}
-        // addCard={(id) => dispatch(addCard(id))}
+        addCard={(id) => dispatch(addCard(id))}
         totalcards={totalCards}
       />}
     </div>

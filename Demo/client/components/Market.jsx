@@ -16,8 +16,11 @@ import cardReducer from '../slices/cardSlice';
 
 const Market = props => {
 
+  const cards = useSelector((state) => state.cardReducer.totalCards);
   const dispatch = useDispatch();
-
+  
+  console.log('in Market, here is props:', props);
+  // console.log('in Market, here is cards:', cards);
   const handleAddCard = e => {
     console.log('in add card button');
     dispatch(addCard(props.market['Market Id']));
