@@ -35,7 +35,7 @@ const marketsReducer = (state = initialState, action) => {
       newMarket = {
         // what goes in here?
         'Market Id': lastMarketId,
-        Location: document.querySelector('#input').value,
+        Loocatin: document.querySelector('#input').value,
         Cards: 0,
         // '% of total': 0,
       };

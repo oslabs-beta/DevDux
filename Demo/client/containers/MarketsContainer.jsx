@@ -17,39 +17,35 @@ import * as actions from '../actions/actions';
 import MarketCreator from '../components/MarketCreator.jsx';
 import MarketDisplay from '../components/MarketsDisplay.jsx';
 import { addCard, deleteCard } from '../slices/cardSlice';
-import cardReducer from '../slices/cardSlice';
+import { addMarketCard, deleteMarketCard, addMarket } from '../slices/marketSlice';
 
-// const mapStateToProps = state => ({
-//   totalMarkets: state.markets.totalMarkets,
-//   totalCards: state.markets.totalCards,
-//   marketList: state.markets.marketList
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   addMarket: () => dispatch(actions.addMarketActionCreator()),
-//   addCard: (id) => dispatch(actions.addCardActionCreator(id)),
-//   deleteCard: (id) => dispatch(actions.deleteCardActionCreator(id))
-// });
 
 const MarketsContainer = () => {
-  // class MarketsContainer extends Component {
-  // constructor(props) {
-  //   super(props);
 
-  const totalCards = useSelector((state) => state.marketsReducer.totalCards);
-  const marketList = useSelector((state) => state.marketsReducer.marketList);
+  const totalCards = useSelector((state) => state.cardReducer.totalCards);
+  const marketList = useSelector((state) => state.marketCardReducer.marketList);
 
   const dispatch = useDispatch();
 
-
+  const handleAddCard = (e, marketId) => {
+    dispatch(addCard(marketId));
+    dispatch(addMarketCard(marketId));
+  };
+  const handleDeleteCard = (e, marketId) => {
+    dispatch(deleteCard(marketId));
+    dispatch(deleteMarketCard(marketId));
+  };
+  const handleAddMarket = () => {
+    dispatch(addMarket());
+  };
   // render() {
   return (
     <div className="innerbox">
-      {<MarketCreator addMarket={() => dispatch(actions.addMarketActionCreator())} />}
+      {<MarketCreator addMarket={handleAddMarket} />}
       {<MarketDisplay
         marketlist={marketList}
-        deleteCard={(id) => dispatch(actions.deleteCardActionCreator(id))}
-        addCard={(id) => dispatch(addCard(id))}
+        deleteCard={handleDeleteCard}
+        addCard={handleAddCard}
         totalcards={totalCards}
       />}
     </div>
@@ -57,5 +53,4 @@ const MarketsContainer = () => {
 };
 
 
-// export default connect(mapStateToProps, mapDispatchToProps)(MarketsContainer);
 export default MarketsContainer;

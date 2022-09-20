@@ -33,7 +33,7 @@ const MainContainer = () => {
   // render() {
 
   const totalCards = useSelector((state) => state.cardReducer.totalCards);
-  const totalMarkets = useSelector((state) => state.marketsReducer.totalMarkets);
+  const totalMarkets = useSelector((state) => state.marketCardReducer.totalMarkets);
 
   return (
     <div className="container">
