@@ -10,6 +10,7 @@
  */
 
 import { combineReducers } from 'redux';
+import cardReducer from '../slices/cardSlice';
 
 // import all reducers here
 import marketsReducer from './marketsReducer';
@@ -18,6 +19,7 @@ import marketsReducer from './marketsReducer';
 const reducers = combineReducers({
   // if we had other reducers, they would go here
   markets: marketsReducer,
+  // cards : cardReducer
 });
 
 // make the combined reducers available for import

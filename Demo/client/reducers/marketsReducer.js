@@ -55,7 +55,7 @@ const marketsReducer = (state = initialState, action) => {
         newLocation: '',
       };
 
-      //case types.SET_NEW_LOCATION:
+    //case types.SET_NEW_LOCATION:
 
     // --------------- COME BACK TO ME ----------------------
     case types.ADD_CARD:
@@ -103,4 +103,5 @@ const marketsReducer = (state = initialState, action) => {
   }
 };
 
+//console.log(marketsReducer);
 export default marketsReducer;
