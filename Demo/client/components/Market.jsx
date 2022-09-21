@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+
 
 const Market = props => {
   const { addCard, deleteCard } = props;

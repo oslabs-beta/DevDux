@@ -43,6 +43,5 @@ const marketSlice = createSlice({
   },
 });
 
-export const { addMarketCard, deleteMarketCard, addMarket } =
-  marketSlice.actions;
+export const { addMarketCard, deleteMarketCard, addMarket } = marketSlice.actions;
 export default marketSlice.reducer;
