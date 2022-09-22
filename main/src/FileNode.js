@@ -22,6 +22,12 @@ class FileNode {
   getRenders() {
 
   }
+  getSelectedState(ast) {
+    
+  };
+  getDispatched(ast) {
+
+  };
 }
 
 export default FileNode;
