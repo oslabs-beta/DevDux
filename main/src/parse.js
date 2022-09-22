@@ -5,7 +5,7 @@ import FileNode from './FileNode.js';
 console.log('test');
 
 const test = fs.readFileSync(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx',
+  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx',
   'utf-8',
   (err, data) => {
     if (err) console.log(err);
@@ -20,18 +20,33 @@ const test = fs.readFileSync(
 // );
 
 // console.log(test);
-// const ast = babelParser.parse(test, {
-//   sourceType: 'module',
-//   tokens: true,
-//   plugins: ['jsx', 'typescript'],
-// });
-// // console.log(ast);
-// ast.tokens.forEach((token, i) => {
-//   console.log(`token number ${i}`);
-//   console.log('token label:', token.type.label);
-//   console.log('token value:', token.value || 'no value');
-//   console.log('\n');
-// });
+const ast = babelParser.parse(test, {
+  sourceType: 'module',
+  tokens: true,
+  plugins: ['jsx', 'typescript'],
+});
+ast.program.body.forEach((node) => {
+  if (node.type === 'VariableDeclaration') {
+    const declarations = node.declarations;
+    declarations.forEach((declaration) => {
+      if (declaration.init.type === 'ArrowFunctionExpression') {
+        const ArrowFuncBlock = declaration.init.body.body;
+        console.log(ArrowFuncBlock);
+        ArrowFuncBlock.forEach((blockElement) => {
+          if (blockElement.type === 'VariableDeclaration') {
+            const declarationsArray = blockElement.declarations;
+            declarationsArray.forEach((element) => {
+              if (element?.init?.name === 'useSelector') {
+                console.log(element.init);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+});
+
 const fileData = {};
 
 const getImports = (filePath) => {
@@ -74,15 +89,15 @@ const getImports = (filePath) => {
 };
 
 const fp = path.resolve('../../Demo/client/index.js');
-getImports(fp);
+// getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
-    node.getType(node.ast);
+    node.getSelectedState(ast);
   }
 };
-buildClasses(fileData);
-// console.log(fileData);
+// buildClasses(fileData);
+console.log(fileData);
 // const filesToVisit = [];
 
 // console.log(
