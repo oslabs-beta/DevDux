@@ -1,31 +1,37 @@
 import * as babelParser from '@babel/parser';
 import * as fs from 'fs';
 import path from 'path';
+import FileNode from './FileNode.js';
 console.log('test');
 
 const test = fs.readFileSync(
-  '../../Demo/client/App.jsx',
+  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx',
   'utf-8',
   (err, data) => {
     if (err) console.log(err);
-
-    // console.log('working');
-    // //console.log(data);
-    // const ast = babelParser.parse(data);
-    // console.log(ast);
-    // return ast;
   }
 );
+// console.log('working');
+// //console.log(data);
+// const ast = babelParser.parse(data);
+// console.log(ast);
+// return ast;
+//   }
+// );
 
 // console.log(test);
-const ast = babelParser.parse(test, {
-  sourceType: 'module',
-  plugins: ['jsx', 'typescript'],
-});
-// console.log(ast);
-// ast.program.body.forEach((node) => {
-//   console.log('newnode', node);
-// })
+// const ast = babelParser.parse(test, {
+//   sourceType: 'module',
+//   tokens: true,
+//   plugins: ['jsx', 'typescript'],
+// });
+// // console.log(ast);
+// ast.tokens.forEach((token, i) => {
+//   console.log(`token number ${i}`);
+//   console.log('token label:', token.type.label);
+//   console.log('token value:', token.value || 'no value');
+//   console.log('\n');
+// });
 const fileData = {};
 
 const getImports = (filePath) => {
@@ -33,10 +39,11 @@ const getImports = (filePath) => {
   importList.push(filePath);
   while (importList.length > 0) {
     const currentFile = importList.shift();
-    console.log(currentFile);
+    //console.log(currentFile);
 
     const readFile = fs.readFileSync(currentFile, 'utf-8');
     const ast = babelParser.parse(readFile, {
+      tokens: true,
       sourceType: 'module',
       plugins: ['jsx', 'typescript'],
     });
@@ -49,19 +56,32 @@ const getImports = (filePath) => {
             node.source.value
           );
           if (fileData[importFile] === undefined) {
-            console.log('in if statement');
             importList.push(importFile);
-            fileData[importFile] = {};
+            // fileData[importFile] = {};
+            const astBody = ast.program.body;
+            const astTokens = ast.tokens;
+            fileData[node.source.value] = new FileNode(
+              importFile,
+              astBody,
+              astTokens
+            );
           }
         }
       }
     });
-    console.log('fileData:', fileData);
+    // console.log('fileData:', fileData);
   }
 };
 
-const fp = '../../Demo/client/index.js';
+const fp = path.resolve('../../Demo/client/index.js');
 getImports(fp);
+// console.log(fileData);
+const buildClasses = (fD) => {
+  for (const [file, node] of Object.entries(fD)) {
+    node.getType(node.ast);
+  }
+};
+buildClasses(fileData);
 // console.log(fileData);
 // const filesToVisit = [];
 
