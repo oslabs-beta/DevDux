@@ -5,7 +5,7 @@ import FileNode from './FileNode.js';
 console.log('test');
 
 const test = fs.readFileSync(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx',
+  '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
   'utf-8',
   (err, data) => {
     if (err) console.log(err);
@@ -84,6 +84,24 @@ const buildClasses = (fD) => {
 buildClasses(fileData);
 // console.log(fileData);
 // const filesToVisit = [];
+
+const MarketsContainerNode = fileData['./MarketsContainer.jsx']
+
+//console.log(fileData['./MarketsContainer.jsx'].astTokens);
+
+//console.log({MarketsContainerNode});
+
+const getRenders = (fileNode) => {
+  console.log('in getRenders')
+  //console.log("--->", fileNode.astTokens)
+  fileNode.astTokens.forEach( token => {
+    //console.log("token type:", token.type);
+    // const currentToken = token
+    if (token.type) console.log(token);
+  })
+}
+
+getRenders(MarketsContainerNode);
 
 // console.log(
 //   ast.program.body.filter((node) => {
