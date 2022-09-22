@@ -14,8 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import MarketCreator from '../components/MarketCreator.jsx';
 import MarketDisplay from '../components/MarketsDisplay.jsx';
-import { addCard, deleteCard } from '../slices/cardSlice';
-import { addMarketCard, deleteMarketCard, addMarket } from '../slices/marketSlice';
+import { addCard, deleteCard } from '../slices/cardSlice.js';
+import { addMarketCard, deleteMarketCard, addMarket } from '../slices/marketSlice.js';
 
 
 const MarketsContainer = () => {
@@ -52,3 +52,4 @@ const MarketsContainer = () => {
 
 
 export default MarketsContainer;
+
