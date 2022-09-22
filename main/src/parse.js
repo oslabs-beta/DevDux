@@ -14,7 +14,10 @@ import FileNode from './FileNode.js';
 // );
 
 const test = fs.readFileSync(
+
   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx',
+
+  '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
   'utf-8',
   (err, data) => {
     if (err) console.log(err);
@@ -137,6 +140,7 @@ const buildClasses = (fD) => {
 };
 buildClasses(fileData);
 
+<<<<<<< HEAD
 // console.log(fileData['MarketCreator.jsx'].filePath);
 
 // const filesToVisit = [];
@@ -159,6 +163,28 @@ const getRenders = (fileNode) => {
   })
 }
 //getRenders(MarketContainerNode);
+=======
+// console.log(fileData);
+// const filesToVisit = [];
+
+const MarketsContainerNode = fileData['./MarketsContainer.jsx']
+
+//console.log(fileData['./MarketsContainer.jsx'].astTokens);
+
+//console.log({MarketsContainerNode});
+
+const getRenders = (fileNode) => {
+  console.log('in getRenders')
+  //console.log("--->", fileNode.astTokens)
+  fileNode.astTokens.forEach( token => {
+    //console.log("token type:", token.type);
+    // const currentToken = token
+    if (token.type) console.log(token);
+  })
+}
+
+getRenders(MarketsContainerNode);
+>>>>>>> fb4ea6b8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
 
 // console.log(
 //   ast.program.body.filter((node) => {
