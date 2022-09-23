@@ -73,10 +73,9 @@ const fileData = {};
 const getImports = (filePath) => {
   const importList = [];
   importList.push(filePath);
-  
+
   while (importList.length > 0) {
     const currentFile = importList.shift();
-    //console.log(currentFile);
 
     const readFile = fs.readFileSync(currentFile, 'utf-8');
     const ast = babelParser.parse(readFile, {
@@ -87,7 +86,8 @@ const getImports = (filePath) => {
 
     const astBody = ast.program.body;
     const astTokens = ast.tokens;
-
+    const baseName = path.parse(currentFile).base;
+    fileData[baseName] = new FileNode(currentFile, astBody, astTokens);
     ast.program.body.forEach((node) => {
       if (node.type === 'ImportDeclaration') {
         if (node.source.value[0] === '.') {
@@ -103,26 +103,21 @@ const getImports = (filePath) => {
           if (fileData[baseName] === undefined) {
 
             importList.push(importFile);
-            // fileData[importFile] = {};
-
-            console.log(importFile);
-            console.log(baseName);
-            // console.log(astTokens[0]);
-            fileData[baseName] = new FileNode(importFile, astBody, astTokens);
           }
         }
       }
     });
-    //try fileData[currentFileBaseName].astBody = astBody
-    
-    // console.log('fileData:', fileData);
   }
 };
+
 
 const fp = path.resolve('../../Demo/client/index.js');
 
 
 // fp prints ---> /Users/joshuamiller/Codesmith/DevDux/Demo/client/index.js
+
+const fp = path.resolve('../../Demo/client/App.jsx');
+
 getImports(fp);
 
 
@@ -135,11 +130,14 @@ getImports(fp);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
     // console.log(file);
-    node.getSelectedState(node.astBody);
+    console.log(file);
+    console.log(node.astTokens[0]);
+    // node.getSelectedState(node.astBody);
     // console.log(node.selected);
   }
 };
 buildClasses(fileData);
+
 // console.log(fileData['MarketCreator.jsx'].filePath);
 
 // const filesToVisit = [];
@@ -171,3 +169,4 @@ const getRenders = (fileNode) => {
 //     }
 //   })
 // );
+
