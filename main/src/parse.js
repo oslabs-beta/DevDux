@@ -2,7 +2,7 @@ import * as babelParser from '@babel/parser';
 import * as fs from 'fs';
 import path from 'path';
 import FileNode from './FileNode.js';
-console.log('test');
+// console.log('test');
 
 const test = fs.readFileSync(
   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx',
@@ -19,39 +19,51 @@ const test = fs.readFileSync(
 //   }
 // );
 
-// console.log(test);
-const ast = babelParser.parse(test, {
-  sourceType: 'module',
-  tokens: true,
-  plugins: ['jsx', 'typescript'],
-});
-ast.program.body.forEach((node) => {
-  if (node.type === 'VariableDeclaration') {
-    const declarations = node.declarations;
-    declarations.forEach((declaration) => {
-      if (declaration.init.type === 'ArrowFunctionExpression') {
-        const ArrowFuncBlock = declaration.init.body.body;
-        console.log(ArrowFuncBlock);
-        ArrowFuncBlock.forEach((blockElement) => {
-          if (blockElement.type === 'VariableDeclaration') {
-            const declarationsArray = blockElement.declarations;
-            declarationsArray.forEach((element) => {
-              if (element?.init?.name === 'useSelector') {
-                console.log(element.init);
-              }
-            });
-          }
-        });
-      }
-    });
-  }
-});
+// const ast = babelParser.parse(test, {
+//   sourceType: 'module',
+//   tokens: true,
+//   plugins: ['jsx', 'typescript'],
+// });
+
+// ast.program.body.forEach((node) => {
+//   if (node.type === 'VariableDeclaration') {
+//     const declarations = node.declarations;
+
+//     declarations.forEach((declaration) => {
+//       if (declaration.init.type === 'ArrowFunctionExpression') {
+//         const ArrowFuncBlock = declaration.init.body.body;
+
+//         ArrowFuncBlock.forEach((blockElement) => {
+//           if (blockElement.type === 'VariableDeclaration') {
+//             const declarationsArray = blockElement.declarations;
+
+//             declarationsArray.forEach((element) => {
+//               if (element?.init?.callee?.name === 'useSelector') {
+//                 const variableLabel = element.id.name;
+//                 const useSelectorArguments = element.init.arguments;
+
+//                 useSelectorArguments.forEach((argument) => {
+//                   if (argument.type === 'ArrowFunctionExpression'){
+//                     const reducerName = argument.body.object.property.name;
+//                     const stateName = argument.body.property.name;
+
+//                   }
+//                 })
+//               }
+//             });
+//           }
+//         });
+//       }
+//     });
+//   }
+// });
 
 const fileData = {};
 
 const getImports = (filePath) => {
   const importList = [];
   importList.push(filePath);
+  
   while (importList.length > 0) {
     const currentFile = importList.shift();
     //console.log(currentFile);
@@ -63,6 +75,9 @@ const getImports = (filePath) => {
       plugins: ['jsx', 'typescript'],
     });
 
+    const astBody = ast.program.body;
+    const astTokens = ast.tokens;
+
     ast.program.body.forEach((node) => {
       if (node.type === 'ImportDeclaration') {
         if (node.source.value[0] === '.') {
@@ -70,34 +85,38 @@ const getImports = (filePath) => {
             path.parse(currentFile).dir,
             node.source.value
           );
-          if (fileData[importFile] === undefined) {
+          const baseName = path.parse(importFile).base;
+          if (fileData[baseName] === undefined) {
             importList.push(importFile);
             // fileData[importFile] = {};
-            const astBody = ast.program.body;
-            const astTokens = ast.tokens;
-            fileData[node.source.value] = new FileNode(
-              importFile,
-              astBody,
-              astTokens
-            );
+
+            console.log(importFile);
+            console.log(baseName);
+            // console.log(astTokens[0]);
+            fileData[baseName] = new FileNode(importFile, astBody, astTokens);
           }
         }
       }
     });
+    //try fileData[currentFileBaseName].astBody = astBody
+    
     // console.log('fileData:', fileData);
   }
 };
 
 const fp = path.resolve('../../Demo/client/index.js');
-// getImports(fp);
+getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
-    node.getSelectedState(ast);
+    // console.log(file);
+    node.getSelectedState(node.astBody);
+    // console.log(node.selected);
   }
 };
-// buildClasses(fileData);
-console.log(fileData);
+buildClasses(fileData);
+// console.log(fileData['MarketCreator.jsx'].filePath);
+
 // const filesToVisit = [];
 
 // console.log(
