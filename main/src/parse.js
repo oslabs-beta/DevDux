@@ -4,13 +4,13 @@ import path from 'path';
 import FileNode from './FileNode.js';
 console.log('test');
 
-const test = fs.readFileSync(
-  '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
-  'utf-8',
-  (err, data) => {
-    if (err) console.log(err);
-  }
-);
+// const test = fs.readFileSync(
+//   '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
+//   'utf-8',
+//   (err, data) => {
+//     if (err) console.log(err);
+//   }
+// );
 // console.log('working');
 // //console.log(data);
 // const ast = babelParser.parse(data);
@@ -55,6 +55,7 @@ const getImports = (filePath) => {
             path.parse(currentFile).dir,
             node.source.value
           );
+          //console.log({currentFile}, node.source.value)
           if (fileData[importFile] === undefined) {
             importList.push(importFile);
             // fileData[importFile] = {};
@@ -74,7 +75,9 @@ const getImports = (filePath) => {
 };
 
 const fp = path.resolve('../../Demo/client/index.js');
+// fp prints ---> /Users/joshuamiller/Codesmith/DevDux/Demo/client/index.js
 getImports(fp);
+
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
@@ -85,23 +88,24 @@ buildClasses(fileData);
 // console.log(fileData);
 // const filesToVisit = [];
 
-const MarketsContainerNode = fileData['./MarketsContainer.jsx']
+const MarketsContainerNode = fileData['./MarketsContainer.jsx'];
 
-//console.log(fileData['./MarketsContainer.jsx'].astTokens);
 
-//console.log({MarketsContainerNode});
+//console.log(fileData)
+console.log(fileData['./MarketsContainer.jsx'].astTokens === fileData['./Market.jsx'].astTokens);
+//console.log(fileData['../components/TotalsDisplay.jsx'].astTokens)
 
 const getRenders = (fileNode) => {
-  console.log('in getRenders')
+  //console.log('in getRenders')
   //console.log("--->", fileNode.astTokens)
-  fileNode.astTokens.forEach( token => {
-    //console.log("token type:", token.type);
+  fileNode.astTokens.forEach( (token, i) => {
+    //console.log("token type:", token.type);DY
     // const currentToken = token
-    if (token.type) console.log(token);
+    //console.log(i, token.value)
+    //if (token.type.label.includes('JSX')) console.log(token);
   })
 }
-
-getRenders(MarketsContainerNode);
+//getRenders(MarketContainerNode);
 
 // console.log(
 //   ast.program.body.filter((node) => {
