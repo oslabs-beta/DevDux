@@ -4,6 +4,7 @@ import path from 'path';
 import FileNode from './FileNode.js';
 // console.log('test');
 
+<<<<<<< HEAD
 
 // const test = fs.readFileSync(
 //   '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
@@ -14,8 +15,10 @@ import FileNode from './FileNode.js';
 // );
 
 const test = fs.readFileSync(
+=======
+>>>>>>> 7f7094f8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
 
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx',
+const test = fs.readFileSync(
 
   '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
   'utf-8',
@@ -24,6 +27,17 @@ const test = fs.readFileSync(
   }
 );
 
+<<<<<<< HEAD
+=======
+// const test = fs.readFileSync(
+//   '/Users/joshuamiller/Codesmith/DevDux/Demo/client/containers/MainContainer.jsx',
+//   'utf-8',
+//   (err, data) => {
+//     if (err) console.log(err);
+//   }
+// );
+
+>>>>>>> 7f7094f8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
 // console.log('working');
 // //console.log(data);
 // const ast = babelParser.parse(data);
@@ -99,12 +113,21 @@ const getImports = (filePath) => {
             node.source.value
           );
 
+<<<<<<< HEAD
           //console.log({currentFile}, node.source.value)
           if (fileData[importFile] === undefined) {
 
           const baseName = path.parse(importFile).base;
           if (fileData[baseName] === undefined) {
 
+=======
+          const baseName = path.parse(importFile).base;
+          if (fileData[baseName] === undefined) {
+
+          //console.log({currentFile}, node.source.value)
+          if (fileData[importFile] === undefined) {
+
+>>>>>>> 7f7094f8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
             importList.push(importFile);
           }
         }
@@ -114,6 +137,7 @@ const getImports = (filePath) => {
 };
 
 
+<<<<<<< HEAD
 const fp = path.resolve('../../Demo/client/index.js');
 
 
@@ -129,6 +153,15 @@ getImports(fp);
 
 getImports(fp);
 
+=======
+const fp = path.resolve('../../Demo/client/App.jsx');
+
+const fp = path.resolve('../../Demo/client/index.js');
+// fp prints ---> /Users/joshuamiller/Codesmith/DevDux/Demo/client/index.js
+
+getImports(fp);
+
+>>>>>>> 7f7094f8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
@@ -167,24 +200,30 @@ const getRenders = (fileNode) => {
 // console.log(fileData);
 // const filesToVisit = [];
 
-const MarketsContainerNode = fileData['./MarketsContainer.jsx']
+const MarketsContainerNode = fileData['./MarketsContainer.jsx'];
 
-//console.log(fileData['./MarketsContainer.jsx'].astTokens);
 
-//console.log({MarketsContainerNode});
+//console.log(fileData)
+console.log(fileData['./MarketsContainer.jsx'].astTokens === fileData['./Market.jsx'].astTokens);
+//console.log(fileData['../components/TotalsDisplay.jsx'].astTokens)
 
 const getRenders = (fileNode) => {
-  console.log('in getRenders')
+  //console.log('in getRenders')
   //console.log("--->", fileNode.astTokens)
-  fileNode.astTokens.forEach( token => {
-    //console.log("token type:", token.type);
+  fileNode.astTokens.forEach( (token, i) => {
+    //console.log("token type:", token.type);DY
     // const currentToken = token
-    if (token.type) console.log(token);
+    //console.log(i, token.value)
+    //if (token.type.label.includes('JSX')) console.log(token);
   })
 }
+<<<<<<< HEAD
 
 getRenders(MarketsContainerNode);
 >>>>>>> fb4ea6b8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
+=======
+//getRenders(MarketContainerNode);
+>>>>>>> 7f7094f8 (Co-authored-by: hina-khalid <hina-khalid@users.noreply.github.com>)
 
 // console.log(
 //   ast.program.body.filter((node) => {
