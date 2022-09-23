@@ -102,9 +102,8 @@ const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
     // console.log(file);
     console.log(file);
-    console.log(node.astTokens[0]);
-    // node.getSelectedState(node.astBody);
-    // console.log(node.selected);
+    node.getSelectedState(node.astBody);
+    console.log(node.selected);
   }
 };
 buildClasses(fileData);

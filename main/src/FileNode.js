@@ -27,29 +27,31 @@ class FileNode {
         declarations.forEach((declaration) => {
           if (declaration.init.type === 'ArrowFunctionExpression') {
             const ArrowFuncBlock = declaration.init.body.body;
+            if (ArrowFuncBlock) {
+              ArrowFuncBlock.forEach((blockElement) => {
+                if (blockElement.type === 'VariableDeclaration') {
+                  const declarationsArray = blockElement.declarations;
 
-            ArrowFuncBlock.forEach((blockElement) => {
-              if (blockElement.type === 'VariableDeclaration') {
-                const declarationsArray = blockElement.declarations;
+                  declarationsArray.forEach((element) => {
+                    if (element.init.callee?.name === 'useSelector') {
+                      const variableLabel = element.id.name;
+                      const useSelectorArguments = element.init.arguments;
 
-                declarationsArray.forEach((element) => {
-                  if (element.init.callee?.name === 'useSelector') {
-                    const variableLabel = element.id.name;
-                    const useSelectorArguments = element.init.arguments;
-
-                    useSelectorArguments.forEach((argument) => {
-                      if (argument.type === 'ArrowFunctionExpression') {
-                        const reducerName = argument.body.object.property.name;
-                        const stateName = argument.body.property.name;
-                        this.selected.push({
-                          [variableLabel]: `${reducerName}.${stateName}`,
-                        });
-                      }
-                    });
-                  }
-                });
-              }
-            });
+                      useSelectorArguments.forEach((argument) => {
+                        if (argument.type === 'ArrowFunctionExpression') {
+                          const reducerName =
+                            argument.body.object.property.name;
+                          const stateName = argument.body.property.name;
+                          this.selected.push({
+                            [variableLabel]: `${reducerName}.${stateName}`,
+                          });
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
           }
         });
       }
