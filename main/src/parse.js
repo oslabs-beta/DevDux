@@ -63,10 +63,9 @@ const fileData = {};
 const getImports = (filePath) => {
   const importList = [];
   importList.push(filePath);
-  
+
   while (importList.length > 0) {
     const currentFile = importList.shift();
-    //console.log(currentFile);
 
     const readFile = fs.readFileSync(currentFile, 'utf-8');
     const ast = babelParser.parse(readFile, {
@@ -77,7 +76,8 @@ const getImports = (filePath) => {
 
     const astBody = ast.program.body;
     const astTokens = ast.tokens;
-
+    const baseName = path.parse(currentFile).base;
+    fileData[baseName] = new FileNode(currentFile, astBody, astTokens);
     ast.program.body.forEach((node) => {
       if (node.type === 'ImportDeclaration') {
         if (node.source.value[0] === '.') {
@@ -88,42 +88,23 @@ const getImports = (filePath) => {
           const baseName = path.parse(importFile).base;
           if (fileData[baseName] === undefined) {
             importList.push(importFile);
-            // fileData[importFile] = {};
-
-            console.log(importFile);
-            console.log(baseName);
-            // console.log(astTokens[0]);
-            fileData[baseName] = new FileNode(importFile, astBody, astTokens);
           }
         }
       }
     });
-    //try fileData[currentFileBaseName].astBody = astBody
-    
-    // console.log('fileData:', fileData);
   }
 };
 
-const fp = path.resolve('../../Demo/client/index.js');
+const fp = path.resolve('../../Demo/client/App.jsx');
 getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
     // console.log(file);
-    node.getSelectedState(node.astBody);
+    console.log(file);
+    console.log(node.astTokens[0]);
+    // node.getSelectedState(node.astBody);
     // console.log(node.selected);
   }
 };
 buildClasses(fileData);
-// console.log(fileData['MarketCreator.jsx'].filePath);
-
-// const filesToVisit = [];
-
-// console.log(
-//   ast.program.body.filter((node) => {
-//     if (node.type === 'ImportDeclaration') {
-//       console.log(node.source.value);
-//       return node.source.value === './containers/MainContainer.jsx';
-//     }
-//   })
-// );

@@ -1,3 +1,9 @@
+/**
+ *
+ * @module cardSlice
+ *
+ *
+ */
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   totalCards: 0,
