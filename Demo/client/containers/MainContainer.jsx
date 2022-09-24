@@ -18,7 +18,6 @@ import TotalsDisplay from '../components/TotalsDisplay.jsx';
 
 const MainContainer = () => {
 
-
   const totalCards = useSelector((state) => state.cardReducer.totalCards);
   const totalMarkets = useSelector((state) => state.marketCardReducer.totalMarkets);
 
