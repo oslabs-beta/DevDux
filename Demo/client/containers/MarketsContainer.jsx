@@ -24,7 +24,6 @@ const MarketsContainer = () => {
   const marketList = useSelector((state) => state.marketCardReducer.marketList);
 
   const dispatch = useDispatch();
-
   const handleAddCard = (e, marketId) => {
     dispatch(addCard(marketId));
     dispatch(addMarketCard(marketId));

@@ -19,12 +19,13 @@ const test = fs.readFileSync(
 //   }
 // );
 
-// const ast = babelParser.parse(test, {
-//   sourceType: 'module',
-//   tokens: true,
-//   plugins: ['jsx', 'typescript'],
-// });
+const ast = babelParser.parse(test, {
+  sourceType: 'module',
+  tokens: true,
+  plugins: ['jsx', 'typescript'],
+});
 
+/////////Get useSelectors
 // ast.program.body.forEach((node) => {
 //   if (node.type === 'VariableDeclaration') {
 //     const declarations = node.declarations;
@@ -32,31 +33,91 @@ const test = fs.readFileSync(
 //     declarations.forEach((declaration) => {
 //       if (declaration.init.type === 'ArrowFunctionExpression') {
 //         const ArrowFuncBlock = declaration.init.body.body;
+//         if (ArrowFuncBlock) {
+//           ArrowFuncBlock.forEach((blockElement) => {
+//             if (blockElement.type === 'VariableDeclaration') {
+//               const declarationsArray = blockElement.declarations;
 
-//         ArrowFuncBlock.forEach((blockElement) => {
-//           if (blockElement.type === 'VariableDeclaration') {
-//             const declarationsArray = blockElement.declarations;
-
-//             declarationsArray.forEach((element) => {
-//               if (element?.init?.callee?.name === 'useSelector') {
-//                 const variableLabel = element.id.name;
-//                 const useSelectorArguments = element.init.arguments;
-
-//                 useSelectorArguments.forEach((argument) => {
-//                   if (argument.type === 'ArrowFunctionExpression'){
-//                     const reducerName = argument.body.object.property.name;
-//                     const stateName = argument.body.property.name;
-
-//                   }
-//                 })
-//               }
-//             });
-//           }
-//         });
+//               declarationsArray.forEach((element) => {
+//                 if (element?.init?.callee?.name === 'useSelector') {
+//                   const variableLabel = element.id.name;
+//                   const useSelectorArguments = element.init.arguments;
+//                   console.log(variableLabel);
+//                   useSelectorArguments.forEach((argument) => {
+//                     if (argument.type === 'ArrowFunctionExpression') {
+//                       const reducerName = argument.body.object.property.name;
+//                       const stateName = argument.body.property.name;
+//                       console.log(reducerName, stateName);
+//                     }
+//                   });
+//                 }
+//               });
+//             }
+//           });
+//         }
 //       }
 //     });
 //   }
 // });
+/////////Get useDispatch
+ast.program.body.forEach((node) => {
+  if (node.type === 'VariableDeclaration') {
+    const declarations = node.declarations;
+    //declarations is the entire MarketContainer function, including "const MarketsContainer"
+    declarations.forEach((declaration) => {
+      if (declaration.init.type === 'ArrowFunctionExpression') {
+        //ArrowFunctionExpression is the body of MarketsContainer (everything after the equals sign after MarketsContainer)
+        const ArrowFuncBlock = declaration.init.body.body;
+        //ArrowFuncBlock is the array of blocks (?) within MarketsContainer
+        if (ArrowFuncBlock) {
+          let useDispatchLabel;
+          ArrowFuncBlock.forEach((blockElement) => {
+            if (blockElement.type === 'VariableDeclaration') {
+              //declarationsArray is all code/data about one variable declaration within MarketsContainer
+              const declarationsArray = blockElement.declarations;
+              declarationsArray.forEach((element) => {
+                if (
+                  useDispatchLabel === undefined &&
+                  element?.init?.callee?.name === 'useDispatch'
+                ) {
+                  //useDispatchLabel is what useDispatch gets saved to, so for us it's "dispatch"
+                  useDispatchLabel = element.id.name;
+                } else {
+                  if (element.init.type === 'ArrowFunctionExpression') {
+                    //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration within MarketsContainer - for example, within handleDeleteCard, it's everything after the arrow.
+                    const innerArrowFuncBlock = element.init.body.body;
+                    innerArrowFuncBlock.forEach((element) => {
+                      if (
+                        element.type === 'ExpressionStatement' &&
+                        element.expression.callee.name === useDispatchLabel
+                      ) {
+                        console.log(
+                          'args name',
+                          //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
+                          element.expression.arguments[0].callee.name
+                        );
+                      }
+                    });
+                  }
+                }
+              });
+            }
+            if (
+              blockElement.type === 'ExpressionStatement' &&
+              blockElement.expression.callee.name === useDispatchLabel
+            ) {
+              console.log(
+                'args name',
+                //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
+                blockElement.expression.arguments[0].callee.name
+              );
+            }
+          });
+        }
+      }
+    });
+  }
+});
 
 const fileData = {};
 
@@ -100,10 +161,12 @@ getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
-    // console.log(file);
-    console.log(file);
+    console.log('file within buildClasses:', file);
     node.getSelectedState(node.astBody);
-    console.log(node.selected);
+    node.getDispatched(node.astBody);
+    console.log('node.dispatched within buildClasses:', node.dispatched);
+    // console.log(node.astTokens[0]);
   }
 };
 buildClasses(fileData);
+// console.log(fileData);
