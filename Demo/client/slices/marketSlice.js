@@ -1,8 +1,3 @@
-/**
- *
- * @module marketSlice
- *
- */
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

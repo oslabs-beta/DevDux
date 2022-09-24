@@ -9,13 +9,15 @@
  * ************************************
  */
 
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import React, { Component } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+// import actions from action creators file
+// import * as actions from '../actions/actions';
+// import child components...
 import MarketCreator from '../components/MarketCreator.jsx';
 import MarketDisplay from '../components/MarketsDisplay.jsx';
-import { addCard, deleteCard } from '../slices/cardSlice.js';
-import { addMarketCard, deleteMarketCard, addMarket } from '../slices/marketSlice.js';
+import { addCard, deleteCard } from '../slices/cardSlice';
+import { addMarketCard, deleteMarketCard, addMarket } from '../slices/marketSlice';
 
 
 const MarketsContainer = () => {
@@ -24,6 +26,7 @@ const MarketsContainer = () => {
   const marketList = useSelector((state) => state.marketCardReducer.marketList);
 
   const dispatch = useDispatch();
+
   const handleAddCard = (e, marketId) => {
     dispatch(addCard(marketId));
     dispatch(addMarketCard(marketId));
@@ -51,4 +54,3 @@ const MarketsContainer = () => {
 
 
 export default MarketsContainer;
-
