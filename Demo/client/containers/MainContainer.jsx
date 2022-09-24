@@ -9,14 +9,28 @@
  * ************************************
  */
 
-
-import React from 'react';
-import { useSelector } from 'react-redux';
+//import React from 'react';
+import React, { Component } from 'react';
+import { connect, useSelector } from 'react-redux';
 import MarketsContainer from './MarketsContainer.jsx';
 import TotalsDisplay from '../components/TotalsDisplay.jsx';
 
+// const mapStateToProps = state => ({
+//   // add pertinent state here
+//   totalMarkets: state.markets.totalMarkets,
+//   totalCards: state.markets.totalCards
+// });
+/**
 
+ */
+//function MainContainer() {
 const MainContainer = () => {
+  //
+  // constructor(props) {
+  //   super(props);
+  // }
+  //delete render()
+  // render() {
 
   const totalCards = useSelector((state) => state.cardReducer.totalCards);
   const totalMarkets = useSelector((state) => state.marketCardReducer.totalMarkets);
@@ -36,5 +50,5 @@ const MainContainer = () => {
   //}
 };
 
-
+// export default connect(mapStateToProps, null)(MainContainer);
 export default MainContainer;
