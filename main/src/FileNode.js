@@ -119,10 +119,35 @@ class FileNode {
       return false;
     })
     //console.log(result); <--------------------------
+    return result;
   }
 
   getProps() {
-    console.log(this.astTokens);
+    const props = [];
+    this.astBody.forEach((node) => {
+      if (node.type === 'VariableDeclaration') {
+        const declarations = node.declarations;
+        declarations.forEach((declaration) => {
+          if (declaration.init.type === 'ArrowFunctionExpression') {
+            const body = declaration.init.body.body;
+            body.forEach((node) => {
+              if (node.type === 'ReturnStatement') {
+                const children = node.argument.children;
+                children.forEach((child) => {
+                  //console.log(child);
+                  if (child.type === 'JSXElement') {
+                    //console.log(child.openingElement.attributes)
+                    props.push(child.openingElement.attributes);
+                    //console.log(child.openingElement.attributes)
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
+    console.log(props);
   }
   //console.log("array------>", this.imports);
 

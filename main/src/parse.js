@@ -72,6 +72,7 @@ const buildClasses = (fD) => {
 // console.log(buildClasses(fileData));
 buildClasses(fileData)
 const node = fileData['MarketsContainer.jsx'];
+//console.log(node.getRenderComponents());
 node.getProps();
 
 // const getRenders = (fileNode) => {
