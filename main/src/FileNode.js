@@ -104,23 +104,29 @@ class FileNode {
   // }
 
   getRenderComponents() {
-    //console.log("--IMPORTS-->", this.imports)
+    console.log("--IMPORTS-->", this.imports)
+    //console.log("---> checking tokens:", this.astTokens)
     const keyArray = this.imports.map((obj) => {
       return Object.keys(obj)[0];
     })
-    //console.log(keyArray);
+
+    // create a function to remove the methods from keyArray
+    // keep only the rendered components
 
     const result = this.astTokens.slice().filter((token) => {
-      if (token.type.label === 'jsxName' && (token.value[0] === token.value[0].toUpperCase())) {
+      if (token.type.label === 'jsxName') {
         if (keyArray.includes(token.value)) {
-          return true;
+          //console.log("token--->", token);
+          //return true;
         }
       }
-      return false;
+      //return false;
     })
-    //console.log(result); <--------------------------
+    //console.log(result); //<----------
     return result;
   }
+
+  // && (token.value[0] === token.value[0].toUpperCase())
 
   getProps() {
     const props = [];
@@ -147,7 +153,7 @@ class FileNode {
         })
       }
     })
-    console.log(props);
+    //console.log("checking props-->", props);
   }
   //console.log("array------>", this.imports);
 
