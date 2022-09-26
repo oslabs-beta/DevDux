@@ -76,27 +76,3 @@ const node = fileData['MainContainer.jsx'];
 node.getProps();
 node.getRenderComponents();
 
-//const propsArr = []
-
-// node.astTokens.forEach(token => {
-//   //console.log(token.type.label)
-//   if (token.type.startsExpr && token.type.label === 'name') propsArr.push(token)
-//   if 
-// })
-
-// const getRenders = (fileNode) => {
-//   //console.log('in getRenders')
-//   //console.log("--->", fileNode.astTokens)
-//   fileNode.astTokens.forEach((token, i) => {
-//     //console.log("token type:", token.type);DY
-//     // const currentToken = token
-//     //console.log(i, token.value)
-//     //if (token.type.label.includes('JSX')) console.log(token);
-//   })
-// }
-
-
-// figure out which components are being rendered in each file
-// and which props are being passed in each file
-
-//buildClasses(fileData);

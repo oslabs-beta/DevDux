@@ -8,11 +8,6 @@ class FileNode {
     this.filePath = filePath;
     this.astBody = astBody;
     this.astTokens = astTokens;
-    // this.type = getType(this.ast); // component, slice file
-    // this.componentsRendered = getComponentsRendered(this.ast);
-    // this.fileImports = getFileImports(this.ast);
-    // this.selectedState = getSelectedState(this.ast);
-    // this.dispatchedReducers = getDispatched(this.ast);
     this.imports = [];
   }
   getType(ast) {
@@ -63,69 +58,20 @@ class FileNode {
   getDispatched(ast) { }
 
 
-  // getRenderComponents() {
-  //   //console.log("----> checking the body for each node: ", this.astBody);
-  //   const jsxElements = [];
-  //   console.log('CHECKING THE TOKENS.', this.astTokens);
-  //   this.astBody.forEach((node) => {
-  //     if (node.type === 'VariableDeclaration') {
-  //       const declaration = node.declarations;
-  //       //console.log("DECLARATION -------->", declaration);
-
-  //       declaration.forEach((declaration) => {
-  //         if (declaration.init.type === 'ArrowFunctionExpression') {
-  //           // after ArrowFunctionExpression node, go into the body
-  //           const initBody = declaration.init.body;
-  //           console.log("----initBody--->", initBody.body)
-
-  //           initBody.body.forEach((node) => {
-  //             if (node.type === 'ReturnStatement') {
-
-  //               const arg = node.argument;
-  //               //console.log("ARG: ", arg);
-  //               // console.log(arg.children[1]);
-  //               arg.children[1].children.forEach((child) => {
-  //                 if (child.type === 'JSXElement') {
-  //                   console.log('child ---------->', child);
-  //                 }
-  //               })
-  //               // arg.forEach((node) => {
-  //               //   if (node.type === 'JSXOpeningElement') {
-  //               //     console.log('JSXOpeningElement node -->', node)
-  //               //   }
-  //               //})
-  //             }
-  //           })
-
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
-
   getRenderComponents() {
-    //console.log("--IMPORTS-->", this.imports)
-    //console.log("---> checking tokens:", this.astTokens)
     const arr = this.imports.map((obj) => {
       if (Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
     })
-
     const keyArray = arr.filter(e => e)
-    //console.log("key array -->", keyArray)
-
     const result = this.astTokens.slice().filter((token) => {
       if (token.type.label === 'jsxName') {
         if (keyArray.includes(token.value)) {
-          //console.log("token--->", token);
           return true;
         }
       }
       return false;
     })
-    //console.log(result); //<----------
-    //return result;
     this.renderedComponents = result.map(token => token.value)
-    //console.log(this.renderedComponents)
   }
 
 
@@ -141,7 +87,6 @@ class FileNode {
     this.astTokens.forEach((token, i, arr) => {
       if (token.type.label === 'const') {
         keyArray.push(arr[i + 1].value)
-    
       }
     })
     const propObj = {};
@@ -156,72 +101,6 @@ class FileNode {
     })
     console.log(this.props)
   }
-
-  // getProps() {
-  //   const props = [];
-  //   this.astBody.forEach((node) => {
-  //     if (node.type === 'VariableDeclaration') {
-  //       const declarations = node.declarations;
-  //       declarations.forEach((declaration) => {
-  //         if (declaration.init.type === 'ArrowFunctionExpression') {
-  //           const body = declaration.init.body.body;
-  //           body.forEach((node) => {
-  //             if (node.type === 'ReturnStatement') {
-  //               const children = node.argument.children;
-  //               children.forEach((child) => {
-  //                 //console.log(child);
-  //                 if (child.type === 'JSXElement') {
-  //                   //console.log(child.openingElement.attributes)
-  //                   props.push(child.openingElement.attributes);
-  //                   //console.log(child.openingElement.attributes)
-  //                 }
-  //               })
-  //             }
-  //           })
-  //         }
-  //       })
-  //     }
-  //   })
-  //   //console.log("checking props-->", props);
-  // }
-  //console.log("array------>", this.imports);
-
-  //this.astTokens.filter(token => {
-  // const arr = this.imports;
-  // if (arr.includes(token.value)) {
-  //   console.log('hi')
-  // }
-  //if (this.imports.includes) {
-
-  //}
-  //})
-
-  // this.astTokens.forEach((token) => {
-  //console.log("------CHECKING TOKEN--->", token);
-  //console.log("imports?", this.imports);
-  //if (token.type.label === 'jsxName') {
-  //console.log("------CHECKING TOKEN--->", token); // token.value 
-  //console.log("------CHECKING TOKEN VALUE--->", token.value);
-  //console.log("imports?", this.imports);
-  // this.imports.forEach((element) => { // element is each obj in the import array
-  //   if (element[token.value]) {
-
-  //   }
-  // })
-
-  //jsxList.push(token);
-  //console.log("VALUE --> ", token.value[0])
-  //if (token.value[0] === token.value[0].toUpperCase()) {
-  //console.log('Token value', token.value);
-  //}
-  //console.log("printing first letter??", token.type.label[0]);
-  // check to see if the first letter in the label is uppercase
-  //}
-  // })
-  //console.log('array--->', jsxList);
-  // this.astBody.forEach((node) => {
-  //   console.log("checking the NODE--->", node);
-  // })
 }
 
 
