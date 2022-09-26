@@ -72,3 +72,20 @@ const buildClasses = (fD) => {
     // console.log(node.astTokens[0]);
   }
 };
+
+buildClasses(fileData)
+
+function printClasses(fD) {
+  for (const [file, node] of Object.entries(fD)) {
+    console.log(file);
+    console.log("filepath: ", node.filePath)
+    console.log("Imports: ", node.imports)
+    console.log("Selected: ", node.selected)
+    console.log("Dispatched: ", node.dispatched)
+    console.log("Rendered: ", node.renderedComponents)
+    console.log("Props: ", node.props)
+    console.log('\n')
+  }
+}
+
+printClasses(fileData)
