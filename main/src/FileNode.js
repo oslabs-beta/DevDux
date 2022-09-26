@@ -40,23 +40,29 @@ class FileNode {
     for (let i = 0; i < this.selected.length; i++) {
       keyArray.push(Object.keys(this.selected[i])[0])
     }
+
     this.astTokens.forEach((token, i, arr) => {
       if (token.type.label === 'const') {
         keyArray.push(arr[i + 1].value)
       }
     })
+
     const propObj = {};
     this.astTokens.forEach((token, i, arr) => {
       if (token.type.label === 'jsxName') {
-        if (keyArray.includes(arr[i + 3].value)) {
-          //console.log(token.value + " = " + arr[i + 3].value)
-          propObj[token.value] = arr[i + 3].value
+        if (this.renderedComponents[0]) {
+          if (token.value === 'key') propObj['key'] = 'unique identifier'
+          if (arr[i + 3].value === 'props') propObj[token.value] = "props." + arr[i + 5].value
+          else if (keyArray.includes(arr[i + 3].value) && arr[i + 3].value !== undefined) {
+            //console.log(token.value + " = " + arr[i + 3].value)
+            propObj[token.value] = arr[i + 3].value
+          }
         }
       }
       this.props = propObj
     })
-    console.log(this.props)
   }
+  
 
   getSelectedState(astBody) {
     this.selected = [];

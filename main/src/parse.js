@@ -1,6 +1,7 @@
 import * as babelParser from '@babel/parser';
 import * as fs from 'fs';
 import path from 'path';
+//import Market from '../../Demo/client/components/Market.jsx';
 import FileNode from './FileNode.js';
 // console.log('test');
 
@@ -63,17 +64,18 @@ getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
-    console.log('file within buildClasses:', file);
+    //console.log('file within buildClasses:', file);
     node.getSelectedState(node.astBody);
     node.getDispatched(node.astBody);
-    node.getProps();
     node.getRenderComponents();
-    console.log('node.dispatched within buildClasses:', node.dispatched);
+    node.getProps();
+    //console.log('node.dispatched within buildClasses:', node.dispatched);
     // console.log(node.astTokens[0]);
   }
 };
 
 buildClasses(fileData)
+
 
 function printClasses(fD) {
   for (const [file, node] of Object.entries(fD)) {
