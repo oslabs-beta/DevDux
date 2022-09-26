@@ -4,7 +4,6 @@ import path from 'path';
 import FileNode from './FileNode.js';
 // console.log('test');
 
-
 // const test = fs.readFileSync(
 //   '/Users/hinakhalid/CodeSmith/OSP/ospDemo/DevDux/Demo/client/containers/MarketsContainer.jsx',
 //   'utf-8',
@@ -40,16 +39,17 @@ const getImports = (filePath) => {
             path.parse(currentFile).dir,
             node.source.value
           );
-          
+
           let importName;
           node.specifiers.forEach((specifier) => {
             //console.log(specifier);
-            fileData[baseName].imports.push({ [specifier.local.name]: importFile })
-          })
+            fileData[baseName].imports.push({
+              [specifier.local.name]: importFile,
+            });
+          });
 
           const importListBaseName = path.parse(importFile).base;
           if (fileData[importListBaseName] === undefined) {
-
             importList.push(importFile);
           }
         }
@@ -73,19 +73,40 @@ const buildClasses = (fD) => {
   }
 };
 
-buildClasses(fileData)
+buildClasses(fileData);
 
 function printClasses(fD) {
   for (const [file, node] of Object.entries(fD)) {
     console.log(file);
-    console.log("filepath: ", node.filePath)
-    console.log("Imports: ", node.imports)
-    console.log("Selected: ", node.selected)
-    console.log("Dispatched: ", node.dispatched)
-    console.log("Rendered: ", node.renderedComponents)
-    console.log("Props: ", node.props)
-    console.log('\n')
+    console.log('filepath: ', node.filePath);
+    console.log('Imports: ', node.imports);
+    console.log('Selected: ', node.selected);
+    console.log('Dispatched: ', node.dispatched);
+    console.log('Rendered: ', node.renderedComponents);
+    console.log('Props: ', node.props);
+    console.log('\n');
   }
 }
 
-printClasses(fileData)
+printClasses(fileData);
+const fileDataToExt = {};
+function buildClassesForExport(fD) {
+  for (const [file, node] of Object.entries(fD)) {
+    fileDataToExt[[file]] = {};
+    fileDataToExt[[file]].filePath = node.filePath;
+    fileDataToExt[[file]].imports = node.imports;
+    fileDataToExt[[file]].selected = node.selected;
+    fileDataToExt[[file]].dispatched = node.dispatched;
+    fileDataToExt[[file]].renderedComponents = node.renderedComponents;
+    fileDataToExt[[file]].props = node.props;
+  }
+}
+buildClassesForExport(fileData);
+fs.writeFile(
+  '../../devdux/data/data.json',
+  JSON.stringify(fileDataToExt),
+  (err) => {
+    if (err) throw err;
+    console.log('Wrote data to JSON');
+  }
+);

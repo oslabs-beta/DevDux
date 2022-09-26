@@ -19,7 +19,15 @@
         "command": "devdux.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "devdux-sidebar",
+          "name": "DevDux Sidebar"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
