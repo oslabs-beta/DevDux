@@ -25,15 +25,14 @@ const MainContainer = () => {
     <div className="container">
       <div className="outerBox">
         <h1 id="header">MegaMarket Loyalty Cards</h1>
-        {<TotalsDisplay
+        <TotalsDisplay
           totalCards={totalCards}
           totalMarkets={totalMarkets}
-        />}
-        {<MarketsContainer />}
+        />
+        <MarketsContainer />
       </div>
     </div>
   );
-  //}
 };
 
 

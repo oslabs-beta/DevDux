@@ -35,16 +35,15 @@ const MarketsContainer = () => {
   const handleAddMarket = () => {
     dispatch(addMarket());
   };
-  // render() {
   return (
     <div className="innerbox">
-      {<MarketCreator addMarket={handleAddMarket} />}
-      {<MarketDisplay
+      <MarketCreator addMarket={handleAddMarket} />
+      <MarketDisplay
         marketlist={marketList}
         deleteCard={handleDeleteCard}
         addCard={handleAddCard}
         totalcards={totalCards}
-      />}
+      />
     </div>
   );
 };
