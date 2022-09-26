@@ -1,4 +1,5 @@
 import * as babelParser from '@babel/parser';
+import { Console } from 'console';
 import * as fs from 'fs';
 import path from 'path';
 
@@ -7,17 +8,55 @@ class FileNode {
     this.filePath = filePath;
     this.astBody = astBody;
     this.astTokens = astTokens;
-    // this.type = getType(this.ast); // component, slice file
-    // this.componentsRendered = getComponentsRendered(this.ast);
-    // this.fileImports = getFileImports(this.ast);
-    // this.selectedState = getSelectedState(this.ast);
-    // this.dispatchedReducers = getDispatched(this.ast);
+    this.imports = [];
   }
   getType(ast) {
     this.type = 'slice file';
   }
 
-  getRenders() {}
+  getRenderComponents() {
+    const arr = this.imports.map((obj) => {
+      if (Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
+    })
+    const keyArray = arr.filter(e => e)
+    const result = this.astTokens.slice().filter((token) => {
+      if (token.type.label === 'jsxName') {
+        if (keyArray.includes(token.value)) {
+          return true;
+        }
+      }
+      return false;
+    })
+    this.renderedComponents = result.map(token => token.value)
+  }
+
+
+  // getProps function
+  getProps() {
+    const arr = this.imports.map((obj) => {
+      if (!Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
+    })
+    const keyArray = arr.filter(e => e)
+    for (let i = 0; i < this.selected.length; i++) {
+      keyArray.push(Object.keys(this.selected[i])[0])
+    }
+    this.astTokens.forEach((token, i, arr) => {
+      if (token.type.label === 'const') {
+        keyArray.push(arr[i + 1].value)
+      }
+    })
+    const propObj = {};
+    this.astTokens.forEach((token, i, arr) => {
+      if (token.type.label === 'jsxName') {
+        if (keyArray.includes(arr[i + 3].value)) {
+          //console.log(token.value + " = " + arr[i + 3].value)
+          propObj[token.value] = arr[i + 3].value
+        }
+      }
+      this.props = propObj
+    })
+    console.log(this.props)
+  }
 
   getSelectedState(astBody) {
     this.selected = [];
@@ -128,5 +167,6 @@ class FileNode {
     });
   }
 }
+
 
 export default FileNode;
