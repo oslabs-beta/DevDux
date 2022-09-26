@@ -4,6 +4,7 @@ import path from 'path';
 import FileNode from './FileNode.js';
 // console.log('test');
 
+
 // const test = fs.readFileSync(
 //   '/Users/hinakhalid/CodeSmith/OSP/ospDemo/DevDux/Demo/client/containers/MarketsContainer.jsx',
 //   'utf-8',
@@ -39,6 +40,7 @@ const getImports = (filePath) => {
             path.parse(currentFile).dir,
             node.source.value
           );
+          
           let importName;
           node.specifiers.forEach((specifier) => {
             //console.log(specifier);
@@ -47,6 +49,7 @@ const getImports = (filePath) => {
 
           const importListBaseName = path.parse(importFile).base;
           if (fileData[importListBaseName] === undefined) {
+
             importList.push(importFile);
           }
         }
@@ -60,19 +63,12 @@ getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
-    //console.log(file);
+    console.log('file within buildClasses:', file);
     node.getSelectedState(node.astBody);
-    //console.log(node.selected);
-    // console.log(file);
-    //console.log(file, ': imports --->', node.imports);
-    // console.log("--->", node.imports[0])
+    node.getDispatched(node.astBody);
+    node.getProps();
+    node.getRenderComponents();
+    console.log('node.dispatched within buildClasses:', node.dispatched);
+    // console.log(node.astTokens[0]);
   }
 };
-// console.log(fileData);
-// console.log(buildClasses(fileData));
-buildClasses(fileData)
-const node = fileData['MainContainer.jsx'];
-//console.log(node.getRenderComponents());
-node.getProps();
-node.getRenderComponents();
-
