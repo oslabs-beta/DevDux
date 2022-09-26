@@ -71,11 +71,21 @@ const buildClasses = (fD) => {
 // console.log(fileData);
 // console.log(buildClasses(fileData));
 buildClasses(fileData)
-const node = fileData['MarketsContainer.jsx'];
+const node = fileData['MainContainer.jsx'];
 //console.log(node.getRenderComponents());
-node.getProps();
+//node.getProps();
 node.getRenderComponents();
 
+const propsArr = []
+
+node.astTokens.forEach(token => {
+  //console.log(token.type.label)
+  if (token.type.startsExpr && token.type.label === 'name') propsArr.push(token)
+  if 
+})
+
+
+console.log(propsArr)
 // const getRenders = (fileNode) => {
 //   //console.log('in getRenders')
 //   //console.log("--->", fileNode.astTokens)

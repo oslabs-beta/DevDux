@@ -104,57 +104,66 @@ class FileNode {
   // }
 
   getRenderComponents() {
-    console.log("--IMPORTS-->", this.imports)
+    //console.log("--IMPORTS-->", this.imports)
     //console.log("---> checking tokens:", this.astTokens)
-    const keyArray = this.imports.map((obj) => {
-      return Object.keys(obj)[0];
+    const arr = this.imports.map((obj) => {
+      if (Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
     })
 
-    // create a function to remove the methods from keyArray
-    // keep only the rendered components
+    const keyArray = arr.filter(e => e)
+    //console.log("key array -->", keyArray)
 
     const result = this.astTokens.slice().filter((token) => {
       if (token.type.label === 'jsxName') {
         if (keyArray.includes(token.value)) {
           //console.log("token--->", token);
-          //return true;
+          return true;
         }
       }
-      //return false;
+      return false;
     })
     //console.log(result); //<----------
-    return result;
+    //return result;
+    this.renderedComponents = result.map(token => token.value)
+    //console.log(this.renderedComponents)
   }
 
   // && (token.value[0] === token.value[0].toUpperCase())
 
-  getProps() {
-    const props = [];
-    this.astBody.forEach((node) => {
-      if (node.type === 'VariableDeclaration') {
-        const declarations = node.declarations;
-        declarations.forEach((declaration) => {
-          if (declaration.init.type === 'ArrowFunctionExpression') {
-            const body = declaration.init.body.body;
-            body.forEach((node) => {
-              if (node.type === 'ReturnStatement') {
-                const children = node.argument.children;
-                children.forEach((child) => {
-                  //console.log(child);
-                  if (child.type === 'JSXElement') {
-                    //console.log(child.openingElement.attributes)
-                    props.push(child.openingElement.attributes);
-                    //console.log(child.openingElement.attributes)
-                  }
-                })
-              }
-            })
-          }
-        })
-      }
-    })
-    //console.log("checking props-->", props);
-  }
+
+
+
+
+
+
+
+  // getProps() {
+  //   const props = [];
+  //   this.astBody.forEach((node) => {
+  //     if (node.type === 'VariableDeclaration') {
+  //       const declarations = node.declarations;
+  //       declarations.forEach((declaration) => {
+  //         if (declaration.init.type === 'ArrowFunctionExpression') {
+  //           const body = declaration.init.body.body;
+  //           body.forEach((node) => {
+  //             if (node.type === 'ReturnStatement') {
+  //               const children = node.argument.children;
+  //               children.forEach((child) => {
+  //                 //console.log(child);
+  //                 if (child.type === 'JSXElement') {
+  //                   //console.log(child.openingElement.attributes)
+  //                   props.push(child.openingElement.attributes);
+  //                   //console.log(child.openingElement.attributes)
+  //                 }
+  //               })
+  //             }
+  //           })
+  //         }
+  //       })
+  //     }
+  //   })
+  //   //console.log("checking props-->", props);
+  // }
   //console.log("array------>", this.imports);
 
   //this.astTokens.filter(token => {
