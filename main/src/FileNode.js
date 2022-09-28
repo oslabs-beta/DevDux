@@ -17,7 +17,7 @@ class FileNode {
   getRenderComponents() {
     const arr = this.imports.map((obj) => {
       if (Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
-    })
+    });
     const keyArray = arr.filter(e => e)
     const result = this.astTokens.slice().filter((token) => {
       if (token.type.label === 'jsxName') {
@@ -27,7 +27,7 @@ class FileNode {
       }
       return false;
     })
-    this.renderedComponents = result.map(token => token.value)
+    this.renderedComponents = result.map(token => token.value);
   }
 
 
@@ -35,7 +35,7 @@ class FileNode {
   getProps() {
     const arr = this.imports.map((obj) => {
       if (!Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
-    })
+    });
     const keyArray = arr.filter(e => e)
     for (let i = 0; i < this.selected.length; i++) {
       keyArray.push(Object.keys(this.selected[i])[0])
@@ -45,7 +45,7 @@ class FileNode {
       if (token.type.label === 'const') {
         keyArray.push(arr[i + 1].value)
       }
-    })
+    });
 
     const propObj = {};
     this.astTokens.forEach((token, i, arr) => {
@@ -59,8 +59,8 @@ class FileNode {
           }
         }
       }
-      this.props = propObj
-    })
+      this.props = propObj;
+    });
   }
   
 
