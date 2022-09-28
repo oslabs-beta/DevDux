@@ -4,14 +4,7 @@ import * as path from 'path';
 //import parser from parse.json
 import * as fileDataToExt from '../../main/src/parse';
 import { ChildProcess } from 'child_process';
-/**
- * STACK OVERFLOW CAR EXAMPLE https://stackoverflow.com/questions/56534723/simple-example-to-implement-vs-code-treedataprovider-with-json-data
- */
 
-
-// export function activate(context: vscode.ExtensionContext) {
-//   vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider());
-// }
 
 export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   onDidChangeTreeData?: vscode.Event<TreeItem|null|undefined>|undefined;
@@ -19,22 +12,12 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   data: TreeItem[];
 
   constructor() {
-    // this.data = [new TreeItem('cars', [
-    //   new TreeItem(
-    //       'Ford', [new TreeItem('Fiesta'), new TreeItem('Focus'), new TreeItem('Mustang')]),
-    //   new TreeItem(
-    //       'BMW', [new TreeItem('320'), new TreeItem('X3'), new TreeItem('X5')])
-    // ])];
+
     console.log('current directory', process.cwd());
     console.log('fileDataToExt: ', fileDataToExt.fileDataToExt);
-    // const fileDataToExt = JSON.parse(fs.readFileSync(path.resolve(path.join(process.cwd() , 'devdux/data/data.json')), 'utf-8'));
+    
     this.data = [];
-    // for (const [file, node] of Object.entries(fileDataToExt.fileDataToExt)) {
-    //   console.log('in for/of in constructor');
-    //   console.log(node.imports[0]);
-    //   this.data.push(new TreeItem(file), new TreeItem(JSON.stringify(node.imports[0])));
-      
-    // }
+  
   }
 
   getTreeItem(element: TreeItem): vscode.TreeItem|Thenable<vscode.TreeItem> {
@@ -62,8 +45,8 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
         new TreeItem('imports', this.getImports(value.imports)),
         new TreeItem('selected', this.getSelected(value.selected)),
         new TreeItem('dispatched', this.getDispatched(value.dispatched)),
-        new TreeItem('renderedComponents', this.getRendered(value.renderedComponents)),]));
-        // new TreeItem('props', this.getProps(value.props))]));
+        new TreeItem('renderedComponents', this.getRendered(value.renderedComponents)),
+        new TreeItem('props', this.getProps(value.props))]));
           
       
     }
@@ -107,25 +90,15 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   }
   getProps(propsList: {}): TreeItem[] | undefined {
     const treePropsListItems: TreeItem[] = [];
-    for (const [prop, val] of propsList) {
-      treePropsListItems.push(new TreeItem(`Prop Label: ${prop}`, [new TreeItem(`Prop Value: ${val}`)]));
-    }
+    console.log('props: ', Object.keys(propsList));
+    const propsKeys = Object.keys(propsList);
+    propsKeys.forEach((key) => {
+      treePropsListItems.push(new TreeItem(`Props Label: ${key}`, [new TreeItem(`Props Value: ${propsList[key]}`)]));
+    });
+
     return treePropsListItems;
   }
-  // getChildrenLabels(obj: Object): TreeItem[] {
-  //   const childs: TreeItem[] = [];
-  //   for (const [key, value] of Object.entries(obj)) {
-  //     const childrenLabels: TreeItem[] = this.getChildrenLabels2(value);
-  //     childs.push(new TreeItem(key, childrenLabels));
-  //   }
-  //   return childs;
-  // }
-  // getChildrenLabels2(obj): TreeItem[] {
-  //   const childs: TreeItem[] = [];
-  //   console.log(obj);
-  //   childs.push(new TreeItem(JSON.stringify(obj)));
-  //   return childs;
-  // }
+
 }
 
 class TreeItem extends vscode.TreeItem {
