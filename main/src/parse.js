@@ -59,7 +59,7 @@ const getImports = (filePath) => {
   }
 };
 
-const fp = path.resolve('../../Demo/client/App.jsx');
+const fp = path.resolve(path.join(process.cwd(), '/Demo/client/App.jsx'));
 getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
@@ -76,7 +76,6 @@ const buildClasses = (fD) => {
 
 buildClasses(fileData);
 
-
 function printClasses(fD) {
   for (const [file, node] of Object.entries(fD)) {
     console.log(file);
@@ -90,8 +89,8 @@ function printClasses(fD) {
   }
 }
 
-printClasses(fileData);
-const fileDataToExt = {};
+// printClasses(fileData);
+export const fileDataToExt = {};
 function buildClassesForExport(fD) {
   for (const [file, node] of Object.entries(fD)) {
     fileDataToExt[[file]] = {};
@@ -104,6 +103,7 @@ function buildClassesForExport(fD) {
   }
 }
 buildClassesForExport(fileData);
+
 fs.writeFile(
   '../../devdux/data/data.json',
   JSON.stringify(fileDataToExt),
