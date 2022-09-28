@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 //import parser from parse.json
 import * as fileDataToExt from '../../main/src/parse';
+import { ChildProcess } from 'child_process';
 /**
  * STACK OVERFLOW CAR EXAMPLE https://stackoverflow.com/questions/56534723/simple-example-to-implement-vs-code-treedataprovider-with-json-data
  */
@@ -28,12 +29,12 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     console.log('fileDataToExt: ', fileDataToExt.fileDataToExt);
     // const fileDataToExt = JSON.parse(fs.readFileSync(path.resolve(path.join(process.cwd() , 'devdux/data/data.json')), 'utf-8'));
     this.data = [];
-    for (const [file, node] of Object.entries(fileDataToExt.fileDataToExt)) {
-      console.log('in for/of in constructor');
-      console.log(node.imports[0]);
-      this.data.push(new TreeItem(file), new TreeItem(JSON.stringify(node.imports[0])));
+    // for (const [file, node] of Object.entries(fileDataToExt.fileDataToExt)) {
+    //   console.log('in for/of in constructor');
+    //   console.log(node.imports[0]);
+    //   this.data.push(new TreeItem(file), new TreeItem(JSON.stringify(node.imports[0])));
       
-    }
+    // }
   }
 
   getTreeItem(element: TreeItem): vscode.TreeItem|Thenable<vscode.TreeItem> {
@@ -42,10 +43,89 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
 
   getChildren(element?: TreeItem|undefined): vscode.ProviderResult<TreeItem[]> {
     if (element === undefined) {
-      return this.data;
+      
+      return this.getChildrenItems(fileDataToExt.fileDataToExt);
     }
     return element.children;
   }
+  getChildrenItems(obj: Object): vscode.ProviderResult<TreeItem[]> | undefined {
+    const treeView: TreeItem[] | undefined = [];
+    if (obj === undefined) {
+      return;
+    }
+    for (const [key, value] of Object.entries(obj)) {
+      // const childrenLabels: TreeItem[] = this.getChildrenLabels(value);
+      console.log(value);
+      // treeView.push(new TreeItem(key));
+      treeView.push(new TreeItem(key, [
+        new TreeItem('filePath', this.getFilePath(value.filePath)),
+        new TreeItem('imports', this.getImports(value.imports)),
+        new TreeItem('selected', this.getSelected(value.selected)),
+        new TreeItem('dispatched', this.getDispatched(value.dispatched)),
+        new TreeItem('renderedComponents', this.getRendered(value.renderedComponents)),]));
+        // new TreeItem('props', this.getProps(value.props))]));
+          
+      
+    }
+    return treeView;
+
+  }
+  getFilePath(fPath: string): TreeItem[] | undefined { 
+    return [new TreeItem(fPath)];
+  };
+  getImports(importList: {}[]): TreeItem[] | undefined {
+
+    const treeImportListItems: TreeItem[] = [];
+    importList.forEach((item) => {
+      const itemKey: keyof typeof importList[0] = Object.keys(item)[0];
+      treeImportListItems.push(new TreeItem(itemKey, [new TreeItem(item[itemKey])]));
+    });
+    return treeImportListItems;
+  }
+  getSelected(selectedList: {}[]): TreeItem[] | undefined {
+    const treeSelectedListItems: TreeItem[] = [];
+    selectedList.forEach((selected) => {
+      const selectedKey: keyof typeof selectedList[0] = Object.keys(selected)[0];
+      treeSelectedListItems.push(new TreeItem(selectedKey, [new TreeItem(selected[selectedKey])]));
+
+    });
+    return treeSelectedListItems;
+  }
+  getDispatched(dispatchedList: string[]): TreeItem[] | undefined {
+    const treeDispatchedList: TreeItem[] = [];
+    dispatchedList.forEach((disp) => {
+      treeDispatchedList.push(new TreeItem(disp));
+    });
+    return treeDispatchedList;
+  }
+  getRendered(renderedComponentsList: string[]): TreeItem[] | undefined {
+    const treeRenderedListItems: TreeItem[] = [];
+    renderedComponentsList.forEach((rendered) => {
+      treeRenderedListItems.push(new TreeItem(rendered));
+    });
+    return treeRenderedListItems;
+  }
+  getProps(propsList: {}): TreeItem[] | undefined {
+    const treePropsListItems: TreeItem[] = [];
+    for (const [prop, val] of propsList) {
+      treePropsListItems.push(new TreeItem(`Prop Label: ${prop}`, [new TreeItem(`Prop Value: ${val}`)]));
+    }
+    return treePropsListItems;
+  }
+  // getChildrenLabels(obj: Object): TreeItem[] {
+  //   const childs: TreeItem[] = [];
+  //   for (const [key, value] of Object.entries(obj)) {
+  //     const childrenLabels: TreeItem[] = this.getChildrenLabels2(value);
+  //     childs.push(new TreeItem(key, childrenLabels));
+  //   }
+  //   return childs;
+  // }
+  // getChildrenLabels2(obj): TreeItem[] {
+  //   const childs: TreeItem[] = [];
+  //   console.log(obj);
+  //   childs.push(new TreeItem(JSON.stringify(obj)));
+  //   return childs;
+  // }
 }
 
 class TreeItem extends vscode.TreeItem {
@@ -55,7 +135,7 @@ class TreeItem extends vscode.TreeItem {
     super(
         label,
         children === undefined ? vscode.TreeItemCollapsibleState.None :
-                                 vscode.TreeItemCollapsibleState.Expanded);
+                                 vscode.TreeItemCollapsibleState.Collapsed);
     this.children = children;
   }
 }
