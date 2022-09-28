@@ -59,7 +59,10 @@ const getImports = (filePath) => {
   }
 };
 
-const fp = path.resolve(path.join(process.cwd(), '/Demo/client/App.jsx'));
+const fp = path.resolve(
+  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
+);
+// const fp = path.resolve('../../Demo/client/App.jsx');
 getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {

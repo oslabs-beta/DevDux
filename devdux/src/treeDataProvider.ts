@@ -24,6 +24,7 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     //   new TreeItem(
     //       'BMW', [new TreeItem('320'), new TreeItem('X3'), new TreeItem('X5')])
     // ])];
+    console.log('current directory', process.cwd());
     console.log('fileDataToExt: ', fileDataToExt.fileDataToExt);
     // const fileDataToExt = JSON.parse(fs.readFileSync(path.resolve(path.join(process.cwd() , 'devdux/data/data.json')), 'utf-8'));
     this.data = [];

@@ -6,9 +6,9 @@
 			"ES2020"
 		],
 		"sourceMap": true,
-		"rootDir": "src",
 		"strict": true,
-		"allowJs": true   /* enable all strict type-checking options */
+		"allowJs": true,
+		"outDir": "./built",   /* enable all strict type-checking options */
 		/* Additional Checks */
 		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
 		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
