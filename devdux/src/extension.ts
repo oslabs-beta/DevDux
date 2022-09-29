@@ -2,12 +2,22 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { TreeDataProvider } from "./treeDataProvider";
+import * as fileDataToExt from '../../main/src/parse';
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	const file = vscode.window.showOpenDialog();
+    file.then((d) => {
+			const filePath = d?.toString().slice(7);
+			if (filePath !== undefined) {
+				vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(filePath));
+			}
+			
+      // console.log(d?.toLocaleString().slice(7));
+  });
 
-
-	vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider());
+	// vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(context));
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "devdux" is now active!');

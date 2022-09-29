@@ -10,13 +10,16 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   onDidChangeTreeData?: vscode.Event<TreeItem|null|undefined>|undefined;
 
   data: TreeItem[];
-
-  constructor() {
+  filePath: string;
+  // fileDataT: {};
+  constructor(filePath: string) {
 
     console.log('current directory', process.cwd());
-    console.log('fileDataToExt: ', fileDataToExt.fileDataToExt);
-    
+
+
+
     this.data = [];
+    this.filePath = filePath;
   
   }
 
@@ -26,8 +29,8 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
 
   getChildren(element?: TreeItem|undefined): vscode.ProviderResult<TreeItem[]> {
     if (element === undefined) {
-      
-      return this.getChildrenItems(fileDataToExt.fileDataToExt);
+
+      return this.getChildrenItems(fileDataToExt.getData(this.filePath));
     }
     return element.children;
   }

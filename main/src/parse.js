@@ -13,9 +13,8 @@ import FileNode from './FileNode.js';
 //   }
 // );
 
-const fileData = {};
-
 const getImports = (filePath) => {
+  const fileData = {};
   const importList = [];
   importList.push(filePath);
 
@@ -57,13 +56,14 @@ const getImports = (filePath) => {
       }
     });
   }
+  return fileData;
 };
 
-const fp = path.resolve(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
-);
+// const fp = path.resolve(
+//   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
+// );
 // const fp = path.resolve('../../Demo/client/App.jsx');
-getImports(fp);
+// getImports(fp);
 // console.log(fileData);
 const buildClasses = (fD) => {
   for (const [file, node] of Object.entries(fD)) {
@@ -75,9 +75,8 @@ const buildClasses = (fD) => {
     //console.log('node.dispatched within buildClasses:', node.dispatched);
     // console.log(node.astTokens[0]);
   }
+  return fD;
 };
-
-buildClasses(fileData);
 
 function printClasses(fD) {
   for (const [file, node] of Object.entries(fD)) {
@@ -93,8 +92,8 @@ function printClasses(fD) {
 }
 
 // printClasses(fileData);
-export const fileDataToExt = {};
 function buildClassesForExport(fD) {
+  const fileDataToExt = {};
   for (const [file, node] of Object.entries(fD)) {
     fileDataToExt[[file]] = {};
     fileDataToExt[[file]].filePath = node.filePath;
@@ -104,14 +103,24 @@ function buildClassesForExport(fD) {
     fileDataToExt[[file]].renderedComponents = node.renderedComponents;
     fileDataToExt[[file]].props = node.props;
   }
+  return fileDataToExt;
 }
-buildClassesForExport(fileData);
-
-fs.writeFile(
-  '../../devdux/data/data.json',
-  JSON.stringify(fileDataToExt),
-  (err) => {
-    if (err) throw err;
-    console.log('Wrote data to JSON');
-  }
+// buildClassesForExport(fileData);
+export function getData(filePath) {
+  let data = getImports(filePath);
+  data = buildClasses(data);
+  let dataForExp = buildClassesForExport(data);
+  return dataForExp;
+}
+const fp = path.resolve(
+  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
 );
+// console.log(getData(fp));
+// fs.writeFile(
+//   '../../devdux/data/data.json',
+//   JSON.stringify(fileDataToExt),
+//   (err) => {
+//     if (err) throw err;
+//     console.log('Wrote data to JSON');
+//   }
+// );
