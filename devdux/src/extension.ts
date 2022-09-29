@@ -7,15 +7,17 @@ import * as fileDataToExt from '../../main/src/parse';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	const file = vscode.window.showOpenDialog();
-    file.then((d) => {
-			const filePath = d?.toString().slice(7);
-			if (filePath !== undefined) {
-				vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(filePath));
-			}
-			
-      // console.log(d?.toLocaleString().slice(7));
-  });
+	vscode.window.showOpenDialog({
+		canSelectFolders: false,
+		canSelectMany: false,
+		canSelectFiles: true,
+		openLabel: 'Open'
+	}).then(fileUri => {
+		if (fileUri && fileUri[0]) {
+			vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(fileUri[0].fsPath));
+		}
+	});
+
 
 	// vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(context));
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
