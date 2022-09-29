@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 //import parser from parse.json
-import * as fileDataToExt from '../../main/src/parse';
+import * as parser from '../../main/src/parse';
 import { ChildProcess } from 'child_process';
 
 
@@ -10,13 +10,16 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   onDidChangeTreeData?: vscode.Event<TreeItem|null|undefined>|undefined;
 
   data: TreeItem[];
-
-  constructor() {
+  filePath: string;
+  // fileDataT: {};
+  constructor(filePath: string) {
 
     console.log('current directory', process.cwd());
-    console.log('fileDataToExt: ', fileDataToExt.fileDataToExt);
-    
+
+
+
     this.data = [];
+    this.filePath = filePath;
   
   }
 
@@ -26,8 +29,8 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
 
   getChildren(element?: TreeItem|undefined): vscode.ProviderResult<TreeItem[]> {
     if (element === undefined) {
-      
-      return this.getChildrenItems(fileDataToExt.fileDataToExt);
+
+      return this.getChildrenItems(parser.getData(this.filePath));
     }
     return element.children;
   }

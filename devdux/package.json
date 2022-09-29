@@ -10,15 +10,15 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:devdux.helloWorld",
+    "onCommand:devdux.OpenRootFile",
     "onStartupFinished: devdux-sidebar"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "devdux.helloWorld",
-        "title": "Hello World"
+        "command": "devdux.OpenRootFile",
+        "title": "DevDux: Open Root File"
       }
     ],
     "views": {
