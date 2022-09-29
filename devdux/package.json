@@ -18,7 +18,7 @@
     "commands": [
       {
         "command": "devdux.OpenRootFile",
-        "title": "Open Root File"
+        "title": "DevDux: Open Root File"
       }
     ],
     "views": {
