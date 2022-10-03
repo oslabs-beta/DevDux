@@ -3,7 +3,7 @@ import { Console } from 'console';
 import * as fs from 'fs';
 import path from 'path';
 
-class FileNode {
+export class FileNode {
   constructor(filePath, astBody, astTokens) {
     this.filePath = filePath;
     this.astBody = astBody;
@@ -18,7 +18,7 @@ class FileNode {
     const arr = this.imports.map((obj) => {
       if (Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
     });
-    const keyArray = arr.filter(e => e)
+    const keyArray = arr.filter((e) => e);
     const result = this.astTokens.slice().filter((token) => {
       if (token.type.label === 'jsxName') {
         if (keyArray.includes(token.value)) {
@@ -26,24 +26,23 @@ class FileNode {
         }
       }
       return false;
-    })
-    this.renderedComponents = result.map(token => token.value);
+    });
+    this.renderedComponents = result.map((token) => token.value);
   }
-
 
   // getProps function
   getProps() {
     const arr = this.imports.map((obj) => {
       if (!Object.values(obj)[0].includes('.jsx')) return Object.keys(obj)[0];
     });
-    const keyArray = arr.filter(e => e)
+    const keyArray = arr.filter((e) => e);
     for (let i = 0; i < this.selected.length; i++) {
-      keyArray.push(Object.keys(this.selected[i])[0])
+      keyArray.push(Object.keys(this.selected[i])[0]);
     }
 
     this.astTokens.forEach((token, i, arr) => {
       if (token.type.label === 'const') {
-        keyArray.push(arr[i + 1].value)
+        keyArray.push(arr[i + 1].value);
       }
     });
 
@@ -51,18 +50,21 @@ class FileNode {
     this.astTokens.forEach((token, i, arr) => {
       if (token.type.label === 'jsxName') {
         if (this.renderedComponents[0]) {
-          if (token.value === 'key') propObj['key'] = 'unique identifier'
-          if (arr[i + 3].value === 'props') propObj[token.value] = "props." + arr[i + 5].value
-          else if (keyArray.includes(arr[i + 3].value) && arr[i + 3].value !== undefined) {
+          if (token.value === 'key') propObj['key'] = 'unique identifier';
+          if (arr[i + 3].value === 'props')
+            propObj[token.value] = 'props.' + arr[i + 5].value;
+          else if (
+            keyArray.includes(arr[i + 3].value) &&
+            arr[i + 3].value !== undefined
+          ) {
             //console.log(token.value + " = " + arr[i + 3].value)
-            propObj[token.value] = arr[i + 3].value
+            propObj[token.value] = arr[i + 3].value;
           }
         }
       }
       this.props = propObj;
     });
   }
-  
 
   getSelectedState(astBody) {
     this.selected = [];
@@ -173,6 +175,3 @@ class FileNode {
     });
   }
 }
-
-
-export default FileNode;
