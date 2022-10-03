@@ -55,7 +55,7 @@ const getImports = (filePath : string) : FileDataType => {
 };
 
 //
-const buildClasses = (fD) => {
+const buildClasses = (fD: FileDataType) : FileDataType=> {
   for (const [file, node] of Object.entries(fD)) {
     //console.log('file within buildClasses:', file);
     node.getSelectedState(node.astBody);
@@ -68,7 +68,7 @@ const buildClasses = (fD) => {
   return fD;
 };
 
-function printClasses(fD) {
+function printClasses(fD: FileDataType) {
   for (const [file, node] of Object.entries(fD)) {
     console.log(file);
     console.log('filepath: ', node.filePath);
@@ -82,7 +82,7 @@ function printClasses(fD) {
 }
 
 // printClasses(fileData);
-function buildClassesForExport(fD) {
+function buildClassesForExport(fD: FileDataType) {
   const fileDataToExt: FileNodeType = {};
   for (const [file, node] of Object.entries(fD)) {
     fileDataToExt[file] = {};
@@ -96,10 +96,10 @@ function buildClassesForExport(fD) {
   return fileDataToExt;
 }
 // buildClassesForExport(fileData);
-export function getData(filePath) {
+export function getData(filePath: string) {
   let data = getImports(filePath);
   data = buildClasses(data);
-  console.log(data['Market.jsx'].astTokens[1]);
+  // console.log(data['Market.jsx'].astTokens[1]);
   let dataForExp = buildClassesForExport(data);
   return dataForExp;
 }
@@ -111,7 +111,9 @@ fs.writeFile(
   '../../devdux/data/data.json',
   JSON.stringify(getData(fp)),
   (err) => {
-    if (err) throw err;
+    if (err) {
+      throw err;
+    }
     console.log('Wrote data to JSON');
   }
 );
