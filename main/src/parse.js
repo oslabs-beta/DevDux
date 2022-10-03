@@ -28,8 +28,13 @@ const getImports = (filePath) => {
       plugins: ['jsx', 'typescript'],
     });
 
+    
+
     const astBody = ast.program.body;
     const astTokens = ast.tokens;
+
+    // console.log('----AST TOKENS---',astTokens)
+
     const baseName = path.parse(currentFile).base;
     fileData[baseName] = new FileNode(currentFile, astBody, astTokens);
     ast.program.body.forEach((node) => {
@@ -112,7 +117,7 @@ export function getData(filePath) {
   return dataForExp;
 }
 const fp = path.resolve(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
+  '/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx'
 );
 // console.log(getData(fp));
 fs.writeFile(
