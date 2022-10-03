@@ -1,8 +1,11 @@
 import * as babelParser from '@babel/parser';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as FileNode from '../../main/src/FileNode';
-import { FileNodeType, FileDataType } from './types/types';
+import { node } from 'webpack';
+import  FileNode from './FileNode';
+import { FileNodeType, FileDataType, AST } from './types/types';
+
+
 
 const getImports = (filePath : string) : FileDataType => {
   const fileData: FileDataType = {};
@@ -15,27 +18,48 @@ const getImports = (filePath : string) : FileDataType => {
     if (currentFile !== undefined) {
 
       const readFile = fs.readFileSync(currentFile, 'utf-8');
-    
-      const ast = babelParser.parse(readFile, {
+      
+      const ast: AST = babelParser.parse(readFile, {
         tokens: true,
         sourceType: 'module',
         plugins: ['jsx', 'typescript'],
       });
 
+      // console.log('---the AST from ParseResult---', ast);
+      
       const astBody = ast.program.body;
-      const astTokens = ast.tokens;
+      let astTokens;
+      if (ast.tokens !== null && ast.tokens !== undefined) {
+        astTokens = ast.tokens;
+      }
+      ast.program.body.forEach((node) => {
+        if (node.type === 'VariableDeclaration') {
+          node.declarations.forEach((declaration) => {
+            if (declaration.init) {
+              if (declaration.init.type === 'ArrowFunctionExpression') {
+                if (declaration.init.body) {
+                  if (declaration.init.body.type === 'BlockStatement') {
+                    declaration.init.body.body;
+                  }
+                }
+              }
+            }
+          })
+        }
+      })
+      
       const baseName = path.parse(currentFile).base;
-      fileData[baseName] = new FileNode.FileNode(currentFile, astBody, astTokens);
-      ast.program.body.forEach((node: { [key: string]: any}) => {
+      fileData[baseName] = new FileNode(currentFile, astBody, astTokens);
+      ast.program.body.forEach((node) => {
         if (node.type === 'ImportDeclaration') {
           if (node.source.value[0] === '.') {
             const importFile: string = path.resolve(
               path.parse(currentFile).dir,
               node.source.value
             );
-            node.specifiers.forEach((specifier: {[key: string]: any}) => {
+            node.specifiers.forEach((specifier) => {
               //console.log(specifier);
-              if (specifier?.local?.name !== undefined) {
+              if (specifier.local.name !== undefined) {
                 fileData[baseName].imports.push({
                   [specifier.local.name]: importFile,
                 });}
@@ -118,4 +142,4 @@ fs.writeFile(
   }
 );
 
-console.log(getImports('/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'));
+// console.log(getImports('/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'));
