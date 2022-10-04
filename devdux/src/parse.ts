@@ -44,7 +44,7 @@ const getImports = (filePath : string) : FileDataType => {
       //           }
       //         }
       //       }
-      //     })
+      //     });
       //   }
       // })
       
@@ -120,7 +120,7 @@ function buildClassesForExport(fD: FileDataType) {
   return fileDataToExt;
 }
 // buildClassesForExport(fileData);
-export function getData(filePath: string) {
+export function getData(filePath: string): FileNodeType {
   let data = getImports(filePath);
   data = buildClasses(data);
   // console.log(data['Market.jsx'].astTokens[1]);
@@ -128,9 +128,9 @@ export function getData(filePath: string) {
   return dataForExp;
 }
 const fp = path.resolve(
-  '/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx'
+  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
 );
-// console.log(getData(fp));
+
 fs.writeFile(
   '../../devdux/data/data.json',
   JSON.stringify(getData(fp)),

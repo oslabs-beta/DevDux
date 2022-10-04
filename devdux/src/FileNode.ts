@@ -4,7 +4,7 @@ class FileNode {
   filePath: string;
   astBody: AstBody;
   astTokens: AstToken; //to resolve the errors in getRenderedComponents, maybe the type of astTokens has to be specified as deeply rested array of strings, so that there won't be an error when accessing properties on the astTokens stringified objects. I already tried making the type string[] instead of object[] and the errors are the same.
-  imports: {[key: string]: string}[];
+  imports: { [key: string]: string }[];
   type!: string; //does this need to be in the constructor? I didn't put it there because I thought it'd be more likely to break something if I added it as a parameter for the constructor. I added "type" here because this.type within getType was throwing an error. I added "undefined" as a possible type here because the "Quick Fix" option suggested it and it made an error go away.
   renderedComponents!: string[]; // //does this need to be in the constructor? I didn't add it for the same reason as described next to astTokens. I also added the type "undefined" for the same reason.
   selected!: {}[];
@@ -174,14 +174,15 @@ class FileNode {
           if (declaration.type === "VariableDeclarator") {
             if (declaration?.init?.type === "ArrowFunctionExpression") {
               //ArrowFunctionExpression is the body of MarketsContainer (everything after the equals sign after MarketsContainer)
-
               // console.log('---declaration.init.body---', declaration.init.body);
               if (declaration.init.body.type === "BlockStatement") {
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 const ArrowFuncBlock = declaration.init.body.body;
                 //ArrowFuncBlock is the array of blocks (?) within MarketsContainer
+                let useDispatchLabel: string;
+
                 if (ArrowFuncBlock) {
-                  let useDispatchLabel!: string;
+
                   ArrowFuncBlock.forEach((blockElement) => {
                     if (blockElement.type === "VariableDeclaration") {
                       // console.log('---variableDeclarations---', blockElement.declarations)
@@ -201,60 +202,8 @@ class FileNode {
                                     //useDispatchLabel is what useDispatch gets saved to, so for us it's "dispatch"
                                     if (element.id.type === "Identifier") {
                                       if (element.id.name) {
-                                        
+
                                         useDispatchLabel = element.id.name;
-                                        
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            } else {
-                              if (element.type === "VariableDeclarator") {
-                                if (
-                                  element.init.type ===
-                                  "ArrowFunctionExpression"
-                                ) {
-                                  //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration within MarketsContainer - for example, within handleDeleteCard, it's everything after the arrow.
-                                  // console.log('---element.init.body---', element.init.body);
-                                  if (element.init.body) {
-                                    if (
-                                      element.init.body.type ===
-                                      "BlockStatement"
-                                    ) {
-                                      if (element.init.body.body) {
-                                        const innerArrowFuncBlock =
-                                          element.init.body.body;
-                                        innerArrowFuncBlock.forEach(
-                                          (element) => {
-                                            if (
-                                              useDispatchLabel !== undefined &&
-                                              element.type ===
-                                                "ExpressionStatement" &&
-                                              element.expression.type ===
-                                                "CallExpression" &&
-                                              element.expression.callee.type ===
-                                                "Identifier" &&
-                                              element.expression.callee.name ===
-                                                useDispatchLabel
-                                            ) {
-                                              //   //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
-                                              // );
-                                              if (
-                                                element.expression.arguments[0]
-                                                  .type === "CallExpression" &&
-                                                element.expression.arguments[0]
-                                                  .callee.type === "Identifier"
-                                              ) {
-                                                this.dispatched.push(
-                                                  element.expression
-                                                    .arguments[0].callee.name
-                                                );
-                                                
-                                              }
-                                            }
-                                          }
-                                        );
                                       }
                                     }
                                   }
@@ -262,10 +211,63 @@ class FileNode {
                               }
                             }
                           }
+                        } else {
+                          console.log(useDispatchLabel);
+                          if (element.type === "VariableDeclarator") {
+                            if (element.init) {
+                              if (element.init.type === "ArrowFunctionExpression") {
+                                //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration within MarketsContainer - for example, within handleDeleteCard, it's everything after the arrow.
+                                // console.log('---element.init.body---', element.init.body);
+
+                                if (element.init.body) {
+
+                                  if (
+                                    element.init.body.type ===
+                                    "BlockStatement"
+                                  ) {
+                                    if (element.init.body.body) {
+                                      const innerArrowFuncBlock =
+                                        element.init.body.body;
+                                      innerArrowFuncBlock.forEach(
+                                        (element) => {
+                                          if (
+                                            useDispatchLabel !== undefined &&
+                                            element.type ===
+                                            "ExpressionStatement" &&
+                                            element.expression.type ===
+                                            "CallExpression" &&
+                                            element.expression.callee.type ===
+                                            "Identifier" &&
+                                            element.expression.callee.name ===
+                                            useDispatchLabel
+                                          ) {
+                                            //   //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
+                                            // );
+                                            if (
+                                              element.expression.arguments[0]
+                                                .type === "CallExpression" &&
+                                              element.expression.arguments[0]
+                                                .callee.type === "Identifier"
+                                            ) {
+                                              this.dispatched.push(
+                                                element.expression
+                                                  .arguments[0].callee.name
+                                              );
+
+                                            }
+                                          }
+                                        }
+                                      );
+                                    }
+                                  }
+                                }
+                              }
+
+                            }
+                          }
                         }
                       });
                     }
-
                     if (
                       useDispatchLabel !== undefined &&
                       blockElement.type === "ExpressionStatement" &&
@@ -273,25 +275,24 @@ class FileNode {
                       blockElement.expression.callee.type === "Identifier" &&
                       blockElement.expression.callee.name === useDispatchLabel
                     ) {
-                      console.log('line 274');
                       if (
                         blockElement.expression.arguments[0].type ===
-                          "CallExpression" &&
+                        "CallExpression" &&
                         blockElement.expression.arguments[0].callee.type ===
-                          "Identifier"
+                        "Identifier"
                       ) {
                         // console.log('pushing to dispatched', blockElement.expression.arguments[0].callee.name);
                         this.dispatched.push(
                           //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
-                          
+
                           blockElement.expression.arguments[0].callee.name
                         );
-                        
+
                       }
                     }
                   });
                 }
-              }
+              };
             }
           }
         });
