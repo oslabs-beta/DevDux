@@ -32,21 +32,21 @@ const getImports = (filePath : string) : FileDataType => {
       if (ast.tokens !== null && ast.tokens !== undefined) {
         astTokens = ast.tokens;
       }
-      ast.program.body.forEach((node) => {
-        if (node.type === 'VariableDeclaration') {
-          node.declarations.forEach((declaration) => {
-            if (declaration.init) {
-              if (declaration.init.type === 'ArrowFunctionExpression') {
-                if (declaration.init.body) {
-                  if (declaration.init.body.type === 'BlockStatement') {
-                    declaration.init.body.body;
-                  }
-                }
-              }
-            }
-          })
-        }
-      })
+      // ast.program.body.forEach((node) => {
+      //   if (node.type === 'VariableDeclaration') {
+      //     node.declarations.forEach((declaration) => {
+      //       if (declaration.init) {
+      //         if (declaration.init.type === 'ArrowFunctionExpression') {
+      //           if (declaration.init.body) {
+      //             if (declaration.init.body.type === 'BlockStatement') {
+      //               declaration.init.body.body;
+      //             }
+      //           }
+      //         }
+      //       }
+      //     })
+      //   }
+      // })
       
       const baseName = path.parse(currentFile).base;
       fileData[baseName] = new FileNode(currentFile, astBody, astTokens);
@@ -128,7 +128,7 @@ export function getData(filePath: string) {
   return dataForExp;
 }
 const fp = path.resolve(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
+  '/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx'
 );
 // console.log(getData(fp));
 fs.writeFile(

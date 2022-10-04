@@ -25,21 +25,21 @@ var getImports = function (filePath) {
             if (ast.tokens !== null && ast.tokens !== undefined) {
                 astTokens = ast.tokens;
             }
-            ast.program.body.forEach(function (node) {
-                if (node.type === 'VariableDeclaration') {
-                    node.declarations.forEach(function (declaration) {
-                        if (declaration.init) {
-                            if (declaration.init.type === 'ArrowFunctionExpression') {
-                                if (declaration.init.body) {
-                                    if (declaration.init.body.type === 'BlockStatement') {
-                                        declaration.init.body.body;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            });
+            // ast.program.body.forEach((node) => {
+            //   if (node.type === 'VariableDeclaration') {
+            //     node.declarations.forEach((declaration) => {
+            //       if (declaration.init) {
+            //         if (declaration.init.type === 'ArrowFunctionExpression') {
+            //           if (declaration.init.body) {
+            //             if (declaration.init.body.type === 'BlockStatement') {
+            //               declaration.init.body.body;
+            //             }
+            //           }
+            //         }
+            //       }
+            //     })
+            //   }
+            // })
             var baseName_1 = path.parse(currentFile).base;
             fileData[baseName_1] = new FileNode_1["default"](currentFile, astBody, astTokens);
             ast.program.body.forEach(function (node) {
@@ -120,7 +120,7 @@ function getData(filePath) {
     return dataForExp;
 }
 exports.getData = getData;
-var fp = path.resolve('/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx');
+var fp = path.resolve('/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx');
 // console.log(getData(fp));
 fs.writeFile('../../devdux/data/data.json', JSON.stringify(getData(fp)), function (err) {
     if (err) {
