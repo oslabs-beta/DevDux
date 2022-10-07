@@ -85,7 +85,7 @@ const buildClasses = (fD: FileDataType) : FileDataType=> {
     node.getSelectedState(node.astBody);
     node.getDispatched(node.astBody);
     node.getRenderComponents();
-    node.getProps();
+    // node.getProps();
     //console.log('node.dispatched within buildClasses:', node.dispatched);
     // console.log(node.astTokens[0]);
   }
@@ -115,7 +115,7 @@ function buildClassesForExport(fD: FileDataType) {
     fileDataToExt[file].selected = node.selected;
     fileDataToExt[file].dispatched = node.dispatched;
     fileDataToExt[file].renderedComponents = node.renderedComponents;
-    fileDataToExt[file].props = node.props;
+    // fileDataToExt[file].props = node.props;
   }
   return fileDataToExt;
 }
@@ -130,7 +130,7 @@ export function getData(filePath: string): FileNodeType {
 const fp = path.resolve(
   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
 );
-
+// getData(fp);
 fs.writeFile(
   '../../devdux/data/data.json',
   JSON.stringify(getData(fp)),

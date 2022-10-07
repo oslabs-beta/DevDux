@@ -8,8 +8,7 @@
     ],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": ["MainContainer"],
-    "props": {}
+    "renderedComponents": []
   },
   "MainContainer.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx",
@@ -26,8 +25,15 @@
       { "totalMarkets": "marketCardReducer.totalMarkets" }
     ],
     "dispatched": [],
-    "renderedComponents": ["TotalsDisplay", "MarketsContainer"],
-    "props": {}
+    "renderedComponents": [
+      {
+        "TotalsDisplay": [
+          { "propLabel": "totalCards", "propValue": "totalCards" },
+          { "propLabel": "totalMarkets", "propValue": "totalMarkets" }
+        ],
+        "MarketsContainer": []
+      }
+    ]
   },
   "MarketsContainer.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx",
@@ -65,24 +71,33 @@
       "deleteMarketCard",
       "addMarket"
     ],
-    "renderedComponents": ["MarketCreator", "MarketDisplay"],
-    "props": {}
+    "renderedComponents": [
+      {
+        "MarketCreator": [
+          { "propLabel": "addMarket", "propValue": "handleAddMarket" }
+        ],
+        "MarketDisplay": [
+          { "propLabel": "marketlist", "propValue": "marketList" },
+          { "propLabel": "deleteCard", "propValue": "handleDeleteCard" },
+          { "propLabel": "addCard", "propValue": "handleAddCard" },
+          { "propLabel": "totalcards", "propValue": "totalCards" }
+        ]
+      }
+    ]
   },
   "TotalsDisplay.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/TotalsDisplay.jsx",
     "imports": [],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [],
-    "props": {}
+    "renderedComponents": []
   },
   "MarketCreator.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketCreator.jsx",
     "imports": [],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [],
-    "props": {}
+    "renderedComponents": []
   },
   "MarketsDisplay.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketsDisplay.jsx",
@@ -93,31 +108,38 @@
     ],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": ["Market"],
-    "props": { "key": "unique identifier" }
+    "renderedComponents": [
+      {
+        "Market": [
+          { "propLabel": "key", "propValue": "unique identifier" },
+          { "propLabel": "market", "propValue": "marketlist" },
+          { "propLabel": "addCard", "propValue": "addCard" },
+          { "propLabel": "deleteCard", "propValue": "deleteCard" },
+          { "propLabel": "totalcards", "propValue": "totalcards" }
+        ]
+      },
+      {}
+    ]
   },
   "cardSlice.js": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/cardSlice.js",
     "imports": [],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [],
-    "props": {}
+    "renderedComponents": []
   },
   "marketSlice.js": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/marketSlice.js",
     "imports": [],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [],
-    "props": {}
+    "renderedComponents": []
   },
   "Market.jsx": {
     "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/Market.jsx",
     "imports": [],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [],
-    "props": {}
+    "renderedComponents": [{}]
   }
 }

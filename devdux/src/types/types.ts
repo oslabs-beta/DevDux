@@ -8,8 +8,8 @@ export type FileNodeType = {
     imports?: { [key: string]: any }[],
     selected?: { [key: string]: any }[],
     dispatched?: string[],
-    renderedComponents?: string[],
-    props?: { [key: string]: any },
+    renderedComponents?: { [key: string]: any }[],
+    // props?: { [key: string]: any },
     
   }
 };
@@ -38,7 +38,7 @@ export type FileDataType = {
 export type AST = babelParser.ParseResult<File>;
 export type AstToken = AST["tokens"];
 export type AstBody = AST["program"]["body"];
-
+export type RenderedComp = { [key: string]: { [key: string]: string }[] };
 // export type AstToken = [{
 //   type: {
 //     label: string
