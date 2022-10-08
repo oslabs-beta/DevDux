@@ -19,6 +19,14 @@
       {
         "command": "devdux.OpenRootFile",
         "title": "DevDux: Open Root File"
+      },
+      {
+        "command": "devdux.refreshEntry",
+        "title": "DevDux: Refresh",
+        "icon": {
+          "light": "./resources/light/refresh.svg",
+          "dark": "./resources/dark/refresh.svg"
+        }
       }
     ],
     "views": {
@@ -26,6 +34,15 @@
         {
           "id": "devdux-sidebar",
           "name": "DevDux Sidebar"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+            "command": "devdux.refreshEntry",
+            "when": "view == devdux-sidebar",
+            "group": "navigation"
         }
       ]
     }
