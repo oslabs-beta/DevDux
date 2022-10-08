@@ -41,7 +41,7 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
       // const childrenLabels: TreeItem[] = this.getChildrenLabels(value);
       // console.log(value);
       // treeView.push(new TreeItem(key));
-      treeView.push(new TreeItem(key, [
+      treeView.push(new TreeItem(value.fileName, [
         new TreeItem('filePath', this.getFilePath(value.filePath)),
         new TreeItem('imports', this.getImports(value.imports)),
         new TreeItem('selected', this.getSelected(value.selected)),
