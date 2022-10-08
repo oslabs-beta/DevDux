@@ -4,6 +4,7 @@ import * as path from 'path';
 //import parser from parse.json
 import * as parser from './parse';
 import { ChildProcess } from 'child_process';
+import { FileNodeType, RenderedComp } from './types/types';
 
 
 export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
@@ -14,7 +15,6 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
   // fileDataT: {};
   constructor(filePath: string) {
 
-    console.log('current directory', process.cwd());
 
     this.data = [];
     this.filePath = filePath;
@@ -39,15 +39,14 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     }
     for (const [key, value] of Object.entries(obj)) {
       // const childrenLabels: TreeItem[] = this.getChildrenLabels(value);
-      console.log(value);
+      // console.log(value);
       // treeView.push(new TreeItem(key));
       treeView.push(new TreeItem(key, [
         new TreeItem('filePath', this.getFilePath(value.filePath)),
         new TreeItem('imports', this.getImports(value.imports)),
         new TreeItem('selected', this.getSelected(value.selected)),
         new TreeItem('dispatched', this.getDispatched(value.dispatched)),
-        new TreeItem('renderedComponents', this.getRendered(value.renderedComponents)),
-        new TreeItem('props', this.getProps(value.props))]));
+        new TreeItem('renderedComponents', this.getRendered(value.renderedComponents)),]));
           
       
     }
@@ -84,25 +83,28 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     });
     return treeDispatchedList;
   }
-  getRendered(renderedComponentsList: string[]): TreeItem[] | undefined {
+  getRendered(renderedComponentsList: { [key: string]: {[key: string]: string}[]}[]): TreeItem[] | undefined {
     const treeRenderedListItems: TreeItem[] = [];
-    renderedComponentsList.forEach((rendered) => {
-      treeRenderedListItems.push(new TreeItem(rendered));
+    renderedComponentsList.forEach((compObject) => {
+      if (!(compObject === undefined || JSON.stringify(compObject) === JSON.stringify({}))) {
+        for (const [component, val] of Object.entries(compObject)) {
+          if (val.length === 0) {
+            treeRenderedListItems.push(new TreeItem(component));
+          } else {
+            const props: TreeItem[] = [];
+            val.forEach((propObj) => {
+              props.push(new TreeItem(`Prop Label: ${propObj.propLabel}`, [new TreeItem(`Prop Value: ${propObj.propValue}`)]));
+              
+            });
+            treeRenderedListItems.push(new TreeItem(component, props));
+          }
+        }
+      }
+
     });
     return treeRenderedListItems;
   }
-  getProps(propsList: {}): TreeItem[] | undefined {
-    const treePropsListItems: TreeItem[] = [];
-    console.log('props: ', Object.keys(propsList));
-    // const propsKeys = Object.keys(propsList);
-    // propsKeys.forEach((key) => {
-    //   treePropsListItems.push(new TreeItem(`Props Label: ${key}`, [new TreeItem(`Props Value: ${propsList[key]}`)]));
-    // });
-    for (const [key, value] of Object.entries(propsList)) {
-      treePropsListItems.push(new TreeItem(`Props Label: ${key}`, [new TreeItem(`Props Value: ${value}`)]));
-    };
-    return treePropsListItems;
-  }
+
 
 }
 
