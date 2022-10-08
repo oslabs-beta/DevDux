@@ -12,6 +12,7 @@ import {
 import { AstToken, AstBody, RenderedComp } from './types/types';
 
 class FileNode {
+  fileName!: string;
   filePath: string;
   astBody: AstBody;
   astTokens: AstToken; //to resolve the errors in getRenderedComponents, maybe the type of astTokens has to be specified as deeply rested array of strings, so that there won't be an error when accessing properties on the astTokens stringified objects. I already tried making the type string[] instead of object[] and the errors are the same.

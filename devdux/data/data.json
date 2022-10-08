@@ -1,145 +1,174 @@
 {
-  "App.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx": {
+    "fileName": "App/App.tsx",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx",
     "imports": [
       {
-        "MainContainer": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx"
+        "setupThemeListeners": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/listeners.ts"
+      },
+      {
+        "setupCounterListeners": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/listeners.ts"
+      },
+      {
+        "ChangeThemeForm": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/ChangeThemeForm/ChangeThemeForm.tsx"
+      },
+      {
+        "CounterList": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CounterList/CounterList.tsx"
+      },
+      {
+        "CreateCounterForm": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CreateCounterForm/CreateCounterForm.tsx"
+      },
+      {
+        "store": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      },
+      {
+        "startAppListening": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
       }
     ],
     "selected": [],
     "dispatched": [],
     "renderedComponents": []
   },
-  "MainContainer.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/listeners.ts": {
+    "fileName": "theme/listeners.ts",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/listeners.ts",
     "imports": [
       {
-        "MarketsContainer": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx"
+        "themeActions": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts"
       },
       {
-        "TotalsDisplay": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/TotalsDisplay.jsx"
+        "AppStartListening": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
       }
     ],
-    "selected": [
-      { "totalCards": "cardReducer.totalCards" },
-      { "totalMarkets": "marketCardReducer.totalMarkets" }
-    ],
+    "selected": [],
     "dispatched": [],
-    "renderedComponents": [
-      {
-        "TotalsDisplay": [
-          { "propLabel": "totalCards", "propValue": "totalCards" },
-          { "propLabel": "totalMarkets", "propValue": "totalMarkets" }
-        ],
-        "MarketsContainer": []
-      }
-    ]
+    "renderedComponents": []
   },
-  "MarketsContainer.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MarketsContainer.jsx",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/listeners.ts": {
+    "fileName": "counter/listeners.ts",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/listeners.ts",
     "imports": [
       {
-        "MarketCreator": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketCreator.jsx"
+        "counterActions": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
       },
       {
-        "MarketDisplay": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketsDisplay.jsx"
+        "counterSelectors": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
       },
       {
-        "addCard": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/cardSlice.js"
+        "AppListenerEffectAPI": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
       },
       {
-        "deleteCard": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/cardSlice.js"
-      },
-      {
-        "addMarketCard": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/marketSlice.js"
-      },
-      {
-        "deleteMarketCard": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/marketSlice.js"
-      },
-      {
-        "addMarket": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/marketSlice.js"
+        "AppStartListening": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
       }
     ],
-    "selected": [
-      { "totalCards": "cardReducer.totalCards" },
-      { "marketList": "marketCardReducer.marketList" }
-    ],
-    "dispatched": [
-      "addCard",
-      "addMarketCard",
-      "deleteCard",
-      "deleteMarketCard",
-      "addMarket"
-    ],
-    "renderedComponents": [
-      {
-        "MarketCreator": [
-          { "propLabel": "addMarket", "propValue": "handleAddMarket" }
-        ],
-        "MarketDisplay": [
-          { "propLabel": "marketlist", "propValue": "marketList" },
-          { "propLabel": "deleteCard", "propValue": "handleDeleteCard" },
-          { "propLabel": "addCard", "propValue": "handleAddCard" },
-          { "propLabel": "totalcards", "propValue": "totalCards" }
-        ]
-      }
-    ]
-  },
-  "TotalsDisplay.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/TotalsDisplay.jsx",
-    "imports": [],
     "selected": [],
     "dispatched": [],
     "renderedComponents": []
   },
-  "MarketCreator.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketCreator.jsx",
-    "imports": [],
-    "selected": [],
-    "dispatched": [],
-    "renderedComponents": []
-  },
-  "MarketsDisplay.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/MarketsDisplay.jsx",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/ChangeThemeForm/ChangeThemeForm.tsx": {
+    "fileName": "ChangeThemeForm/ChangeThemeForm.tsx",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/ChangeThemeForm/ChangeThemeForm.tsx",
     "imports": [
       {
-        "Market": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/Market.jsx"
+        "useAppDispatch": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      },
+      {
+        "useAppSelector": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      },
+      {
+        "themeActions": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts"
+      },
+      {
+        "ThemeState": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts"
       }
     ],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [
+    "renderedComponents": []
+  },
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CounterList/CounterList.tsx": {
+    "fileName": "CounterList/CounterList.tsx",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CounterList/CounterList.tsx",
+    "imports": [
       {
-        "Market": [
-          { "propLabel": "key", "propValue": "unique identifier" },
-          { "propLabel": "market", "propValue": "marketlist" },
-          { "propLabel": "addCard", "propValue": "addCard" },
-          { "propLabel": "deleteCard", "propValue": "deleteCard" },
-          { "propLabel": "totalcards", "propValue": "totalcards" }
-        ]
+        "useAppSelector": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
       },
-      {}
-    ]
+      {
+        "counterSelectors": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
+      },
+      {
+        "Counter": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/Counter/Counter.tsx"
+      }
+    ],
+    "selected": [],
+    "dispatched": [],
+    "renderedComponents": []
   },
-  "cardSlice.js": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/cardSlice.js",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CreateCounterForm/CreateCounterForm.tsx": {
+    "fileName": "CreateCounterForm/CreateCounterForm.tsx",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/CreateCounterForm/CreateCounterForm.tsx",
+    "imports": [
+      {
+        "useAppDispatch": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      },
+      {
+        "counterActions": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
+      }
+    ],
+    "selected": [],
+    "dispatched": [],
+    "renderedComponents": []
+  },
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts": {
+    "fileName": "src/store.ts",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts",
+    "imports": [
+      {
+        "counterSlice": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
+      },
+      {
+        "themeSlice": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts"
+      }
+    ],
+    "selected": [],
+    "dispatched": [],
+    "renderedComponents": []
+  },
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts": {
+    "fileName": "theme/slice.ts",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts",
     "imports": [],
     "selected": [],
     "dispatched": [],
     "renderedComponents": []
   },
-  "marketSlice.js": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/slices/marketSlice.js",
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts": {
+    "fileName": "counter/slice.ts",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts",
     "imports": [],
     "selected": [],
     "dispatched": [],
     "renderedComponents": []
   },
-  "Market.jsx": {
-    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/components/Market.jsx",
-    "imports": [],
+  "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/Counter/Counter.tsx": {
+    "fileName": "Counter/Counter.tsx",
+    "filePath": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/Counter/Counter.tsx",
+    "imports": [
+      {
+        "counterActions": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
+      },
+      {
+        "counterSelectors": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/counter/slice.ts"
+      },
+      {
+        "useAppDispatch": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      },
+      {
+        "useAppSelector": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/store.ts"
+      }
+    ],
     "selected": [],
     "dispatched": [],
-    "renderedComponents": [{}]
+    "renderedComponents": []
   }
 }

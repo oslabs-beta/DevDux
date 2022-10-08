@@ -4,6 +4,7 @@ import FileNode from '../FileNode';
 
 export type FileNodeType = {
   [fileName: string]: {
+    fileName?: string,
     filePath?: string,
     imports?: { [key: string]: any }[],
     selected?: { [key: string]: any }[],
