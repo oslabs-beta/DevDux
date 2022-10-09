@@ -362,7 +362,7 @@ class FileNode {
 
                     if (element.init?.type === 'CallExpression') {
                       if (element.init.callee.type === 'Identifier') {
-                        if (element.init.callee.name === 'useSelector') {
+                        if (element.init.callee.name === 'useSelector' || element.init.callee.name === 'useAppSelector') {
                           let variableLabel: string;
                           let reducerName: string;
                           let stateName: string;
@@ -405,6 +405,53 @@ class FileNode {
             }
           }
         });
+      }
+      if (node.type === 'ExportNamedDeclaration') {
+        if (node.declaration?.type === 'FunctionDeclaration') {
+          if (node.declaration.body.type === 'BlockStatement') {
+            node.declaration.body.body.forEach((bodyElement) => {
+              if (bodyElement.type === 'VariableDeclaration') {
+                bodyElement.declarations.forEach((variableDec) => {
+                  if (variableDec.init?.type === 'CallExpression' &&
+                    variableDec.init.callee.type === 'Identifier') {
+                    let variableLabel: string;
+                    let reducerName: string;
+                    let stateName: string;
+                    if (variableDec.id.type === 'Identifier') {
+                      variableLabel = variableDec.id.name;
+                    }
+                    if (variableDec.init.callee.name === 'useAppSelector' || variableDec.init.callee.name === 'useSelector') {
+                      variableDec.init.arguments.forEach((arg) => {
+                        if (arg.type === 'ArrowFunctionExpression') {
+                          if (arg.body.type === 'CallExpression' &&
+                            arg.body.callee.type === 'MemberExpression') {
+                            if (arg.body.callee.object.type === 'Identifier') {
+                              reducerName = arg.body.callee.object.name;
+                            }
+                            if (arg.body.callee.property.type === 'Identifier') {
+                              stateName = arg.body.callee.property.name;
+                            }
+                          }
+                        }
+                        if (reducerName){
+                          this.selected.push({
+                            [variableLabel]: `${reducerName}.${stateName}`,
+                          });
+                            
+                        } else {
+                          this.selected.push({
+                            [variableLabel] : 'Unknown selected state'
+                          });
+                        }
+                        
+                      });
+                      }
+                  }
+                });
+              }
+            });
+          }
+        }
       }
     });
   }

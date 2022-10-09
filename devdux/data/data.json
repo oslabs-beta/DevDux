@@ -82,7 +82,7 @@
         "ThemeState": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/services/theme/slice.ts"
       }
     ],
-    "selected": [],
+    "selected": [{ "theme": "Unknown selected state" }],
     "dispatched": [],
     "renderedComponents": []
   },
@@ -100,7 +100,7 @@
         "Counter": "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/Counter/Counter.tsx"
       }
     ],
-    "selected": [],
+    "selected": [{ "counterIds": "counterSelectors.selectIds" }],
     "dispatched": [],
     "renderedComponents": []
   },
