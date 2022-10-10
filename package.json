@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@babel/parser": "^7.19.1"
+    "@babel/parser": "^7.19.1",
+    "@types/d3": "^7.4.0",
+    "d3": "^7.6.1"
   }
 }

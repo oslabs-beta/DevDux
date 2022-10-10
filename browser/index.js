@@ -1,0 +1,122 @@
+
+const svg = d3.select('svg');
+
+const width = document.body.clientWidth;
+const height = document.body.clientHeight;
+const margin = { top: 0, right: 50, bottom: 0, left: 75 };
+const innerWidth = height - margin.top - margin.bottom;
+const innerHeight = height * margin.top - margin.bottom;
+
+const treeLayout = d3.cluster()
+    .size([height, innerWidth])
+
+const zoomG = svg
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+
+
+const g = zoomG.append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+
+svg.call(d3.zoom().on('zoom', () => {
+    zoomG.attr('transform', d3.event.transform)
+}))
+
+// Recursive function that converts JSON data into an object that D3 expects (d3.hierarchy)
+function createD3Obj(data) {
+    if (typeof data === "string") { //base case 
+        if (data.includes('.js')) { // Leaf node is a file path. 
+            let newData = [];
+            let slashCount = 0;
+            for (let i = data.length - 1; i > 0; i--) { // convert relative file path to display "/folderName/fileName" only.
+                if (slashCount < 2) {
+                    if (data[i] === '/') {
+                        slashCount++;
+                        newData.push(data[i]);
+                    } else {
+                        newData.push(data[i]);
+                    }
+                }
+            }
+            data = newData.reverse().join('');
+            return [{
+                "data": {
+                    "id": data
+                },
+                "children": []
+            }];
+        }
+        return [{ // leaf node is not a file path, display data as is.
+            "data": {
+                "id": data
+            },
+            "children": []
+        }];
+    }
+
+    let result = [];
+    for (const key in data) {
+        if (data[key].length === 0 || Object.keys(data[key]).length === 0) { // if the object or array is empty (aka imports/props/selected/etc), do nothing, and continue the loop
+            continue;
+        }
+        let children = createD3Obj(data[key]); // since the obj or array has a value that we need to display, recursively call function and store result in variable
+        let obj = { "data": { "id": key }, "children": children }; // create obj with new information.
+        result.push(obj);
+    }
+    return result;
+}
+
+
+d3.json('../main/data/data.json') // making a fetch call to the JSON object
+    .then(d => {
+        const children = createD3Obj(d);
+        const data = {
+            "data": {
+                "id": "FlowChart",
+            },
+            "children": children
+        };
+        const root = d3.hierarchy(data)
+        const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
+        const linkPathGenerator = d3.linkHorizontal()
+            .x(function (d) { return d.y; })
+            .y(function (d) { return d.x; });
+
+        g.selectAll('path').data(links)
+            .enter().append('path')
+            .attr('d', linkPathGenerator)
+
+        g.selectAll('text').data(root.descendants())
+            .enter().append('text')
+            .attr('x', function (d) { return d.y })
+            .attr('y', function (d) { return d.x })
+            .attr('dy', '0.32em')
+            .attr('text-anchor', d => d.children ? 'middle' : 'start')
+            .attr('font-size', '15px')
+            .text(d => d.data.data.id)
+    })
+
+
+// d3.json('practice/practice.json')
+//     (data => {
+//         const root = d3.hierarchy(data)
+//         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
+//         const linkPathGenerator = d3.linkHorizontal()
+//             .x(function (d) { return d.y; })
+//             .y(function (d) { return d.x; });
+
+//         g.selectAll('path').data(links)
+//             .enter().append('path')
+//             .attr('d', linkPathGenerator)
+
+//         g.selectAll('text').data(root.descendants())
+//             .enter().append('text')
+//             .attr('x', function (d) { return d.y })
+//             .attr('y', function (d) { return d.x })
+//             .attr('dy', '0.32em')
+//             .attr('text-anchor', d => d.children ? 'middle' : 'start')
+//             .attr('font-size', d => 3.2 - d.depth + 'em')
+//             .text(d => d.data.data.id)
+//     })    
