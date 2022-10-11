@@ -13,7 +13,6 @@ const getImports = (filePath: string): FileDataType => {
   while (importList.length > 0) {
     //ask michael why this could be undefined
     const currentFile: string | undefined = importList.shift();
-    console.log(currentFile);
 
     if (currentFile !== undefined) {
       const readFile = fs.readFileSync(currentFile, 'utf-8');
@@ -24,32 +23,18 @@ const getImports = (filePath: string): FileDataType => {
         plugins: ['jsx', 'typescript'],
       });
 
-      // console.log('---the AST from ParseResult---', ast);
+
 
       const astBody = ast.program.body;
       let astTokens;
       if (ast.tokens !== null && ast.tokens !== undefined) {
         astTokens = ast.tokens;
       }
-      // ast.program.body.forEach((node) => {
-      //   if (node.type === 'VariableDeclaration') {
-      //     node.declarations.forEach((declaration) => {
-      //       if (declaration.init) {
-      //         if (declaration.init.type === 'ArrowFunctionExpression') {
-      //           if (declaration.init.body) {
-      //             if (declaration.init.body.type === 'BlockStatement') {
-      //               declaration.init.body.body;
-      //             }
-      //           }
-      //         }
-      //       }
-      //     });
-      //   }
-      // })
+
 
       const baseName = path.parse(currentFile).base;
       fileData[currentFile] = new FileNode(currentFile, astBody, astTokens);
-      // console.log(currentFile.split('/').slice(currentFile.split('/').length - 2).join('/'));
+
       fileData[currentFile].fileName = currentFile.split('/').slice(currentFile.split('/').length - 2).join('/');
       ast.program.body.forEach((node) => {
         if (node.type === 'ImportDeclaration') {
@@ -98,13 +83,9 @@ const getImports = (filePath: string): FileDataType => {
 //
 const buildClasses = (fD: FileDataType): FileDataType => {
   for (const [file, node] of Object.entries(fD)) {
-    //console.log('file within buildClasses:', file);
     node.getSelectedState(node.astBody);
     node.getDispatched(node.astBody);
     node.getRenderComponents();
-    // node.getProps();
-    //console.log('node.dispatched within buildClasses:', node.dispatched);
-    // console.log(node.astTokens[0]);
   }
   return fD;
 };

@@ -8,7 +8,16 @@ import {
   isReturnStatement,
   isJSXElement,
   JSX,
+  Statement,
+  expressionStatement,
+  blockStatement,
+  BlockStatement,
+  callExpression,
+  CallExpression,
+  Block,
+  IfStatement,
 } from '@babel/types';
+import { stat } from 'fs';
 import { AstToken, AstBody, RenderedComp } from './types/types';
 
 class FileNode {
@@ -29,84 +38,7 @@ class FileNode {
     this.astTokens = astTokens;
     this.imports = [];
   }
-  /**
-   * TODO: Build out getType to classify what type of file was imported
-   */
-  // getType(ast: string): void {
-  //   this.type = 'slice file';
-  // }
 
-  // getRenderComponents(): void {
-  //   const arr = this.imports.map((obj) => {
-  //     if (Object.values(obj)[0].includes(".jsx")) {
-  //       return Object.keys(obj)[0];
-  //     }
-  //   });
-  //   const keyArray = arr.filter((e) => e);
-  //   if (this.astTokens) {
-  //     const result = this.astTokens?.slice().filter((token) => {
-  //       if (token.type.label === "jsxName") {
-  //         if (keyArray.includes(token.value)) {
-  //           return true;
-  //         }
-  //       }
-  //       return false;
-  //     });
-
-  //     this.renderedComponents = result.map((token) => token.value);
-  //   }
-  // }
-
-  // // getProps function
-  // getProps(): void {
-  //   const arr = this.imports.map((obj) => {
-  //     if (!Object.values(obj)[0].includes(".jsx")) {
-  //       return Object.keys(obj)[0];
-  //     }
-  //   });
-  //   const keyArray = arr.filter((e) => e);
-  //   if (this.selected) {
-  //     //added this check for whether this.selected is not undefined because there was a type error being thrown in the below for loop indicating that we had to account for the possibility that there is no "selected."
-  //     for (let i = 0; i < this.selected.length; i++) {
-  //       keyArray.push(Object.keys(this.selected[i])[0]);
-  //     }
-  //   }
-  //   this.astTokens?.forEach((token, i, arr) => {
-  //     if (token.type.label === "const") {
-  //       keyArray.push(arr[i + 1].value);
-  //     }
-  //   });
-
-  //   const propObj: { key?: string; token?: { value: string } } = {};
-  //   // const propObj: { [key: string]: [value: string] } = {};
-  //   if (this.astTokens) {
-  //     this.astTokens.forEach((token, i, arr) => {
-  //     if (token.type.label === "jsxName") {
-  //       if (this.renderedComponents[0]) {
-  //         if (token.value === "key") {
-  //           propObj["key"] = "unique identifier";
-  //         }
-  //         if (arr[i + 3].value === "props") {
-  //           if (propObj.token !== undefined) {
-  //             propObj.token.value = "props." + arr[i + 5].value;
-  //           }
-  //         } else if (
-  //           keyArray.includes(arr[i + 3].value) &&
-  //           arr[i + 3].value !== undefined
-  //         ) {
-  //           //console.log(token.value + " = " + arr[i + 3].value)
-  //           if (propObj.token !== undefined) {
-  //             propObj.token.value = arr[i + 3].value;
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     this.props = propObj;
-  //     });
-  //   }
-
-  // }
   /**
    * RenderedComponents
    * -> MarketCreator
@@ -119,7 +51,7 @@ class FileNode {
   getRenderComponents(): void {
     this.renderedComponents = [];
     //get into return statement of the variable declaration that is rendering the components on this page
-    
+
     this.astBody.forEach((rootBodyNode) => {
       if (rootBodyNode.type === 'VariableDeclaration') {
         rootBodyNode.declarations.forEach((variableDeclaration) => {
@@ -128,68 +60,36 @@ class FileNode {
               if (variableDeclaration.init.body.type === 'BlockStatement') {
                 variableDeclaration.init.body.body.forEach(
                   (arrowFuncBlockElement) => {
-                    if (arrowFuncBlockElement.type === 'ReturnStatement' &&
+                    if (
+                      arrowFuncBlockElement.type === 'ReturnStatement' &&
                       arrowFuncBlockElement.argument &&
-                      arrowFuncBlockElement.argument.type === 'JSXElement') {
-                      // if (arrowFuncBlockElement.argument?.type === 'JSXElement') {
-                      //   //inside a return statement that is returning a JSX Element
-                      //   //need to check if it has children to determine if component rendered is
-                      //   //only item in return statement or if rendered components are nested)
-                      //   if (arrowFuncBlockElement.argument.children.length === 0) {
-                      //     //check if JSX Element being returned was imported to confirm it is a new react component
-                      //     if (arrowFuncBlockElement.argument.openingElement.type === 'JSXOpeningElement' && arrowFuncBlockElement.argument.openingElement.name.type === 'JSXIdentifier' && arrowFuncBlockElement.argument.openingElement.name.name) {
-                      //       let elementName = arrowFuncBlockElement.argument.openingElement.name.name;
-                      //       if (this.checkImports(elementName)) {
-                      //         const renderedComp: RenderedComp = { [elementName]: [] };
-                      //         const propsList = arrowFuncBlockElement.argument.openingElement.attributes;
-                      //         this.generateProps(renderedComp, propsList, elementName);
-                      //         this.renderedComponents.push(renderedComp);
-
-                      //       }
-                      //     }
-                      //   } else {
-                      //     //JSXElement has children meaning the rendered components are nested
-                      //     const jsxChildren = arrowFuncBlockElement.argument.children;
-                      //     let jsxElement: JSXElement;
-                      //     jsxChildren.forEach((jsxChild) => {
-
-                      //       if (jsxChild.type === 'JSXExpressionContainer' &&
-                      //       jsxChild.expression.type === 'JSXElement') {
-                      //         jsxElement = jsxChild.expression;
-                      //       } else if (jsxChild.type === 'JSXElement') {
-                      //         jsxElement = jsxChild;
-                      //       }
-                      //       if (jsxElement &&
-                      //         jsxElement.openingElement.type === 'JSXOpeningElement' &&
-                      //         jsxElement.openingElement.name.type === 'JSXIdentifier') {
-                      //         const elementName = jsxElement.openingElement.name.name;
-                      //         if (this.checkImports(jsxElement.openingElement.name.name)) {
-                      //           const renderedComp: RenderedComp = { [elementName]: [] };
-                      //           const propsList = jsxElement.openingElement.attributes;
-                      //           this.generateProps(renderedComp, propsList, elementName);
-                      //           this.renderedComponents.push(renderedComp);
-
-                      //         }
-                      //       }
-                      //     });
-                      //   }
-                      // }
+                      arrowFuncBlockElement.argument.type === 'JSXElement'
+                    ) {
                       const listOfRenders: JSXElement[] = this.getRendersList(
                         arrowFuncBlockElement.argument
                       );
-                      this.renderedComponents.push(this.getProps(listOfRenders));
+                      this.renderedComponents.push(
+                        this.getProps(listOfRenders)
+                      );
                     }
                     if (arrowFuncBlockElement.type === 'ForStatement') {
-                      if (arrowFuncBlockElement.body.type === 'BlockStatement') {
+                      if (
+                        arrowFuncBlockElement.body.type === 'BlockStatement'
+                      ) {
                         const forBlock = arrowFuncBlockElement.body.body;
                         forBlock.forEach((subStatement) => {
-                          if (subStatement.type === 'ExpressionStatement' &&
+                          if (
+                            subStatement.type === 'ExpressionStatement' &&
                             subStatement.expression.type === 'CallExpression' &&
-                            subStatement.expression.arguments) {
-                            subStatement.expression.arguments.forEach((arg) => { 
+                            subStatement.expression.arguments
+                          ) {
+                            subStatement.expression.arguments.forEach((arg) => {
                               if (arg.type === 'JSXElement') {
-                                const listOfRenders: JSXElement[] = this.getRendersList(arg);
-                                this.renderedComponents.push(this.getProps(listOfRenders));
+                                const listOfRenders: JSXElement[] =
+                                  this.getRendersList(arg);
+                                this.renderedComponents.push(
+                                  this.getProps(listOfRenders)
+                                );
                               }
                             });
                           }
@@ -202,6 +102,49 @@ class FileNode {
             }
           }
         });
+      }
+      if (rootBodyNode.type === 'ExportNamedDeclaration') {
+        if (rootBodyNode.declaration?.type === 'FunctionDeclaration') {
+          if (rootBodyNode.declaration.body.type === 'BlockStatement') {
+            rootBodyNode.declaration.body.body.forEach((blockElement) => {
+              if (blockElement.type === 'ReturnStatement') {
+                if (blockElement.argument?.type === 'JSXElement') {
+                  const listOfRenders: JSXElement[] = this.getRendersList(
+                    blockElement.argument
+                  );
+                  this.renderedComponents.push(this.getProps(listOfRenders));
+                }
+              }
+            });
+          }
+        }
+        if (rootBodyNode.declaration?.type === 'VariableDeclaration') {
+          rootBodyNode.declaration.declarations.forEach((varDeclaration) => {
+            if (varDeclaration.type === 'VariableDeclarator') {
+              if (varDeclaration.init?.type === 'CallExpression') {
+                varDeclaration.init.arguments.forEach((arg) => {
+                  if (arg.type === 'FunctionExpression') {
+                    if (arg.body.type === 'BlockStatement') {
+                      arg.body.body.forEach((blockElement) => {
+                        if (blockElement.type === 'ReturnStatement') {
+                          if (blockElement.argument?.type === 'JSXElement') {
+                            if (blockElement.argument?.type === 'JSXElement') {
+                              const listOfRenders: JSXElement[] =
+                                this.getRendersList(blockElement.argument);
+                              this.renderedComponents.push(
+                                this.getProps(listOfRenders)
+                              );
+                            }
+                          }
+                        }
+                      });
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
       }
     });
   }
@@ -218,7 +161,6 @@ class FileNode {
     const res: RenderedComp = {};
     let compName: string;
     renders.forEach((render) => {
-      
       if (render.openingElement.name.type === 'JSXIdentifier') {
         compName = render.openingElement.name.name;
       }
@@ -232,11 +174,13 @@ class FileNode {
           }
           if (attr.value?.type === 'JSXExpressionContainer') {
             if (attr.value.expression.type === 'Identifier') {
-            propValue = attr.value.expression.name;
+              propValue = attr.value.expression.name;
             }
             if (attr.value.expression.type === 'MemberExpression') {
               if (attr.value.expression.object.type === 'MemberExpression') {
-                if (attr.value.expression.object.property.type === 'Identifier') {
+                if (
+                  attr.value.expression.object.property.type === 'Identifier'
+                ) {
                   propValue = attr.value.expression.object.property.name;
                 }
               } else if (attr.value.expression.property.type === 'Identifier') {
@@ -247,60 +191,41 @@ class FileNode {
           if (propLabel === 'key') {
             propValue = 'unique identifier';
           }
-          
-          
         }
         res[compName].push({ propLabel, propValue });
       });
     });
     return res;
   }
-  // generateProps(
-  //   renderedComp: RenderedComp,
-  //   propsList: (JSXAttribute | JSXSpreadAttribute)[],
-  //   elementName: string
-  // ): void {
-  //   if (propsList.length >= 0) {
-  //     propsList.forEach((prop) => {
-  //       if (
-  //         prop.type === 'JSXAttribute' &&
-  //         prop.name.type === 'JSXIdentifier'
-  //       ) {
-  //         const propLabel = prop.name.name;
-  //         if (
-  //           prop.value?.type === 'JSXExpressionContainer' &&
-  //           prop.value.expression.type === 'Identifier'
-  //         ) {
-  //           const propValue = prop.value.expression.name;
-  //           renderedComp[elementName].push({
-  //             propLabel: propLabel,
-  //             propValue: propValue,
-  //           });
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
+
   getRendersList(jsxElement: JSXElement): JSXElement[] {
     let result: JSXElement[] = [];
     const extractFromChild = (child: JSXElement): JSXElement[] => {
-
-      let res: JSXElement[]= [];
+      let res: JSXElement[] = [];
       if (
         child.openingElement.name.type === 'JSXIdentifier' &&
         this.checkImports(child.openingElement.name.name)
       ) {
-
         res.push(child);
-        // if (this.filePath === "/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/containers/MainContainer.jsx") {
-        // console.log(res);
-        // }
       }
       if (child.children.length > 0) {
         child.children.forEach((cChild) => {
           if (cChild.type === 'JSXExpressionContainer') {
             if (cChild.expression.type === 'JSXElement') {
               res = [...res, ...extractFromChild(cChild.expression)];
+            }
+            if (cChild.expression.type === 'CallExpression') {
+              if (cChild.expression.callee.type === 'MemberExpression') {
+                if (cChild.expression.arguments) {
+                  cChild.expression.arguments.forEach((arg) => {
+                    if (arg.type === 'ArrowFunctionExpression') {
+                      if (arg.body.type === 'JSXElement') {
+                        res = [...res, ...extractFromChild(arg.body)];
+                      }
+                    }
+                  });
+                }
+              }
             }
           }
           if (cChild.type === 'JSXElement') {
@@ -310,98 +235,118 @@ class FileNode {
       }
       return res;
     };
-      if (jsxElement.children.length === 0) {
-        if (
-          jsxElement.openingElement.type ===
-            'JSXOpeningElement' &&
-          jsxElement.openingElement.name.type ===
-            'JSXIdentifier' &&
-          this.checkImports(jsxElement.openingElement.name.name)
-        ) {
-          result.push(jsxElement);
-        }
-      } else {
-        jsxElement.children.forEach((child) => {
-          let extracted: JSXElement | JSXElement[];
-          if (child.type === 'JSXExpressionContainer') {
-            if (child.expression.type === 'JSXElement') {
-              extracted = extractFromChild(child.expression);
-                result = [...result, ...extracted];
+    if (jsxElement.children.length === 0) {
+      if (
+        jsxElement.openingElement.type === 'JSXOpeningElement' &&
+        jsxElement.openingElement.name.type === 'JSXIdentifier' &&
+        this.checkImports(jsxElement.openingElement.name.name)
+      ) {
+        result.push(jsxElement);
+      }
+    } else {
+      jsxElement.children.forEach((child) => {
+        let extracted: JSXElement | JSXElement[];
+        if (child.type === 'JSXExpressionContainer') {
+          if (child.expression.type === 'JSXElement') {
+            extracted = extractFromChild(child.expression);
+            result = [...result, ...extracted];
+          }
+          if (child.expression.type === 'CallExpression') {
+            if (child.expression.callee.type === 'MemberExpression') {
+              child.expression.arguments.forEach((arg) => {
+                if (arg.type === 'ArrowFunctionExpression') {
+                  if (arg.body.type === 'JSXElement') {
+                    result = [...result, ...extractFromChild(arg.body)];
+                  }
+                }
+              });
             }
           }
-          if (child.type === 'JSXElement') {
-            extracted = extractFromChild(child);
-              result = [...result, ...extracted];
-          }
-        });
-      }
+        }
+        if (child.type === 'JSXElement') {
+          extracted = extractFromChild(child);
+          result = [...result, ...extracted];
+        }
+      });
+    }
     return result;
   }
   getSelectedState(astBody: AstBody): void {
     this.selected = [];
+    //helpers
+    const getSelectedBlockStatement = (
+      blockStatement: BlockStatement
+    ): void => {
+      blockStatement.body.forEach((blockElement) => {
+        if (blockElement.type === 'VariableDeclaration') {
+          const declarationsArray = blockElement.declarations;
+
+          declarationsArray?.forEach((element) => {
+
+            if (element.init?.type === 'CallExpression') {
+              if (element.init.callee.type === 'Identifier') {
+                if (
+                  element.init.callee.name === 'useSelector' ||
+                  element.init.callee.name === 'useAppSelector'
+                ) {
+                  let variableLabel: string;
+                  let reducerName: string;
+                  let stateName: string;
+                  if (element.id.type === 'Identifier') {
+                    variableLabel = element.id.name;
+                  }
+                  const useSelectorArguments = element.init.arguments;
+                  useSelectorArguments.forEach((argument) => {
+                    if (argument.type === 'ArrowFunctionExpression') {
+                      if (argument.body.type === 'MemberExpression') {
+                        if (argument.body.object.type === 'MemberExpression') {
+                          if (
+                            argument.body.object.property.type === 'Identifier'
+                          ) {
+                            reducerName = argument.body.object.property.name;
+                          }
+                        }
+                        if (argument.body.object.type === 'Identifier') {
+                          reducerName = argument.body.object.name;
+                        }
+                        if (argument.body.property.type === 'Identifier') {
+                          stateName = argument.body.property.name;
+                        }
+                      }
+
+                      if (argument.body.type === 'CallExpression') {
+                        if (argument.body.callee.type === 'MemberExpression') {
+                          if (
+                            argument.body.callee.object.type === 'Identifier'
+                          ) {
+                            reducerName = argument.body.callee.object.name;
+                          }
+                          if (
+                            argument.body.callee.property.type === 'Identifier'
+                          ) {
+                            stateName = argument.body.callee.property.name;
+                          }
+                        }
+                      }
+                      this.selected.push({
+                        [variableLabel]: `${reducerName}.${stateName}`,
+                      });
+                    }
+                  });
+                }
+              }
+            }
+          });
+        }
+      });
+    };
     astBody.forEach((node) => {
       if (node.type === 'VariableDeclaration') {
         const declarations = node.declarations;
         declarations.forEach((declaration) => {
           if (declaration?.init?.type === 'ArrowFunctionExpression') {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            // console.log('---Declaration.init.body---', declaration.init.body);
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            let ArrowFuncBlock;
             if (declaration.init.body.type === 'BlockStatement') {
-              ArrowFuncBlock = declaration.init.body.body;
-            }
-
-            if (ArrowFuncBlock) {
-              ArrowFuncBlock.forEach((blockElement) => {
-                if (blockElement.type === 'VariableDeclaration') {
-                  const declarationsArray = blockElement.declarations;
-
-                  declarationsArray?.forEach((element) => {
-                    // console.log('---element.init---', element?.init);
-
-                    if (element.init?.type === 'CallExpression') {
-                      if (element.init.callee.type === 'Identifier') {
-                        if (element.init.callee.name === 'useSelector' || element.init.callee.name === 'useAppSelector') {
-                          let variableLabel: string;
-                          let reducerName: string;
-                          let stateName: string;
-                          if (element.id.type === 'Identifier') {
-                            variableLabel = element.id.name;
-                          }
-                          const useSelectorArguments = element.init.arguments;
-                          useSelectorArguments.forEach((argument) => {
-                            if (argument.type === 'ArrowFunctionExpression') {
-                              if (argument.body.type === 'MemberExpression') {
-                                if (
-                                  argument.body.object.type ===
-                                  'MemberExpression'
-                                ) {
-                                  if (
-                                    argument.body.object.property.type ===
-                                    'Identifier'
-                                  ) {
-                                    reducerName =
-                                      argument.body.object.property.name;
-                                  }
-                                }
-                                if (
-                                  argument.body.property.type === 'Identifier'
-                                ) {
-                                  stateName = argument.body.property.name;
-                                }
-                              }
-                            }
-                            this.selected.push({
-                              [variableLabel]: `${reducerName}.${stateName}`,
-                            });
-                          });
-                        }
-                      }
-                    }
-                  });
-                }
-              });
+              getSelectedBlockStatement(declaration.init.body);
             }
           }
         });
@@ -409,64 +354,248 @@ class FileNode {
       if (node.type === 'ExportNamedDeclaration') {
         if (node.declaration?.type === 'FunctionDeclaration') {
           if (node.declaration.body.type === 'BlockStatement') {
-            node.declaration.body.body.forEach((bodyElement) => {
-              if (bodyElement.type === 'VariableDeclaration') {
-                bodyElement.declarations.forEach((variableDec) => {
-                  if (variableDec.init?.type === 'CallExpression' &&
-                    variableDec.init.callee.type === 'Identifier') {
-                    let variableLabel: string;
-                    let reducerName: string;
-                    let stateName: string;
-                    if (variableDec.id.type === 'Identifier') {
-                      variableLabel = variableDec.id.name;
-                    }
-                    if (variableDec.init.callee.name === 'useAppSelector' || variableDec.init.callee.name === 'useSelector') {
-                      variableDec.init.arguments.forEach((arg) => {
-                        if (arg.type === 'ArrowFunctionExpression') {
-                          if (arg.body.type === 'CallExpression' &&
-                            arg.body.callee.type === 'MemberExpression') {
-                            if (arg.body.callee.object.type === 'Identifier') {
-                              reducerName = arg.body.callee.object.name;
-                            }
-                            if (arg.body.callee.property.type === 'Identifier') {
-                              stateName = arg.body.callee.property.name;
-                            }
-                          }
-                        }
-                        if (reducerName){
-                          this.selected.push({
-                            [variableLabel]: `${reducerName}.${stateName}`,
-                          });
-                            
-                        } else {
-                          this.selected.push({
-                            [variableLabel] : 'Unknown selected state'
-                          });
-                        }
-                        
-                      });
-                      }
-                  }
-                });
-              }
-            });
+            getSelectedBlockStatement(node.declaration.body);
           }
+        }
+        if (node.declaration?.type === 'VariableDeclaration') {
+          node.declaration.declarations.forEach((varDeclaration) => {
+            if (
+              varDeclaration.type === 'VariableDeclarator' &&
+              varDeclaration.init?.type === 'CallExpression'
+            ) {
+              varDeclaration.init.arguments.forEach((arg) => {
+                if (
+                  arg.type === 'FunctionExpression' &&
+                  arg.body.type === 'BlockStatement'
+                ) {
+                  getSelectedBlockStatement(arg.body);
+                }
+              });
+            }
+          });
         }
       }
     });
   }
   getDispatched(astBody: AstBody): void {
+    //initialize dispatched array which extracts will be pushed in
     this.dispatched = [];
+    //helpers for drying out code
+    /**
+     *
+     * @param blockStatement
+     * @returns string or undefined of the label storing the useDispatch
+     * Starts at blockStatement and searches for useDispatch or useAppDispatch
+     * to return the label
+     */
+    const getUseDispatchLabel = (
+      blockStatement: BlockStatement
+    ): string | undefined => {
+      let useDispatchLabel: string | undefined;
+      blockStatement.body.forEach((blockBody) => {
+        if (blockBody.type === 'VariableDeclaration') {
+          blockBody.declarations.forEach((variableDec) => {
+            if (variableDec.type === 'VariableDeclarator') {
+              if (
+                variableDec.init?.type === 'CallExpression' &&
+                variableDec.init.callee.type === 'Identifier'
+              ) {
+                if (
+                  variableDec.init.callee.name === 'useAppDispatch' ||
+                  variableDec.init.callee.name === 'useDispatch'
+                ) {
+                  if (variableDec.id.type === 'Identifier') {
+                    useDispatchLabel = variableDec.id.name;
+                  }
+                }
+              }
+            }
+          });
+        }
+      });
+      return useDispatchLabel;
+    };
+    /**
+     *
+     * @param blockBody
+     * @param useDispatchLabel
+     * Takes in a blockstatement and searches for the useDispatchLabel
+     * once found it pushes the object name and parameter name to
+     * this.dispatched array
+     */
+    const getDispatchesBlockStatement = (
+      blockBody: BlockStatement,
+      useDispatchLabel: string
+    ): void => {
+      let objectName: string;
+      let propertyName: string;
+      blockBody.body.forEach((expression) => {
+        if (
+          expression.type === 'ExpressionStatement' &&
+          expression.expression.type === 'CallExpression' &&
+          expression.expression.callee.type === 'Identifier' &&
+          expression.expression.callee.name === useDispatchLabel
+        ) {
+          if (expression.expression.arguments[0].type === 'CallExpression') {
+            if (
+              expression.expression.arguments[0].callee.type ===
+              'MemberExpression'
+            ) {
+              if (
+                expression.expression.arguments[0].callee.object.type ===
+                'Identifier'
+              ) {
+                objectName =
+                  expression.expression.arguments[0].callee.object.name;
+              }
+              if (
+                expression.expression.arguments[0].callee.property.type ===
+                'Identifier'
+              ) {
+                propertyName =
+                  expression.expression.arguments[0].callee.property.name;
+              }
+              if (objectName && propertyName) {
+                this.dispatched.push(`${objectName}.${propertyName}`);
+              }
+            }
+          }
+        }
+        if (expression.type === 'IfStatement') {
+          getDispatchedIfStatement(expression, useDispatchLabel);
+        }
+      });
+    };
+    const getDispatchedIfStatement = (
+      statement: IfStatement,
+      useDispatchLabel: string
+    ): void => {
+      if (statement.consequent.type === 'BlockStatement') {
+        statement.consequent.body.forEach((consequentBlock) => {
+          if (consequentBlock.type === 'ExpressionStatement') {
+            if (consequentBlock.expression.type === 'CallExpression') {
+              if (
+                consequentBlock.expression.callee.type === 'Identifier' &&
+                consequentBlock.expression.callee.name === useDispatchLabel
+              ) {
+                consequentBlock.expression.arguments.forEach((expressArgs) => {
+                  if (
+                    expressArgs.type === 'CallExpression' &&
+                    expressArgs.callee.type === 'MemberExpression'
+                  ) {
+                    if (
+                      expressArgs.callee.object.type === 'Identifier' &&
+                      expressArgs.callee.property.type === 'Identifier'
+                    ) {
+                      this.dispatched.push(
+                        `${expressArgs.callee.object.name}.${expressArgs.callee.property.name}`
+                      );
+                    }
+                  }
+                });
+              }
+            }
+          }
+        });
+      }
+      if (statement.alternate?.type === 'BlockStatement') {
+        statement.alternate.body.forEach((bodyElement) => {
+          if (
+            bodyElement.type === 'ExpressionStatement' &&
+            bodyElement.expression.type === 'CallExpression' &&
+            bodyElement.expression.callee.type === 'Identifier' &&
+            bodyElement.expression.callee.name === useDispatchLabel
+          ) {
+            bodyElement.expression.arguments.forEach((expressArgs) => {
+              if (
+                expressArgs.type === 'CallExpression' &&
+                expressArgs.callee.type === 'MemberExpression' &&
+                expressArgs.callee.object.type === 'Identifier' &&
+                expressArgs.callee.property.type === 'Identifier'
+              ) {
+                this.dispatched.push(
+                  `${expressArgs.callee.object.name}.${expressArgs.callee.property.name}`
+                );
+              }
+            });
+          }
+        });
+      }
+    };
+    /**
+     *
+     * @param callExpression
+     * @param useDispatchLabel
+     */
+    const getDispatchesCallExpression = (
+      callExpression: CallExpression,
+      useDispatchLabel: string
+    ): void => {
+      if (
+        callExpression.callee.type === 'Identifier' &&
+        callExpression.callee.name === useDispatchLabel
+      ) {
+        if (callExpression.arguments[0].type === 'CallExpression') {
+          if (callExpression.arguments[0].callee.type === 'MemberExpression') {
+            const object = callExpression.arguments[0].callee.object;
+            const property = callExpression.arguments[0].callee.property;
+            if (
+              object.type === 'Identifier' &&
+              property.type === 'Identifier'
+            ) {
+              this.dispatched.push(`${object.name}.${property.name}`);
+            }
+          }
+        }
+      }
+    };
+    const dispatchHelper = (blockStatement: BlockStatement): void => {
+      let useDispatchLabel: string | undefined =
+        getUseDispatchLabel(blockStatement);
+      blockStatement.body.forEach((blockBody) => {
+        if (blockBody.type === 'VariableDeclaration') {
+          blockBody.declarations.forEach((variableDec) => {
+            if (
+              variableDec.init &&
+              variableDec.init.type === 'ArrowFunctionExpression'
+            ) {
+              if (
+                variableDec.init.body.type === 'BlockStatement' &&
+                useDispatchLabel !== undefined
+              ) {
+                getDispatchesBlockStatement(
+                  variableDec.init.body,
+                  useDispatchLabel
+                );
+              }
+              if (
+                variableDec.init.body.type === 'CallExpression' &&
+                useDispatchLabel !== undefined
+              ) {
+                getDispatchesCallExpression(
+                  variableDec.init.body,
+                  useDispatchLabel
+                );
+              }
+            }
+          });
+        }
+      });
+    };
+    /**
+     * Main Section of Function
+     * Iterates through first to find the useDispatchLabel
+     * Then iterates through remainder to search for where the useDispatchLabel
+     * is used
+     */
     astBody.forEach((node) => {
       if (node.type === 'VariableDeclaration') {
         const declarations = node.declarations;
         //declarations is the entire MarketContainer function, including "const MarketsContainer"
-        // console.log('---declarations---', declarations);
         declarations.forEach((declaration) => {
           if (declaration.type === 'VariableDeclarator') {
             if (declaration?.init?.type === 'ArrowFunctionExpression') {
               //ArrowFunctionExpression is the body of MarketsContainer (everything after the equals sign after MarketsContainer)
-              // console.log('---declaration.init.body---', declaration.init.body);
               if (declaration.init.body.type === 'BlockStatement') {
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 const ArrowFuncBlock = declaration.init.body.body;
@@ -476,19 +605,19 @@ class FileNode {
                 if (ArrowFuncBlock) {
                   ArrowFuncBlock.forEach((blockElement) => {
                     if (blockElement.type === 'VariableDeclaration') {
-                      // console.log('---variableDeclarations---', blockElement.declarations)
                       //declarationsArray is all code/data about one variable declaration within MarketsContainer
                       const declarationsArray = blockElement.declarations;
                       declarationsArray.forEach((element) => {
-                        // console.log('---element---', element)
                         if (useDispatchLabel === undefined) {
                           if (element.init) {
                             if (element.init.type === 'CallExpression') {
                               if (element.init.callee) {
-                                // console.log('----element.init.callee----', element.init.callee)
                                 if (element.init.callee.type === 'Identifier') {
                                   if (
-                                    element.init.callee.name === 'useDispatch'
+                                    element.init.callee.name ===
+                                      'useDispatch' ||
+                                    element.init.callee.name ===
+                                      'useAppDispatch'
                                   ) {
                                     //useDispatchLabel is what useDispatch gets saved to, so for us it's "dispatch"
                                     if (element.id.type === 'Identifier') {
@@ -508,7 +637,6 @@ class FileNode {
                                 element.init.type === 'ArrowFunctionExpression'
                               ) {
                                 //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration within MarketsContainer - for example, within handleDeleteCard, it's everything after the arrow.
-                                // console.log('---element.init.body---', element.init.body);
 
                                 if (element.init.body) {
                                   if (
@@ -566,7 +694,6 @@ class FileNode {
                         blockElement.expression.arguments[0].callee.type ===
                           'Identifier'
                       ) {
-                        // console.log('pushing to dispatched', blockElement.expression.arguments[0].callee.name);
                         this.dispatched.push(
                           //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
 
@@ -581,8 +708,29 @@ class FileNode {
           }
         });
       }
+      if (node.type === 'ExportNamedDeclaration') {
+        if (node.declaration?.type === 'FunctionDeclaration') {
+          if (node.declaration.body.type === 'BlockStatement') {
+            dispatchHelper(node.declaration.body);
+          }
+        }
+        if (node.declaration?.type === 'VariableDeclaration') {
+          node.declaration.declarations.forEach((declarations) => {
+            if (declarations.init?.type === 'CallExpression') {
+              if (declarations.init.arguments) {
+                declarations.init.arguments.forEach((arg) => {
+                  if (arg.type === 'FunctionExpression') {
+                    if (arg.body.type === 'BlockStatement') {
+                      dispatchHelper(arg.body);
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
+      }
     });
-    // console.log('this.dispatched', this.dispatched);
   }
 }
 
