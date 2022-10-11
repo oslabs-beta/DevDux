@@ -128,7 +128,7 @@ export function getData(filePath: string): FileNodeType {
   return dataForExp;
 }
 const fp = path.resolve(
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'
+  '/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx'
 );
 // getData(fp);
 fs.writeFile(
