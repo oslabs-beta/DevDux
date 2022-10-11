@@ -1,3 +1,4 @@
+//Babel Types imports allow for passing in the types to helper functions and continue benefiting from auto complete and type protection.
 import {
   ArrowFunctionExpression,
   JSXElement,
@@ -21,14 +22,15 @@ import { stat } from 'fs';
 
 import { AstToken, AstBody, RenderedComp } from './types/types';
 
+//FileNode class is constructed from each individual file traversed
+//Helper functions build out the rest of the class by extracting from the AST
 class FileNode {
   fileName!: string;
   filePath: string;
   astBody: AstBody;
-  astTokens: AstToken; //to resolve the errors in getRenderedComponents, maybe the type of astTokens has to be specified as deeply rested array of strings, so that there won't be an error when accessing properties on the astTokens stringified objects. I already tried making the type string[] instead of object[] and the errors are the same.
+  astTokens: AstToken; 
   imports: { [key: string]: string }[];
-  type!: string; //does this need to be in the constructor? I didn't put it there because I thought it'd be more likely to break something if I added it as a parameter for the constructor. I added "type" here because this.type within getType was throwing an error. I added "undefined" as a possible type here because the "Quick Fix" option suggested it and it made an error go away.
-  renderedComponents!: { [key: string]: any }[]; // //does this need to be in the constructor? I didn't add it for the same reason as described next to astTokens. I also added the type "undefined" for the same reason.
+  renderedComponents!: { [key: string]: any }[];
   selected!: {}[];
   props!: object;
   dispatched!: string[];
@@ -41,23 +43,26 @@ class FileNode {
   }
 
   /**
-   * RenderedComponents
-   * -> MarketCreator
-   * ->->Prop Label addMarket passes handleAddMarket
-   * -> MarketDisplay
-   * ->->Prop Label marketlist passes marketlist
-   * ->->Prop Label deleteCard passes handleDeleteCard
-   * And So ON
+   * RenderedComponents Structure
+   * -> Component Name
+   * ->->Prop Label {propLabel}
+   * ->->->Prop Value {propValue}
+   * @params none
+   * @return none
+   * 
    */
   getRenderComponents(): void {
     this.renderedComponents = [];
-    //get into return statement of the variable declaration that is rendering the components on this page
-
+    
+    //iterate through the astBody looking for the return statement
     this.astBody.forEach((rootBodyNode) => {
+      //This if block is for a functional react component using an arrow function that is exported separate from the function definition
       if (rootBodyNode.type === 'VariableDeclaration') {
         rootBodyNode.declarations.forEach((variableDeclaration) => {
           if (variableDeclaration.type === 'VariableDeclarator') {
+            
             if (variableDeclaration.init?.type === 'ArrowFunctionExpression') {
+              //inside of the component function
               if (variableDeclaration.init.body.type === 'BlockStatement') {
                 variableDeclaration.init.body.body.forEach(
                   (arrowFuncBlockElement) => {
@@ -66,13 +71,17 @@ class FileNode {
                       arrowFuncBlockElement.argument &&
                       arrowFuncBlockElement.argument.type === 'JSXElement'
                     ) {
+                      //inside of the return statement and found a JSXElement as the argument returned to pass into renders helper
                       const listOfRenders: JSXElement[] = this.getRendersList(
                         arrowFuncBlockElement.argument
                       );
+                      //list of renders used to pull all rendered components as an array of JSXElements
+                      //renders passed into getProps which returns an aray of rendered components and info on their props
                       this.renderedComponents.push(
                         this.getProps(listOfRenders)
                       );
                     }
+                    //This block is for the situation that rendered components are in a JSXElement Expression outside of the return statement
                     if (arrowFuncBlockElement.type === 'ForStatement') {
                       if (
                         arrowFuncBlockElement.body.type === 'BlockStatement'
@@ -84,6 +93,7 @@ class FileNode {
                             subStatement.expression.type === 'CallExpression' &&
                             subStatement.expression.arguments
                           ) {
+                            //inside of the for loop and pulling out the rendered components to pass into getProps
                             subStatement.expression.arguments.forEach((arg) => {
                               if (arg.type === 'JSXElement') {
                                 const listOfRenders: JSXElement[] =
@@ -104,11 +114,13 @@ class FileNode {
           }
         });
       }
+      //This block is for functional components defined using the function declaration that are exported in place
       if (rootBodyNode.type === 'ExportNamedDeclaration') {
         if (rootBodyNode.declaration?.type === 'FunctionDeclaration') {
           if (rootBodyNode.declaration.body.type === 'BlockStatement') {
             rootBodyNode.declaration.body.body.forEach((blockElement) => {
               if (blockElement.type === 'ReturnStatement') {
+                //in the return statement and passing any rendered components from renders list into get prop 
                 if (blockElement.argument?.type === 'JSXElement') {
                   const listOfRenders: JSXElement[] = this.getRendersList(
                     blockElement.argument
@@ -119,6 +131,7 @@ class FileNode {
             });
           }
         }
+        //This block is for functional components defined using a function definition inside of a React.memo top level API call that is exported in place
         if (rootBodyNode.declaration?.type === 'VariableDeclaration') {
           rootBodyNode.declaration.declarations.forEach((varDeclaration) => {
             if (varDeclaration.type === 'VariableDeclarator') {
@@ -128,6 +141,7 @@ class FileNode {
                     if (arg.body.type === 'BlockStatement') {
                       arg.body.body.forEach((blockElement) => {
                         if (blockElement.type === 'ReturnStatement') {
+                          //inside return statement and pulls JSXElement argument for helper functions
                           if (blockElement.argument?.type === 'JSXElement') {
                             if (blockElement.argument?.type === 'JSXElement') {
                               const listOfRenders: JSXElement[] =
@@ -149,6 +163,12 @@ class FileNode {
       }
     });
   }
+  /**
+   * 
+   * @param elementName 
+   * @returns boolean dependent on if the element name passed in is in the imported list
+   * The code assumes that if a componenet is named in the JSXElement and it is imported into the file it is a rendered component
+   */
   checkImports(elementName: string): Boolean {
     for (let importItem of this.imports) {
       const importName = Object.keys(importItem)[0];
@@ -158,63 +178,38 @@ class FileNode {
     }
     return false;
   }
-  getProps(renders: JSXElement[]): RenderedComp {
-    const res: RenderedComp = {};
-    let compName: string;
-    renders.forEach((render) => {
-      if (render.openingElement.name.type === 'JSXIdentifier') {
-        compName = render.openingElement.name.name;
-      }
-      res[compName] = [];
-      let propLabel: string;
-      let propValue: string;
-      render.openingElement.attributes.forEach((attr) => {
-        if (attr.type === 'JSXAttribute') {
-          if (attr.name.type === 'JSXIdentifier') {
-            propLabel = attr.name.name;
-          }
-          if (attr.value?.type === 'JSXExpressionContainer') {
-            if (attr.value.expression.type === 'Identifier') {
-              propValue = attr.value.expression.name;
-            }
-            if (attr.value.expression.type === 'MemberExpression') {
-              if (attr.value.expression.object.type === 'MemberExpression') {
-                if (
-                  attr.value.expression.object.property.type === 'Identifier'
-                ) {
-                  propValue = attr.value.expression.object.property.name;
-                }
-              } else if (attr.value.expression.property.type === 'Identifier') {
-                propValue = attr.value.expression.property.name;
-              }
-            }
-          }
-          if (propLabel === 'key') {
-            propValue = 'unique identifier';
-          }
-        }
-        res[compName].push({ propLabel, propValue });
-      });
-    });
-    return res;
-  }
+  /**
+   * 
+   * @param jsxElement 
+   * @returns array of JSXElements to pass into the get props functions
+   */
 
   getRendersList(jsxElement: JSXElement): JSXElement[] {
     let result: JSXElement[] = [];
+    /**
+     * 
+     * @param child 
+     * @returns Array of JSXElements 
+     * Helper function that gets passed a child from a JSXElement to search recursively to check if any components include an imported component, meaning it is rendered
+     */
     const extractFromChild = (child: JSXElement): JSXElement[] => {
       let res: JSXElement[] = [];
+      //If the child element is not nested then we can check if the name of the element is in imports and push if it is a rendered component
       if (
         child.openingElement.name.type === 'JSXIdentifier' &&
         this.checkImports(child.openingElement.name.name)
       ) {
         res.push(child);
       }
+      //if the child has children of its own of length more than 0 then we have to iterate the nested components
       if (child.children.length > 0) {
         child.children.forEach((cChild) => {
           if (cChild.type === 'JSXExpressionContainer') {
+            //if the nested child component is a JSXElement recursively call the helper to find the rendered
             if (cChild.expression.type === 'JSXElement') {
               res = [...res, ...extractFromChild(cChild.expression)];
             }
+            //if the nested child component is a function expression need to dig deeper to find the JSXelement and recursively call to pull
             if (cChild.expression.type === 'CallExpression') {
               if (cChild.expression.callee.type === 'MemberExpression') {
                 if (cChild.expression.arguments) {
@@ -229,6 +224,7 @@ class FileNode {
               }
             }
           }
+          //if the child is not nested pass recursive call to get list of renders
           if (cChild.type === 'JSXElement') {
             res = [...res, ...extractFromChild(cChild)];
           }
@@ -236,6 +232,8 @@ class FileNode {
       }
       return res;
     };
+    //This is now the main function that accepts the first JSXElement in the return statement or forLoop
+    //If the element has no children then opening element would be the only place a rendered component could be
     if (jsxElement.children.length === 0) {
       if (
         jsxElement.openingElement.type === 'JSXOpeningElement' &&
@@ -245,13 +243,18 @@ class FileNode {
         result.push(jsxElement);
       }
     } else {
+      //if children exist iterate through and extract out JSX Element(s) using 
       jsxElement.children.forEach((child) => {
         let extracted: JSXElement | JSXElement[];
+
         if (child.type === 'JSXExpressionContainer') {
+          //if child is expression container that is holding a jsxelement
           if (child.expression.type === 'JSXElement') {
+
             extracted = extractFromChild(child.expression);
             result = [...result, ...extracted];
           }
+          //if jsx expression container is holding a function
           if (child.expression.type === 'CallExpression') {
             if (child.expression.callee.type === 'MemberExpression') {
               child.expression.arguments.forEach((arg) => {
@@ -264,6 +267,7 @@ class FileNode {
             }
           }
         }
+        //if the child is not in an expression but just a JSXElement extract render info
         if (child.type === 'JSXElement') {
           extracted = extractFromChild(child);
           result = [...result, ...extracted];
@@ -272,12 +276,76 @@ class FileNode {
     }
     return result;
   }
+  /**
+   * 
+   * @param renders : An array of JSX Elements that consist of rendered components
+   * @returns An object  of type RenderedComp which holds the name of the rendered component and any prop info
+   */
+  getProps(renders: JSXElement[]): RenderedComp {
+    const res: RenderedComp = {};
+    let compName: string;
+    //loop through the list of rendered components to extract the relevant  information
+    renders.forEach((render) => {
+      //pull the component name out of the opening element property
+      if (render.openingElement.name.type === 'JSXIdentifier') {
+        compName = render.openingElement.name.name;
+      }
+      //the result object now sets the component name as a key to allow for adding prop info in 
+      res[compName] = [];
+      let propLabel: string;
+      let propValue: string;
+      render.openingElement.attributes.forEach((attr) => {
+        //loop over each attribute looking for props information
+        if (attr.type === 'JSXAttribute') {
+          if (attr.name.type === 'JSXIdentifier') {
+            //store the label for prop
+            propLabel = attr.name.name;
+          }
+          //the prop value is nested inside an expression container
+          if (attr.value?.type === 'JSXExpressionContainer') {
+            //if the prop is directly  in the container
+            if (attr.value.expression.type === 'Identifier') {
+              propValue = attr.value.expression.name;
+            }
+            //if the prop is inside a function expression
+            if (attr.value.expression.type === 'MemberExpression') {
+              if (attr.value.expression.object.type === 'MemberExpression') {
+                if (
+                  attr.value.expression.object.property.type === 'Identifier'
+                ) {
+                  propValue = attr.value.expression.object.property.name;
+                }
+              } else if (attr.value.expression.property.type === 'Identifier') {
+                propValue = attr.value.expression.property.name;
+              }
+            }
+          }
+          //react keys for react op under the hood and therefore just gets a value of unique identifier
+          if (propLabel === 'key') {
+            propValue = 'unique identifier';
+          }
+        }
+        res[compName].push({ propLabel, propValue });
+      });
+    });
+    return res;
+  }
+  /**
+   * 
+   * @param astBody 
+   * Loops through file to find component and then loops through that for finding the use of useSelector to identify state pulled from the data store
+   */
   getSelectedState(astBody: AstBody): void {
     this.selected = [];
-    //helpers
+    /**
+     * 
+     * @param blockStatement 
+     * Helper function that accepts a blockstatement and finds the instance of useSelector or useappSelector and pushes the state variables
+     */
     const getSelectedBlockStatement = (
       blockStatement: BlockStatement
     ): void => {
+      //given a block element iterate to find a function call that uses selector keyword
       blockStatement.body.forEach((blockElement) => {
         if (blockElement.type === 'VariableDeclaration') {
           const declarationsArray = blockElement.declarations;
@@ -286,10 +354,13 @@ class FileNode {
 
             if (element.init?.type === 'CallExpression') {
               if (element.init.callee.type === 'Identifier') {
+                //useSelector is official method for grabbing state
+                //useAppSelector is best practice method if you need to grab types along with state
                 if (
                   element.init.callee.name === 'useSelector' ||
                   element.init.callee.name === 'useAppSelector'
                 ) {
+                  //once the callee with the keyword is found the reducer and state names can be found
                   let variableLabel: string;
                   let reducerName: string;
                   let stateName: string;
@@ -298,9 +369,11 @@ class FileNode {
                   }
                   const useSelectorArguments = element.init.arguments;
                   useSelectorArguments.forEach((argument) => {
+                    //the use state is called inside an arrow function
                     if (argument.type === 'ArrowFunctionExpression') {
                       if (argument.body.type === 'MemberExpression') {
                         if (argument.body.object.type === 'MemberExpression') {
+                          //searching through for the object name and property names
                           if (
                             argument.body.object.property.type === 'Identifier'
                           ) {
@@ -314,9 +387,10 @@ class FileNode {
                           stateName = argument.body.property.name;
                         }
                       }
-
+                      //the use state is called inside a function definition
                       if (argument.body.type === 'CallExpression') {
                         if (argument.body.callee.type === 'MemberExpression') {
+                          //searching through for the object name and property names
                           if (
                             argument.body.callee.object.type === 'Identifier'
                           ) {
@@ -329,6 +403,7 @@ class FileNode {
                           }
                         }
                       }
+                      //once the label and names are found push to the selected array
                       this.selected.push({
                         [variableLabel]: `${reducerName}.${stateName}`,
                       });
@@ -341,7 +416,11 @@ class FileNode {
         }
       });
     };
+
+    //main body of the function with goal of getting through the beginning of the file
+    //dependent on type of function definition for the react function component their is a different path to getting to block statement
     astBody.forEach((node) => {
+      //if functional component defined using arrow function exported sepearately
       if (node.type === 'VariableDeclaration') {
         const declarations = node.declarations;
         declarations.forEach((declaration) => {
@@ -353,11 +432,14 @@ class FileNode {
         });
       }
       if (node.type === 'ExportNamedDeclaration') {
+      //functional component using function declatartion exported in place
+
         if (node.declaration?.type === 'FunctionDeclaration') {
           if (node.declaration.body.type === 'BlockStatement') {
             getSelectedBlockStatement(node.declaration.body);
           }
         }
+        //Function declaration using function def inside of React.memo exported in place.
         if (node.declaration?.type === 'VariableDeclaration') {
           node.declaration.declarations.forEach((varDeclaration) => {
             if (
@@ -378,6 +460,12 @@ class FileNode {
       }
     });
   }
+  /**
+   * 
+   * @param astBody 
+   * Iterates through different react structures to get the variable label for the useDispatch function call
+   * then the remainder of the file is iterated over to find the dispatched items from reducers
+   */
   getDispatched(astBody: AstBody): void {
     //initialize dispatched array which extracts will be pushed in
     this.dispatched = [];
@@ -396,6 +484,7 @@ class FileNode {
       blockStatement.body.forEach((blockBody) => {
         if (blockBody.type === 'VariableDeclaration') {
           blockBody.declarations.forEach((variableDec) => {
+            //iterates over declarations looking for invokation of dispatch keyword
             if (variableDec.type === 'VariableDeclarator') {
               if (
                 variableDec.init?.type === 'CallExpression' &&
@@ -405,6 +494,7 @@ class FileNode {
                   variableDec.init.callee.name === 'useAppDispatch' ||
                   variableDec.init.callee.name === 'useDispatch'
                 ) {
+                  //useDispatch and useAppDispatch are same but useAppDispatch passes types
                   if (variableDec.id.type === 'Identifier') {
                     useDispatchLabel = variableDec.id.name;
                   }
@@ -430,6 +520,7 @@ class FileNode {
     ): void => {
       let objectName: string;
       let propertyName: string;
+      //iterate through the block body to find the useDispatchLabel and store relevant data
       blockBody.body.forEach((expression) => {
         if (
           expression.type === 'ExpressionStatement' &&
@@ -437,6 +528,7 @@ class FileNode {
           expression.expression.callee.type === 'Identifier' &&
           expression.expression.callee.name === useDispatchLabel
         ) {
+          //inside a block element that has the useDispatchLabel
           if (expression.expression.arguments[0].type === 'CallExpression') {
             if (
               expression.expression.arguments[0].callee.type ===
@@ -456,23 +548,31 @@ class FileNode {
                 propertyName =
                   expression.expression.arguments[0].callee.property.name;
               }
+              //after going through we only want to push if objectName and propertyName exist
               if (objectName && propertyName) {
                 this.dispatched.push(`${objectName}.${propertyName}`);
               }
             }
           }
         }
+        //if in an if statement use the ifStatement helper
         if (expression.type === 'IfStatement') {
           getDispatchedIfStatement(expression, useDispatchLabel);
         }
       });
     };
+    /**
+     * 
+     * @param statement : IfStatement type 
+     * @param useDispatchLabel 
+     */
     const getDispatchedIfStatement = (
       statement: IfStatement,
       useDispatchLabel: string
     ): void => {
       if (statement.consequent.type === 'BlockStatement') {
         statement.consequent.body.forEach((consequentBlock) => {
+          //looking through all code on if the if statement is true
           if (consequentBlock.type === 'ExpressionStatement') {
             if (consequentBlock.expression.type === 'CallExpression') {
               if (
