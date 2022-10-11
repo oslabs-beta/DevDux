@@ -44,7 +44,13 @@ function createD3Obj(data) {
             continue;
         }
         let children = createD3Obj(data[key]); // since the obj or array has a value that we need to display, recursively call function and store result in variable
-        let obj = { "data": { "id": key }, "children": children }; // create obj with new information.
+        let obj;
+
+        if (parseInt(key) || key === "0") {
+            obj = { "data": { "id": "" }, "children": children } // create obj with new information.
+        } else {
+            obj = { "data": { "id": key }, "children": children } // create obj with new information.
+        }
         result.push(obj);
     }
     return result;
@@ -76,7 +82,7 @@ d3.json('../main/data/data.json') // making a fetch call to the JSON object
             },
             "children": children
         };
-        const root = d3.hierarchy(data)
+        const root = d3.hierarchy(data);
         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
         const linkPathGenerator = d3.linkHorizontal()
             .x(function (d) { return d.y; })
@@ -94,4 +100,5 @@ d3.json('../main/data/data.json') // making a fetch call to the JSON object
             .attr('text-anchor', d => d.children ? 'middle' : 'start')
             .attr('font-size', '15px')
             .text(d => d.data.data.id)
+
     })

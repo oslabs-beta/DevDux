@@ -1,24 +1,46 @@
 body {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: 0;
-    overflow: hidden;
+    background: linear-gradient(to bottom left, #f9f7fa 40%, #2b094d 80%);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 50% 50%;
+        }
+
+    }
 }
 
 path {
     fill: none;
-    stroke: purple;
+    stroke: black;
 }
 
 text {
     text-shadow:
         -1px -1px 3px white,
-        -1px 1px 3px white,
-        1px -1px 3px white,
-        1px 1px 3px white;
+        1px 1px 3px gray;
     pointer-events: none;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Antonio', sans-serif;
+}
+
+span {
+    color: #692D8C;
+}
+
+h1 {
+    background-color: #eee1f5;
+    border: purple 1px solid;
+    text-align: center;
+    font-family: 'Antonio', sans-serif;
+    padding: 20px;
+    margin-left: 200px;
+    margin-right: 200px;
+    border-radius: 20px;
+    box-shadow: 3px 8px;
 }
