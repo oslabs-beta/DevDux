@@ -7,7 +7,7 @@ const margin = { top: 0, right: 50, bottom: 0, left: 75 };
 const innerWidth = height - margin.top - margin.bottom;
 const innerHeight = height * margin.top - margin.bottom;
 
-const treeLayout = d3.cluster()
+const treeLayout = d3.tree()
     .size([height, innerWidth])
 
 const zoomG = svg
@@ -27,26 +27,8 @@ svg.call(d3.zoom().on('zoom', () => {
 // Recursive function that converts JSON data into an object that D3 expects (d3.hierarchy)
 function createD3Obj(data) {
     if (typeof data === "string") { //base case 
-        if (data.includes('.js')) { // Leaf node is a file path. 
-            let newData = [];
-            let slashCount = 0;
-            for (let i = data.length - 1; i > 0; i--) { // convert relative file path to display "/folderName/fileName" only.
-                if (slashCount < 2) {
-                    if (data[i] === '/') {
-                        slashCount++;
-                        newData.push(data[i]);
-                    } else {
-                        newData.push(data[i]);
-                    }
-                }
-            }
-            data = newData.reverse().join('');
-            return [{
-                "data": {
-                    "id": data
-                },
-                "children": []
-            }];
+        if (data.includes('.js') || data.includes('.ts')) { // Leaf node is a file path. 
+            data = filePath(data);
         }
         return [{ // leaf node is not a file path, display data as is.
             "data": {
@@ -66,6 +48,22 @@ function createD3Obj(data) {
         result.push(obj);
     }
     return result;
+}
+
+function filePath(file) { // change relative file path to display "/folderName/fileName" only.
+    let newData = [];
+    let slashCount = 0;
+    for (let i = file.length - 1; i > 0; i--) {
+        if (slashCount < 2) {
+            if (file[i] === '/') {
+                slashCount++;
+                newData.push(file[i]);
+            } else {
+                newData.push(file[i]);
+            }
+        }
+    }
+    return newData.reverse().join('');
 }
 
 
@@ -97,26 +95,3 @@ d3.json('../main/data/data.json') // making a fetch call to the JSON object
             .attr('font-size', '15px')
             .text(d => d.data.data.id)
     })
-
-
-// d3.json('practice/practice.json')
-//     (data => {
-//         const root = d3.hierarchy(data)
-//         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
-//         const linkPathGenerator = d3.linkHorizontal()
-//             .x(function (d) { return d.y; })
-//             .y(function (d) { return d.x; });
-
-//         g.selectAll('path').data(links)
-//             .enter().append('path')
-//             .attr('d', linkPathGenerator)
-
-//         g.selectAll('text').data(root.descendants())
-//             .enter().append('text')
-//             .attr('x', function (d) { return d.y })
-//             .attr('y', function (d) { return d.x })
-//             .attr('dy', '0.32em')
-//             .attr('text-anchor', d => d.children ? 'middle' : 'start')
-//             .attr('font-size', d => 3.2 - d.depth + 'em')
-//             .text(d => d.data.data.id)
-//     })    
