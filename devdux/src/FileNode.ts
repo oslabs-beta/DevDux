@@ -18,6 +18,7 @@ import {
   IfStatement,
 } from '@babel/types';
 import { stat } from 'fs';
+
 import { AstToken, AstBody, RenderedComp } from './types/types';
 
 class FileNode {
