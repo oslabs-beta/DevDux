@@ -1,9 +1,8 @@
-
 const svg = d3.select('svg');
 
 const width = document.body.clientWidth;
 const height = document.body.clientHeight;
-const margin = { top: 0, right: 50, bottom: 0, left: 75 };
+const margin = { top: 20, right: 90, bottom: 20, left: 90 };
 const innerWidth = height - margin.top - margin.bottom;
 const innerHeight = height * margin.top - margin.bottom;
 
@@ -73,7 +72,7 @@ function filePath(file) { // change relative file path to display "/folderName/f
 }
 
 
-d3.json('../main/data/data.json') // making a fetch call to the JSON object
+d3.json('../main/data/data.json') // fetch call to the JSON object
     .then(d => {
         const children = createD3Obj(d);
         const data = {
@@ -82,7 +81,9 @@ d3.json('../main/data/data.json') // making a fetch call to the JSON object
             },
             "children": children
         };
+
         const root = d3.hierarchy(data);
+
         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
         const linkPathGenerator = d3.linkHorizontal()
             .x(function (d) { return d.y; })
@@ -100,5 +101,6 @@ d3.json('../main/data/data.json') // making a fetch call to the JSON object
             .attr('text-anchor', d => d.children ? 'middle' : 'start')
             .attr('font-size', '15px')
             .text(d => d.data.data.id)
+
 
     })
