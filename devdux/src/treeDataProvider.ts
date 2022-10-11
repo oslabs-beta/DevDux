@@ -8,8 +8,11 @@ import { FileNodeType, RenderedComp } from './types/types';
 
 
 export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
-  onDidChangeTreeData?: vscode.Event<TreeItem|null|undefined>|undefined;
+  // onDidChangeTreeData?: vscode.Event<TreeItem|null|undefined>|undefined;
+  private _onDidChangeTreeData: vscode.EventEmitter<TreeItem | undefined | null | void> = new vscode.EventEmitter<TreeItem | undefined | null | void>();
+  readonly onDidChangeTreeData: vscode.Event<TreeItem | undefined | null | void> = this._onDidChangeTreeData.event;
 
+  
   data: TreeItem[];
   filePath: string;
   // fileDataT: {};
@@ -19,6 +22,11 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     this.data = [];
     this.filePath = filePath;
   
+  }
+
+ 
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
   }
 
   getTreeItem(element: TreeItem): vscode.TreeItem|Thenable<vscode.TreeItem> {
@@ -104,6 +112,7 @@ export class TreeDataProvider implements vscode.TreeDataProvider<TreeItem> {
     });
     return treeRenderedListItems;
   }
+
 
 
 }

@@ -127,7 +127,11 @@ export function getData(filePath: string): FileNodeType {
   return dataForExp;
 }
 const fp = path.resolve(
+
   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx'
+
+
+
 );
 // getData(fp);
 fs.writeFile(
