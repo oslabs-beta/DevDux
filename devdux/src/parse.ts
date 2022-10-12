@@ -128,6 +128,7 @@ export function getData(filePath: string): FileNodeType {
   return dataForExp;
 }
 
+
 //Future versions will build a D3 graph from a JSON file this commented out code was used for writing to JSON file, will be used in future
 // const fp = path.resolve(
 // filePathOfRoot
