@@ -1,24 +1,10 @@
 //Babel Types imports allow for passing in the types to helper functions and continue benefiting from auto complete and type protection.
 import {
-  ArrowFunctionExpression,
   JSXElement,
-  ReturnStatement,
-  variableDeclaration,
-  JSXAttribute,
-  JSXSpreadAttribute,
-  isReturnStatement,
-  isJSXElement,
-  JSX,
-  Statement,
-  expressionStatement,
-  blockStatement,
   BlockStatement,
-  callExpression,
   CallExpression,
-  Block,
   IfStatement,
 } from '@babel/types';
-import { stat } from 'fs';
 
 import { AstToken, AstBody, RenderedComp } from './types/types';
 
@@ -369,7 +355,7 @@ class FileNode {
                   }
                   const useSelectorArguments = element.init.arguments;
                   useSelectorArguments.forEach((argument) => {
-                    //the use state is called inside an arrow function
+                    //the use selector is called inside an arrow function
                     if (argument.type === 'ArrowFunctionExpression') {
                       if (argument.body.type === 'MemberExpression') {
                         if (argument.body.object.type === 'MemberExpression') {
@@ -387,7 +373,7 @@ class FileNode {
                           stateName = argument.body.property.name;
                         }
                       }
-                      //the use state is called inside a function definition
+                      //the use selector is called inside a function definition
                       if (argument.body.type === 'CallExpression') {
                         if (argument.body.callee.type === 'MemberExpression') {
                           //searching through for the object name and property names
@@ -432,7 +418,7 @@ class FileNode {
         });
       }
       if (node.type === 'ExportNamedDeclaration') {
-      //functional component using function declatartion exported in place
+      //functional component using function declartion exported in place
 
         if (node.declaration?.type === 'FunctionDeclaration') {
           if (node.declaration.body.type === 'BlockStatement') {
@@ -599,6 +585,7 @@ class FileNode {
           }
         });
       }
+      //look through all code if if statement is false
       if (statement.alternate?.type === 'BlockStatement') {
         statement.alternate.body.forEach((bodyElement) => {
           if (
@@ -632,6 +619,7 @@ class FileNode {
       callExpression: CallExpression,
       useDispatchLabel: string
     ): void => {
+      //gets the dispatches if a call expression is reached meaning the dispatch function is called on one line of a variable defined function
       if (
         callExpression.callee.type === 'Identifier' &&
         callExpression.callee.name === useDispatchLabel
@@ -650,6 +638,11 @@ class FileNode {
         }
       }
     };
+    /**
+     * 
+     * @param blockStatement 
+     * //helper for getting dispatch once reaching a block statement to dry out code
+     */
     const dispatchHelper = (blockStatement: BlockStatement): void => {
       let useDispatchLabel: string | undefined =
         getUseDispatchLabel(blockStatement);
@@ -709,6 +702,7 @@ class FileNode {
                       //declarationsArray is all code/data about one variable declaration within MarketsContainer
                       const declarationsArray = blockElement.declarations;
                       declarationsArray.forEach((element) => {
+                        //only want to enter this block when we useDispatchLabel is unknown
                         if (useDispatchLabel === undefined) {
                           if (element.init) {
                             if (element.init.type === 'CallExpression') {
@@ -720,7 +714,7 @@ class FileNode {
                                     element.init.callee.name ===
                                       'useAppDispatch'
                                   ) {
-                                    //useDispatchLabel is what useDispatch gets saved to, so for us it's "dispatch"
+                                    //useDispatchLabel is what useDispatch gets saved to
                                     if (element.id.type === 'Identifier') {
                                       if (element.id.name) {
                                         useDispatchLabel = element.id.name;
@@ -732,12 +726,13 @@ class FileNode {
                             }
                           }
                         } else {
+                          //now that useDispatchLabel is known we can look for where it is implemented
                           if (element.type === 'VariableDeclarator') {
                             if (element.init) {
                               if (
                                 element.init.type === 'ArrowFunctionExpression'
                               ) {
-                                //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration within MarketsContainer - for example, within handleDeleteCard, it's everything after the arrow.
+                                //innerArrowFuncBlock is everything after the arrow within an ArrowFunctionExpression variable declaration 
 
                                 if (element.init.body) {
                                   if (
@@ -759,7 +754,6 @@ class FileNode {
                                             useDispatchLabel
                                         ) {
                                           //   //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
-                                          // );
                                           if (
                                             element.expression.arguments[0]
                                               .type === 'CallExpression' &&
@@ -783,6 +777,7 @@ class FileNode {
                       });
                     }
                     if (
+                      //dispatched directly in the react component and not nested in another function definition
                       useDispatchLabel !== undefined &&
                       blockElement.type === 'ExpressionStatement' &&
                       blockElement.expression.type === 'CallExpression' &&
@@ -790,14 +785,13 @@ class FileNode {
                       blockElement.expression.callee.name === useDispatchLabel
                     ) {
                       if (
+                        //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
                         blockElement.expression.arguments[0].type ===
                           'CallExpression' &&
                         blockElement.expression.arguments[0].callee.type ===
                           'Identifier'
                       ) {
                         this.dispatched.push(
-                          //we can just grab arguments[0] because we know that there will only ever be one argument to useDispatch
-
                           blockElement.expression.arguments[0].callee.name
                         );
                       }
@@ -809,12 +803,16 @@ class FileNode {
           }
         });
       }
+      //
       if (node.type === 'ExportNamedDeclaration') {
+      //functional component using function declartion exported in place
+
         if (node.declaration?.type === 'FunctionDeclaration') {
           if (node.declaration.body.type === 'BlockStatement') {
             dispatchHelper(node.declaration.body);
           }
         }
+        //Function declaration using function def inside of React.memo exported in place.
         if (node.declaration?.type === 'VariableDeclaration') {
           node.declaration.declarations.forEach((declarations) => {
             if (declarations.init?.type === 'CallExpression') {
