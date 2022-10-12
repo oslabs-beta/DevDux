@@ -128,7 +128,7 @@ export function getData(filePath: string): FileNodeType {
 }
 const fp = path.resolve(
 
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx'
+  '/Users/karachisholm/Documents/Codesmith Cohort 35/DevDux/Demo/client/App.jsx'
 
 
 
