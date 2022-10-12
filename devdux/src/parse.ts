@@ -126,23 +126,23 @@ export function getData(filePath: string): FileNodeType {
   let dataForExp = buildClassesForExport(data);
   return dataForExp;
 }
-const fp = path.resolve(
+// const fp = path.resolve(
 
-  '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx'
+//   '/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/redux-toolkit/examples/action-listener/counter/src/components/App/App.tsx'
 
 
 
-);
-// getData(fp);
-fs.writeFile(
-  '../../devdux/data/data.json',
-  JSON.stringify(getData(fp)),
-  (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log('Wrote data to JSON');
-  }
-);
+// );
+// // getData(fp);
+// fs.writeFile(
+//   '../../devdux/data/data.json',
+//   JSON.stringify(getData(fp)),
+//   (err) => {
+//     if (err) {
+//       throw err;
+//     }
+//     console.log('Wrote data to JSON');
+//   }
+// );
 
 // console.log(getImports('/Users/mgarza/Documents/LearnProgramming/CodeSmith/OSP/DevDux/Demo/client/App.jsx'));
