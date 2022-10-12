@@ -6,13 +6,13 @@ const margin = { top: 20, right: 90, bottom: 20, left: 90 };
 const innerWidth = height - margin.top - margin.bottom;
 const innerHeight = height * margin.top - margin.bottom;
 
-const treeLayout = d3.tree()
+const treeLayout = d3.tree() // creating tree map here.
     .size([height, innerWidth])
 
 const zoomG = svg
     .attr('width', width)
     .attr('height', height)
-    .append('g')
+    .append('g') // g element is used to group things together 
 
 
 const g = zoomG.append('g')
@@ -22,6 +22,11 @@ const g = zoomG.append('g')
 svg.call(d3.zoom().on('zoom', () => {
     zoomG.attr('transform', d3.event.transform)
 }))
+
+
+let i = 0;
+let duration = 750; //used for the animation, when it is clicked,
+let root;
 
 // Recursive function that converts JSON data into an object that D3 expects (d3.hierarchy)
 function createD3Obj(data) {
@@ -72,28 +77,29 @@ function filePath(file) { // change relative file path to display "/folderName/f
 }
 
 
+
 d3.json('../main/data/data.json') // fetch call to the JSON object
     .then(d => {
-        const children = createD3Obj(d);
+        const treeMapObj = createD3Obj(d);
         const data = {
             "data": {
                 "id": "FlowChart",
             },
-            "children": children
+            "children": treeMapObj
         };
 
-        const root = d3.hierarchy(data);
+        root = d3.hierarchy(data);
 
         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
         const linkPathGenerator = d3.linkHorizontal()
             .x(function (d) { return d.y; })
             .y(function (d) { return d.x; });
 
-        g.selectAll('path').data(links)
+        g.selectAll('path').data(links)  // path
             .enter().append('path')
             .attr('d', linkPathGenerator)
 
-        g.selectAll('text').data(root.descendants())
+        g.selectAll('text').data(root.descendants()) // node
             .enter().append('text')
             .attr('x', function (d) { return d.y })
             .attr('y', function (d) { return d.x })
@@ -101,6 +107,5 @@ d3.json('../main/data/data.json') // fetch call to the JSON object
             .attr('text-anchor', d => d.children ? 'middle' : 'start')
             .attr('font-size', '15px')
             .text(d => d.data.data.id)
-
-
     })
+
