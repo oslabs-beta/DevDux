@@ -1,10 +1,11 @@
 {
-  "name": "devdux",
+  "name": "DevDux",
   "displayName": "DevDux",
+  "publisher": "DevDux",
   "description": "Redux visualization tool",
   "version": "0.0.1",
   "icon": "./resources/ddcirclelogo128px.png",
-  "repository": "https://github.com/oslabs-beta/DevDux/tree/main/devdux",
+  "repository": "https://github.com/oslabs-beta/DevDux",
   "engines": {
     "vscode": "^1.71.0"
   },
