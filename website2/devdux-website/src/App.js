@@ -1,5 +1,5 @@
 import devduxlogo from './devduxlogo.png';
-import './App.css';
+import './App.scss';
 import githubIcon from './github-icon.svg';
 import mediumLogo from './medium-logo.svg';
 import osLabsLogo from './oslabs-icon.png';
@@ -32,27 +32,24 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
-            <nav>{}
-            <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-              <Toolbar>
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  sx={{ mr: 2 }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  DevDux
-                </Typography>
-                <Button color="inherit">Get DevDux</Button>
-              </Toolbar>
-            </AppBar>
-          </Box>
-          </nav>
+      <nav id="navbar" className="navbar navbar-expand-lg navbar-light">
+          <div className="container-fluid">
+              <a className="navbar-brand flex align-items-center" href="/">
+               
+                <div className="flex-col">
+                  <span>DevDux</span>
+                </div>
+              </a>
+
+         
+            <div className="collapse navbar-collapse"   id="navbarSupportedContent">
+
+              <button className="navbar-vscode">
+                <a className="btn btn-sapling" href="https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux" target="_blank" rel="noreferrer">Get DevDux</a>
+              </button>
+            </div>
+          </div>
+    </nav>
       <header className="App-header">
       <link
           rel="stylesheet"
@@ -62,21 +59,16 @@ function App() {
       </header>
     <div id="content">
       <div>
-        <img src={devduxlogo} alt="DevDux logo" width={100} height={100}></img>
-        <p id="header">DevDux</p>
+
         <div className="jumbotron mx-auto pt-5">
-            <h1 className="display-4 logo d-flex justify-content-center d-flex align-items-center">
-              <img src={devduxlogo} alt="DevDux logo" width={100} height={100}></img>
-              <b>DevDux</b>
+            
+              <img className="big-logo" src={devduxlogo} alt="DevDux logo" weight={200} height={200}></img>
+              <h1 className="display-4 logo d-flex justify-content-center d-flex align-items-center"><b>DevDux</b>
             </h1>
             <p className="lead text-center">A simple way to visualize Redux Toolkit apps.</p>
             <hr className="my-4"/>
             
-            <p className="lead d-flex justify-content-center">
-                <a className="btn btn-sapling btn-lg d-flex align-items-center" href="https://marketplace.visualstudio.com/items?itemName=team-sapling.sapling" role="button">
-                  <span>Get DevDux for </span><img src={vscodeLogo} alt="VS Code Logo" width={30} height={30}></img><span> VS Code </span>
-                </a>
-            </p>
+            <button className="devdux-on-vscode" href="https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux" target="_blank" rel="noreferrer">Get DevDux for<span><img src={vscodeLogo} alt="VS Code Logo" height={10} ></img></span> VS Code </button>
         </div>
         
       </div>
@@ -166,8 +158,15 @@ function App() {
             </div>
           </div>
         </div>
+</div>
+<div>
 
-        <footer className="d-flex justify-content-around">
+
+      </div>
+    </div>
+  
+          </div>
+          <footer className="d-flex justify-content-around">
         <div className="d-flex flex-column align-items-center">
           <span>developed under</span>
           <a href="https://opensourcelabs.io/" target="_blank" rel="noreferrer">
@@ -175,11 +174,6 @@ function App() {
           </a>
         </div>
       </footer>
-
-      </div>
-    </div>
-  
-          </div>
     </div>
     
     </ThemeProvider>
