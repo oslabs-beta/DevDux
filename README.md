@@ -44,7 +44,6 @@
 
 <hr>
 
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -59,12 +58,8 @@
     <li>
       <a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a>
-      <ul>
-        <li>
-          <a href="#contributor-usage">Contributor Usage</a>
-        </li>
-      </ul>
-    </li>
+    <li><a href="#limitations">Limitations</a>
+    <li><a href="#contributor-usage">Contributor Usage</a></li>
     <li><a href="#extension-settings">Extension Settings</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -84,19 +79,18 @@
 </p>
 <br/>
 
-DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of what files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
+DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of what files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot?
 
 The solution is DevDux. DevDux eliminates the need of visiting files just to figure out how everything relates to one another. There is no more guessing of what the parent component is to your current file. DevDux is an interactive hierarchical tree view visualizer that lives directly in VS Code. It provides a visual indication of what each file contains.
 
 ### Built With
 
-* [<img style="height: 1em;" src="sapling/media/react-brands.svg">](https://reactjs.org/)  [React](https://reactjs.org/)
-* [<img style="height: 1em;" src="sapling/media/vscode.svg">](https://code.visualstudio.com/api)  [VSCode Extension API](https://code.visualstudio.com/api)
-* [<img style="height: 1em;" src="sapling/media/mochajs-icon.svg">](https://mochajs.org/) [Mocha](https://mochajs.org/)
-* [<img style="height: 1em;" src="sapling/media/chai_icon.svg">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
-* [<img style="height: 1em;" src="sapling/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
-* [<img style="height: 1em;" src="sapling/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
-
+- [<img style="height: 1em;" src="sapling/media/react-brands.svg">](https://reactjs.org/) [React](https://reactjs.org/)
+- [<img style="height: 1em;" src="sapling/media/vscode.svg">](https://code.visualstudio.com/api) [VSCode Extension API](https://code.visualstudio.com/api)
+- [<img style="height: 1em;" src="sapling/media/mochajs-icon.svg">](https://mochajs.org/) [Mocha](https://mochajs.org/)
+- [<img style="height: 1em;" src="sapling/media/chai_icon.svg">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
+- [<img style="height: 1em;" src="sapling/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
+- [<img style="height: 1em;" src="sapling/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
 
 ## Installation
 
@@ -112,23 +106,39 @@ To install devdux for development, please see the contributing section below.
 
 ## Getting Started
 
-1. After installing DevDux, open the VS Code command pallete (CMD+SHIFT+P). Type in the command "DevDux: Open Root File".
+1. After installing DevDux, open the VS Code command pallete (⌘⇧P). Type in the command "DevDux: Open Root File".
 
 2. Your file explorer window will launch. Select an entrypoint. This is typically a file where the parent component for the rest of your application is rendered (App.jsx).
 
-3. Go to the VS Code File Explorer tab and a DevDux Sidebar 
+3. Go to the VS Code Explorer tab (⌘⇧E) and a DevDux Sidebar will be presented below your files.
 
 ## Usage
+Currently DevDux supports a limited amount of React-Redux file structures, see the limitations sections for more details. DevDux the name of the folder a file resides in and the file name. Clicking on a file name opens the collapsable tree view to reveal the following application information :
+<ol>
+  <li> filePath </li>
+  <ul>
+    <li>Complete file path </li>
+  </ul>
+  <li> imports </li>
+  <li> selected </li>
+  <li> dispatched </li>
+  <li> rendered components</li>
+</ol>
+1. filePath
+1. imports
+1. selected
+1. dispatched
+1. renderedComponents
 
-### Note
-
+## Limitations
 
 ### Contributor Usage
 
 ## Extension Settings
 
 ## Contributing
-The open source community thrives on contributions. It allows developers to learn, create, and inspire other. Contributions to DevDux are **appreciated** and **encouraged**. 
+
+The open source community thrives on contributions. It allows developers to learn, create, and inspire others. Contributions to DevDux are **appreciated** and **encouraged**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/newFeature`)
@@ -137,91 +147,23 @@ The open source community thrives on contributions. It allows developers to lear
 5. Open a Pull Request
 
 ## License
-
+This project is licensed under the Mozilla Public License. For more information see the LICENSE file in the repository or visit Mozilla's offical page [here](https://www.mozilla.org/en-US/MPL/).
 ## Creators
-* [Kara Chisholm](https://github.com/kkchis)
-* [Hina Khalid](https://github.com/hina-khalid)
-* [Josh Miller](https://github.com/jshbmllr)
-* [Matt Garza](https://github.com/mattg614)
 
+- [Kara Chisholm](https://github.com/kkchis)
+- [Hina Khalid](https://github.com/hina-khalid)
+- [Josh Miller](https://github.com/jshbmllr)
+- [Matt Garza](https://github.com/mattg614)
 
 ## Contact
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/twitter-logo.svg">]()  Twitter: [@TeamDevDux](https://twitter.com/teamDevDux) | Email: devduxExtension@gmail.com
+[<img style="height: 1em; width: 1em;" src="sapling/media/twitter-logo.svg">]() Twitter: [@TeamDevDux](https://twitter.com/teamDevDux) | Email: devduxExtension@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/github-icon.svg">]()  GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
-
+[<img style="height: 1em; width: 1em;" src="sapling/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
 
 ## Acknowledgements
-* 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-
 
 # devdux README
 
@@ -249,8 +191,8 @@ For example:
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `myExtension.enable`: Enable/disable this extension.
+- `myExtension.thing`: Set to `blah` to do something.
 
 ## Known Issues
 
@@ -278,19 +220,19 @@ Added features X, Y, and Z.
 
 Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
 
 ## Working with Markdown
 
 You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
+- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
+- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
 
 ## For more information
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
+- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
