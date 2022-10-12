@@ -40,9 +40,9 @@
     "menus": {
       "view/title": [
         {
-            "command": "devdux.refreshEntry",
-            "when": "view == devdux-sidebar",
-            "group": "navigation"
+          "command": "devdux.refreshEntry",
+          "when": "view == devdux-sidebar",
+          "group": "navigation"
         }
       ]
     }
@@ -59,6 +59,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.3",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "16.x",
@@ -76,6 +77,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.19.3",
-    "@babel/types": "^7.19.3"
+    "@babel/types": "^7.19.3",
+    "chai": "^4.3.6"
   }
 }
