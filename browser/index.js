@@ -24,9 +24,7 @@ svg.call(d3.zoom().on('zoom', () => {
 }))
 
 
-let i = 0;
-let duration = 750; //used for the animation, when it is clicked,
-let root;
+
 
 // Recursive function that converts JSON data into an object that D3 expects (d3.hierarchy)
 function createD3Obj(data) {
@@ -88,7 +86,7 @@ d3.json('../main/data/data.json') // fetch call to the JSON object
             "children": treeMapObj
         };
 
-        root = d3.hierarchy(data);
+        let root = d3.hierarchy(data);
 
         const links = treeLayout(root).links(); //returns an array of object used for the linkeages between nodes
         const linkPathGenerator = d3.linkHorizontal()
