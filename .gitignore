@@ -69,3 +69,4 @@ typings/
 
 # dist folder should be re-bundled
 dist
+.vscode-test

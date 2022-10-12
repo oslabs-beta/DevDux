@@ -13,12 +13,13 @@ export function activate(context: vscode.ExtensionContext) {
 		openLabel: 'Open'
 	}).then(fileUri => {
 		if (fileUri && fileUri[0]) {
-			vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(fileUri[0].fsPath));
+			const devDuxTreeDataProvider = new TreeDataProvider(fileUri[0].fsPath);
+			vscode.window.registerTreeDataProvider('devdux-sidebar', devDuxTreeDataProvider);
+			vscode.commands.registerCommand('devdux.refreshEntry', () => devDuxTreeDataProvider.refresh());
 		}
 	});
 
 
-	// vscode.window.registerTreeDataProvider('devdux-sidebar', new TreeDataProvider(context));
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "devdux" is now active!');

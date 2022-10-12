@@ -19,6 +19,14 @@
       {
         "command": "devdux.OpenRootFile",
         "title": "DevDux: Open Root File"
+      },
+      {
+        "command": "devdux.refreshEntry",
+        "title": "DevDux: Refresh",
+        "icon": {
+          "light": "./resources/light/refresh.svg",
+          "dark": "./resources/dark/refresh.svg"
+        }
       }
     ],
     "views": {
@@ -26,6 +34,15 @@
         {
           "id": "devdux-sidebar",
           "name": "DevDux Sidebar"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "devdux.refreshEntry",
+          "when": "view == devdux-sidebar",
+          "group": "navigation"
         }
       ]
     }
@@ -42,6 +59,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.3",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "16.x",
@@ -58,6 +76,8 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@babel/parser": "^7.19.3"
+    "@babel/parser": "^7.19.3",
+    "@babel/types": "^7.19.3",
+    "chai": "^4.3.6"
   }
 }
