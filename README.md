@@ -1,3 +1,228 @@
+<!-- DEXDUX README -->
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/oslabs-beta/DevDux">
+    <img src="devdux/media/devdux.png" alt="Logo" height="120">
+  </a>
+
+  <h3 align="center">DexDux</h3>
+
+  <p align="center">
+    Redux Toolkit state visualization extension for VS Code
+    <br />
+    <a href="https://github.com/oslabs-beta/DevDux"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/oslabs-beta/DevDux/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/oslabs-beta/DevDux/issues">Request Feature</a>
+  </p>
+    <!-- BADGES -->
+  <p align="center">
+    <!-- VSCode Version -->
+    <a href="..."><img alt="Visual Studio Marketplace Version" src="..."></a>
+    <!-- VSCode Installs -->
+    <a href="..."><img alt="Visual Studio Marketplace Installs" src=".."></a>
+    <!-- STARS -->
+    <a href="..."><img alt="GitHub Repo stars" src="..."></a>
+    <!-- FORKS -->
+    <a href="..."><img alt="GitHub forks" src="..."></a>
+    <!-- GITHUB RELEASE VERSION -->
+    <!-- <a href="https://github.com/oslabs-beta/sapling/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a> -->
+    <br>
+    <!-- BUILD STATUS -->
+    <a href="..."><img alt="master CI/CD workflow status" src="..."></a>
+    <a href="https://github.com/oslabs-beta/sapling/actions/workflows/dev.yml"><img alt="dev CI workflow status" src="..."></a>
+    <img alt="Vercel Web deployments" src="...">
+    <!-- LICENSE -->
+    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/sapling"></a> -->
+    <!-- CONTRIBUTIONS -->
+    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/README.md"><img alt="Contributions" src="https://img.shields.io/badge/contributors-welcome-brightgreen"></a> -->
+  </p>
+</p>
+
+<hr>
+
+
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#installation">Installation</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a></li>
+    <li><a href="#usage">Usage</a>
+      <ul>
+        <li>
+          <a href="#contributor-usage">Contributor Usage</a>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#extension-settings">Extension Settings</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#creators">Creators</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
+
+<hr>
+
+## About The Project
+
+<br/>
+<p align="center">
+  <!-- <img> add gif here -->
+</p>
+<br/>
+
+DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of which files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
+
+The solution is Redux. Redux eliminates the need of visiting files just to figure out how everything relates to one another. There is no more guessing of what the parent component is to your current file. Redux is an interactive hierarchical tree view visualizer that lives directly in VS Code. It provides a visual indication of what each file contains.
+
+### Built With
+
+* [<img style="height: 1em;" src="sapling/media/react-brands.svg">](https://reactjs.org/)  [React](https://reactjs.org/)
+* [<img style="height: 1em;" src="sapling/media/vscode.svg">](https://code.visualstudio.com/api)  [VSCode Extension API](https://code.visualstudio.com/api)
+* [<img style="height: 1em;" src="sapling/media/mochajs-icon.svg">](https://mochajs.org/) [Mocha](https://mochajs.org/)
+* [<img style="height: 1em;" src="sapling/media/chai_icon.svg">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
+* [<img style="height: 1em;" src="sapling/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
+* [<img style="height: 1em;" src="sapling/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+
+
+## Installation
+
+Installation from VS Code Extension Marketplace:
+
+1. If needed, install Visual Studio Code for Windows (7+), macOS (Sierra+), or Linux (details).
+
+2. Install the DevDux extension for Visual Studio Code. Search for 'DexDux' in the VS Code extensions tab, or click [here](..addLinkHere...).
+
+3. Once installed, DevDux should appear in your sidebar. Check out the Getting Started section below for information on how to get the extention up and running on your local computer.
+
+To install devdex for development, please see the contributing section below.
+
+## Getting Started
+
+1. After installing VSCode Extension, you will see the extension on your sidebar. Click the "Choose a File" button.
+
+2. Your file explorer window will launch. Select an entrypoint, a file where the parent component for the rest of your application is rendered.
+
+3. Your sidebar will now display a component tree.
+
+## Usage
+
+### Note
+
+
+### Contributor Usage
+
+## Extension Settings
+
+## Contributing
+The open source community thrives on contributions. It allows developers to learn, create, and inspire other. Contributions to DevDux are **appreciated** and **encouraged**. 
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/newFeature`)
+3. Commit your Changes (`git commit -m 'Add some newFeature'`)
+4. Push to the Branch (`git push origin feature/newFeature`)
+5. Open a Pull Request
+
+## License
+
+## Creators
+* [Kara Chisholm](https://github.com/kkchis)
+* [Hina Khalid](https://github.com/hina-khalid)
+* [Josh Miller](https://github.com/jshbmllr)
+* [Matt Garza](https://github.com/mattg614)
+
+
+## Contact
+
+[<img style="height: 1em; width: 1em;" src="sapling/media/twitter-logo.svg">]()  Twitter: [@TeamDevDux](https://twitter.com/teamDevDux) | Email: devduxExtension@gmail.com
+
+[<img style="height: 1em; width: 1em;" src="sapling/media/github-icon.svg">]()  GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
+
+
+## Acknowledgements
+* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # devdux README
 
 This is the README for your extension "devdux". After writing up a brief description, we recommend including the following sections.
