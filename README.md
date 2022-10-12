@@ -84,9 +84,9 @@
 </p>
 <br/>
 
-DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of which files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
+DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of what files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
 
-The solution is Redux. Redux eliminates the need of visiting files just to figure out how everything relates to one another. There is no more guessing of what the parent component is to your current file. Redux is an interactive hierarchical tree view visualizer that lives directly in VS Code. It provides a visual indication of what each file contains.
+The solution is DevDux. DevDux eliminates the need of visiting files just to figure out how everything relates to one another. There is no more guessing of what the parent component is to your current file. DevDux is an interactive hierarchical tree view visualizer that lives directly in VS Code. It provides a visual indication of what each file contains.
 
 ### Built With
 
@@ -102,21 +102,21 @@ The solution is Redux. Redux eliminates the need of visiting files just to figur
 
 Installation from VS Code Extension Marketplace:
 
-1. If needed, install Visual Studio Code for Windows (7+), macOS (Sierra+), or Linux (details).
+1. If needed, install Visual Studio Code for macOS (Sierra+). Currently 'DevDux' only supports macOS.
 
-2. Install the DevDux extension for Visual Studio Code. Search for 'DexDux' in the VS Code extensions tab, or click [here](..addLinkHere...).
+2. Install the DevDux extension for Visual Studio Code. Search for 'DexDux' in the VS Code extensions tab, or click [here](https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux).
 
-3. Once installed, DevDux should appear in your sidebar. Check out the Getting Started section below for information on how to get the extention up and running on your local computer.
+3. Once installed the DevDux "Open Root File" command should be accesible via the command pallete. See getting started for more information.
 
-To install devdex for development, please see the contributing section below.
+To install devdux for development, please see the contributing section below.
 
 ## Getting Started
 
-1. After installing VSCode Extension, you will see the extension on your sidebar. Click the "Choose a File" button.
+1. After installing DevDux, open the VS Code command pallete (CMD+SHIFT+P). Type in the command "DevDux: Open Root File".
 
-2. Your file explorer window will launch. Select an entrypoint, a file where the parent component for the rest of your application is rendered.
+2. Your file explorer window will launch. Select an entrypoint. This is typically a file where the parent component for the rest of your application is rendered (App.jsx).
 
-3. Your sidebar will now display a component tree.
+3. Go to the VS Code File Explorer tab and a DevDux Sidebar 
 
 ## Usage
 
