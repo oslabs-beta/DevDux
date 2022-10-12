@@ -1,7 +1,7 @@
 {
   "name": "DevDux",
   "displayName": "DevDux",
-  "publisher": "DevDux",
+  "publisher": "devdux",
   "description": "Redux visualization tool",
   "version": "0.0.1",
   "icon": "./resources/ddcirclelogo128px.png",
