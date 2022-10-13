@@ -1,4 +1,4 @@
-<!-- DEXDUX README -->
+<!-- DEVDUX README -->
 
 ## DevDux README
 
@@ -9,10 +9,10 @@
     <img src="devdux/media/devdux.png" alt="Logo" height="250">
   </a>
 
-  <h1 align="center">DexDux</h1>
+  <h1 align="center">DevDux</h1>
 
   <p align="center">
-    DexDux is a VS Code extention built for Redux Toolkit users. As the codebase grows, it gets difficult to track and conceptualize what files are rendering which components, what props are passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
+    DevDux is a VS Code extention built for Redux Toolkit users. As the codebase grows, it gets difficult to track and conceptualize what files are rendering which components, what props are passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
   <p align="center"> 
     The solution is DevDux. DevDux eliminates the need of visiting files just to figure out how everything relates to one another.  It provides a visual indication of everything a file contains. 
     <br />
@@ -88,7 +88,7 @@ Installation from VS Code Extension Marketplace:
 
 1. If needed, install Visual Studio Code for macOS (Sierra+). Currently 'DevDux' only supports macOS.
 
-2. Install the DevDux extension for Visual Studio Code. Search for 'DexDux' in the VS Code extensions tab, or click [here](https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux).
+2. Install the DevDux extension for Visual Studio Code. Search for 'DevDux' in the VS Code extensions tab, or click [here](https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux).
 
 3. Once installed the DevDux "Open Root File" command should be accesible via the command pallete. See getting started for more information.
 
