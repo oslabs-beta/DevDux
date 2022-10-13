@@ -111,24 +111,40 @@ To install devdux for development, please see the contributing section below.
 2. Your file explorer window will launch. Select an entrypoint. This is typically a file where the parent component for the rest of your application is rendered (App.jsx).
 
 3. Go to the VS Code Explorer tab (⌘⇧E) and a DevDux Sidebar will be presented below your files.
+<br/><br/>
+<img src="devdux/media/screenshots-for-readme/sideBarExample.png">
 
 ## Usage
 Currently DevDux supports a limited amount of React-Redux file structures, see the limitations sections for more details. DevDux the name of the folder a file resides in and the file name. Clicking on a file name opens the collapsable tree view to reveal the following application information :
 <ol>
   <li> filePath </li>
   <ul>
-    <li>Complete file path </li>
+    <li>Complete file path for the file you have selected</li>
+    <img  src="devdux/media/screenshots-for-readme/filePathExample.png">
   </ul>
   <li> imports </li>
+    <ul>
+      <li>Displays a list of named items imported in the selected file</li>
+      <li>Selecting a name opens the file path for the selected item</li>
+      <img  src="devdux/media/screenshots-for-readme/importsExample.png">
+    </ul>
   <li> selected </li>
+    <ul>
+      <li>Displays a list of state variables pulled from the store</li>
+      <li>Parser searches for useSelector or useAppSelector</li>
+      <li>The list is based on what the store variables are labeled as in the file</li>
+      <li>Selecting a variable label displays the reducer that the state variable is defined in and the state label</li>
+      <img  src="devdux/media/screenshots-for-readme/selectedExample.png">
+    </ul>
   <li> dispatched </li>
+    <ul>
+      <li>Displays a list of state variables pulled from the store, by the name it is labeled as in the file</li>
+      <li>Selecting a variable label displays the reducer that the state variable is defined in and the state label</li>
+      <img  src="devdux/media/screenshots-for-readme/dispatchedExample.png">
+    </ul>
   <li> rendered components</li>
 </ol>
-1. filePath
-1. imports
-1. selected
-1. dispatched
-1. renderedComponents
+
 
 ## Limitations
 
