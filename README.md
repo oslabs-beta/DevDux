@@ -1,5 +1,7 @@
 <!-- DEXDUX README -->
+
 # DevDux README
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -19,27 +21,6 @@
     ·
     <a href="https://github.com/oslabs-beta/DevDux/issues">Request Feature</a>
   </p>
-    <!-- BADGES -->
-  <!-- <p align="center"> -->
-    <!-- VSCode Version -->
-    <!-- <a href="..."><img alt="Visual Studio Marketplace Version" src="..."></a> -->
-    <!-- VSCode Installs -->
-    <!-- <a href="..."><img alt="Visual Studio Marketplace Installs" src=".."></a> -->
-    <!-- STARS -->
-    <!-- <a href="..."><img alt="GitHub Repo stars" src="..."></a> -->
-    <!-- FORKS -->
-    <!-- <a href="..."><img alt="GitHub forks" src="..."></a> -->
-    <!-- GITHUB RELEASE VERSION -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a> -->
-    <!-- <br> -->
-    <!-- BUILD STATUS -->
-    <!-- <a href="..."><img alt="master CI/CD workflow status" src="..."></a>
-    <a href="https://github.com/oslabs-beta/sapling/actions/workflows/dev.yml"><img alt="dev CI workflow status" src="..."></a>
-    <img alt="Vercel Web deployments" src="..."> -->
-    <!-- LICENSE -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/sapling"></a> -->
-    <!-- CONTRIBUTIONS -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/README.md"><img alt="Contributions" src="https://img.shields.io/badge/contributors-welcome-brightgreen"></a> -->
   </p>
 </p>
 
@@ -60,8 +41,6 @@
       <a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a>
     <li><a href="#limitations">Limitations</a>
-    <li><a href="#contributor-usage">Contributor Usage</a></li>
-    <li><a href="#extension-settings">Extension Settings</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#creators">Creators</a></li>
@@ -75,7 +54,7 @@
 ## About The Project
 
 <p align="center">
-  <!-- <img> add gif here -->
+  <img src="devdux/media/screenshots-for-readme/devduxexample.gif"/>
 </p>
 <br/>
 
@@ -111,11 +90,13 @@ To install devdux for development, please see the contributing section below.
 2. Your file explorer window will launch. Select an entrypoint. This is typically a file where the parent component for the rest of your application is rendered (App.jsx).
 
 3. Go to the VS Code Explorer tab (⌘⇧E) and a DevDux Sidebar will be presented below your files.
-<br/><br/>
-<img src="devdux/media/screenshots-for-readme/sideBarExample.png">
+   <br/><br/>
+   <img src="devdux/media/screenshots-for-readme/sideBarExample.png">
 
 ## Usage
+
 Currently DevDux supports a limited amount of React-Redux file structures, see the limitations sections for more details. DevDux the name of the folder a file resides in and the file name. Clicking on a file name opens the collapsable tree view to reveal the following application information :
+
 <ol>
   <li> filePath </li>
   <ul>
@@ -138,19 +119,25 @@ Currently DevDux supports a limited amount of React-Redux file structures, see t
     </ul>
   <li> dispatched </li>
     <ul>
-      <li>Displays a list of state variables pulled from the store, by the name it is labeled as in the file</li>
-      <li>Selecting a variable label displays the reducer that the state variable is defined in and the state label</li>
+      <li>Displays a list of dispatched functions pulled from the store via parsing for occurrences of useDispatch or useAppDispatch</li>
       <img  src="devdux/media/screenshots-for-readme/dispatchedExample.png">
     </ul>
   <li> rendered components</li>
+    <ul>
+      <li>Displays a list of components that are rendered in this component file</li>
+      <li>Selecting a componenet displays a list of the props that are passed to the rendered component</li>
+      <li>Selecting a prop displays the value that is passed in as the prop</li>
+      <img  src="devdux/media/screenshots-for-readme/renderedComponentsExample.png">
+    </ul>
 </ol>
-
 
 ## Limitations
 
-### Contributor Usage
+DevDux in its current version is limited in scope and very opionionated. This section serves to describe some of DevDux limitations and best practices to ensure DevDux works properly. Currently MacOS is supported for use of DevDux. Currently the following React-Redux file structures are supported:
 
-## Extension Settings
+1.  Functional components using ES6 arrow function definition that is exported seperately.
+1.  Functional components defined using traditonal function declaration and exported in place.
+1.  Functional component defined using a function definition inside of a React.memo top level API call that is exported in place.
 
 ## Contributing
 
@@ -162,8 +149,18 @@ The open source community thrives on contributions. It allows developers to lear
 4. Push to the Branch (`git push origin feature/newFeature`)
 5. Open a Pull Request
 
+## Reporting Issues
+
+Report bugs [here](https://github.com/oslabs-beta/DevDux/issues). When possible provide a screen shot of the item that is not being displayed. Report the following:
+
+1. Type of React component (Class Based, Functional Definition, Arrow function definition)
+1. Location where component was exported. In place or a seperate location.
+1. Information relavant to the item that is not being displayed. What was missing/not displayed? Where is the item located that is not being displayed with relation to the rest of the file.
+
 ## License
-This project is licensed under the Mozilla Public License. For more information see the LICENSE file in the repository or visit Mozilla's offical page [here](https://www.mozilla.org/en-US/MPL/).
+
+This project is licensed under the Mozilla Public License. For more information see the [`LICENSE`](https://github.com/oslabs-beta/DevDux/blob/main/devdux/LICENSE) file in the repository or visit Mozilla's offical page [here](https://www.mozilla.org/en-US/MPL/).
+
 ## Creators
 
 - [Kara Chisholm](https://github.com/kkchis)
@@ -178,3 +175,4 @@ This project is licensed under the Mozilla Public License. For more information 
 [<img style="height: 1em; width: 1em;" src="devdux/media/github-icon.png">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
 
 ## Acknowledgements
++ Influenced by [Sapling](https://github.com/oslabs-beta/sapling)
