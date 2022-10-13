@@ -16,15 +16,15 @@ import Market from './Market.jsx';
 const MarketsDisplay = props => {
   const marketList = [];
   for (let i = 0; i < props.marketlist.length; i++) {
-    marketList.push(<Market 
-      key={`market ${i}`} 
-      market={props.marketlist[i]} 
-      addCard={props.addCard} 
-      deleteCard={props.deleteCard} 
+    marketList.push(<Market
+      key={`market ${i}`}
+      market={props.marketlist[i]}
+      addCard={props.addCard}
+      deleteCard={props.deleteCard}
       totalcards={props.totalcards}
     />);
   }
-  return(
+  return (
     <div className="displayBox">
       <h4>Markets</h4>
       {marketList}
