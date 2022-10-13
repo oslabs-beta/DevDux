@@ -1,4 +1,5 @@
 <!-- DEXDUX README -->
+# DevDux README
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -19,22 +20,22 @@
     <a href="https://github.com/oslabs-beta/DevDux/issues">Request Feature</a>
   </p>
     <!-- BADGES -->
-  <p align="center">
+  <!-- <p align="center"> -->
     <!-- VSCode Version -->
-    <a href="..."><img alt="Visual Studio Marketplace Version" src="..."></a>
+    <!-- <a href="..."><img alt="Visual Studio Marketplace Version" src="..."></a> -->
     <!-- VSCode Installs -->
-    <a href="..."><img alt="Visual Studio Marketplace Installs" src=".."></a>
+    <!-- <a href="..."><img alt="Visual Studio Marketplace Installs" src=".."></a> -->
     <!-- STARS -->
-    <a href="..."><img alt="GitHub Repo stars" src="..."></a>
+    <!-- <a href="..."><img alt="GitHub Repo stars" src="..."></a> -->
     <!-- FORKS -->
-    <a href="..."><img alt="GitHub forks" src="..."></a>
+    <!-- <a href="..."><img alt="GitHub forks" src="..."></a> -->
     <!-- GITHUB RELEASE VERSION -->
     <!-- <a href="https://github.com/oslabs-beta/sapling/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a> -->
-    <br>
+    <!-- <br> -->
     <!-- BUILD STATUS -->
-    <a href="..."><img alt="master CI/CD workflow status" src="..."></a>
+    <!-- <a href="..."><img alt="master CI/CD workflow status" src="..."></a>
     <a href="https://github.com/oslabs-beta/sapling/actions/workflows/dev.yml"><img alt="dev CI workflow status" src="..."></a>
-    <img alt="Vercel Web deployments" src="...">
+    <img alt="Vercel Web deployments" src="..."> -->
     <!-- LICENSE -->
     <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/sapling"></a> -->
     <!-- CONTRIBUTIONS -->
@@ -73,7 +74,6 @@
 
 ## About The Project
 
-<br/>
 <p align="center">
   <!-- <img> add gif here -->
 </p>
@@ -85,12 +85,12 @@ The solution is DevDux. DevDux eliminates the need of visiting files just to fig
 
 ### Built With
 
-- [<img style="height: 1em;" src="sapling/media/react-brands.svg">](https://reactjs.org/) [React](https://reactjs.org/)
-- [<img style="height: 1em;" src="sapling/media/vscode.svg">](https://code.visualstudio.com/api) [VSCode Extension API](https://code.visualstudio.com/api)
-- [<img style="height: 1em;" src="sapling/media/mochajs-icon.svg">](https://mochajs.org/) [Mocha](https://mochajs.org/)
-- [<img style="height: 1em;" src="sapling/media/chai_icon.svg">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
-- [<img style="height: 1em;" src="sapling/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
-- [<img style="height: 1em;" src="sapling/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="devdux/media/react-brands.png">](https://reactjs.org/) [React](https://reactjs.org/)
+- [<img style="height: 1em;" src="devdux/media/vscode.png">](https://code.visualstudio.com/api) [VSCode Extension API](https://code.visualstudio.com/api)
+- [<img style="height: 1em;" src="devdux/media/mochajs-icon.png">](https://mochajs.org/) [Mocha](https://mochajs.org/)
+- [<img style="height: 1em;" src="devdux/media/chai_icon.png">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
+- [<img style="height: 1em;" src="devdux/media/babel-logo-minimal.png">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
+- [<img style="height: 1em;" src="devdux/media/webpack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
 
 ## Installation
 
@@ -173,82 +173,8 @@ This project is licensed under the Mozilla Public License. For more information 
 
 ## Contact
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/twitter-logo.svg">]() Twitter: [@TeamDevDux](https://twitter.com/teamDevDux) | Email: devduxExtension@gmail.com
+[<img style="height: 1em; width: 1em;" src="devdux/media/linkedin.svg">]() LinkedIn: [@devdux-extension](https://www.linkedin.com/company/devdux-extension/) | Email: devduxExtension@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
+[<img style="height: 1em; width: 1em;" src="devdux/media/github-icon.png">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
 
 ## Acknowledgements
-
--
-
-# devdux README
-
-This is the README for your extension "devdux". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
