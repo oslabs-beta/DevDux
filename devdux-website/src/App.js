@@ -29,7 +29,7 @@ function App() {
           <div className="container-fluid">
             <Button variant="contained"><a href="/">DevDux</a></Button>
               <div className="collapse navbar-collapse"   id="navbarSupportedContent">
-            <Button variant="contained"><a href="/">Get DevDux</a></Button>
+            <Button variant="contained"><a href="https://marketplace.visualstudio.com/items?itemName=DevDux.DevDux">Get DevDux</a></Button>
             </div>
           </div>
         </nav>
@@ -71,7 +71,7 @@ function App() {
         </div>
         <div className="link mx-auto">
           <p className="text-center">More about DevDux:</p>
-            <a href="https://medium.com" target="_blank" rel="noreferrer">
+            <a href="https://devdux.medium.com/devdux-a-new-open-source-vs-code-extension-for-redux-rtk-f7d3b8838083" target="_blank" rel="noreferrer">
               <img src={mediumLogo} alt="Medium M Logo" width={60} height={60}></img>
             </a>
         </div>
