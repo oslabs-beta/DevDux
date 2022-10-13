@@ -1,15 +1,20 @@
 <!-- DEXDUX README -->
+
+## DevDux README
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/oslabs-beta/DevDux">
-    <img src="devdux/media/devdux.png" alt="Logo" height="120">
+    <img src="devdux/media/devdux.png" alt="Logo" height="250">
   </a>
 
-  <h3 align="center">DexDux</h3>
+  <h1 align="center">DexDux</h1>
 
   <p align="center">
-    Redux Toolkit state visualization extension for VS Code
+    DexDux is a VS Code extention built for Redux Toolkit users. As the codebase grows, it gets difficult to track and conceptualize what files are rendering which components, what props are passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot? 
+  <p align="center"> 
+    The solution is DevDux. DevDux eliminates the need of visiting files just to figure out how everything relates to one another.  It provides a visual indication of everything a file contains. 
     <br />
     <a href="https://github.com/oslabs-beta/DevDux"><strong>Explore the docs »</strong></a>
     <br />
@@ -18,81 +23,66 @@
     ·
     <a href="https://github.com/oslabs-beta/DevDux/issues">Request Feature</a>
   </p>
-    <!-- BADGES -->
-  <p align="center">
-    <!-- VSCode Version -->
-    <a href="..."><img alt="Visual Studio Marketplace Version" src="..."></a>
-    <!-- VSCode Installs -->
-    <a href="..."><img alt="Visual Studio Marketplace Installs" src=".."></a>
-    <!-- STARS -->
-    <a href="..."><img alt="GitHub Repo stars" src="..."></a>
-    <!-- FORKS -->
-    <a href="..."><img alt="GitHub forks" src="..."></a>
-    <!-- GITHUB RELEASE VERSION -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/releases"><img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/oslabs-beta/sapling?include_prereleases"></a> -->
-    <br>
-    <!-- BUILD STATUS -->
-    <a href="..."><img alt="master CI/CD workflow status" src="..."></a>
-    <a href="https://github.com/oslabs-beta/sapling/actions/workflows/dev.yml"><img alt="dev CI workflow status" src="..."></a>
-    <img alt="Vercel Web deployments" src="...">
-    <!-- LICENSE -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/LICENSE"><img alt="GitHub" src="https://img.shields.io/github/license/oslabs-beta/sapling"></a> -->
-    <!-- CONTRIBUTIONS -->
-    <!-- <a href="https://github.com/oslabs-beta/sapling/blob/master/README.md"><img alt="Contributions" src="https://img.shields.io/badge/contributors-welcome-brightgreen"></a> -->
+  </p>
   </p>
 </p>
 
 <hr>
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
+  
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">DevDux
+      </a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#technologies-used">Technologies Used</a>
+        </li>
       </ul>
     </li>
-    <li><a href="#installation">Installation</a></li>
+    <li><a href="#installation">Installation</a>
+    </li>
     <li>
       <a href="#getting-started">Getting Started</a></li>
-    <li><a href="#usage">Usage</a>
+    <li>
+    <a href="#about-the-extension">About the Extension
+    </a>
+    <ul>
     <li><a href="#limitations">Limitations</a>
-    <li><a href="#contributor-usage">Contributor Usage</a></li>
-    <li><a href="#extension-settings">Extension Settings</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    </ul>
+    <li>
+      <a href="#Contributions">Contributions</a>
+      <ul>
+        <li><a href="#howToContribute">Make a contribution</a></li>
+      </ul>
     <li><a href="#license">License</a></li>
     <li><a href="#creators">Creators</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <!-- <li><a href="#acknowledgements">Acknowledgements</a></li> -->
   </ol>
 </details>
-
 <hr>
 
-## About The Project
+## DevDux 
 
-<br/>
 <p align="center">
-  <!-- <img> add gif here -->
+  <img src="devdux/media/screenshots-for-readme/devduxexample.gif"/>
 </p>
 <br/>
 
-DexDux is a VS Code extention built for Redux users. As a codebase grows, it gets difficult to keep track of what files are rendering which components, what props are being passed, and the relationship between it all. Wouldn't it be so easy if we could just see everything displayed in a single spot?
 
-The solution is DevDux. DevDux eliminates the need of visiting files just to figure out how everything relates to one another. There is no more guessing of what the parent component is to your current file. DevDux is an interactive hierarchical tree view visualizer that lives directly in VS Code. It provides a visual indication of what each file contains.
 
-### Built With
+### Technologies Used
 
-- [<img style="height: 1em;" src="sapling/media/react-brands.svg">](https://reactjs.org/) [React](https://reactjs.org/)
-- [<img style="height: 1em;" src="sapling/media/vscode.svg">](https://code.visualstudio.com/api) [VSCode Extension API](https://code.visualstudio.com/api)
-- [<img style="height: 1em;" src="sapling/media/mochajs-icon.svg">](https://mochajs.org/) [Mocha](https://mochajs.org/)
-- [<img style="height: 1em;" src="sapling/media/chai_icon.svg">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
-- [<img style="height: 1em;" src="sapling/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
-- [<img style="height: 1em;" src="sapling/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="devdux/media/vscode.png">](https://code.visualstudio.com/api) [VSCode Extension API](https://code.visualstudio.com/api)
+- [<img style="height: 1em;" src="devdux/media/react-brands.png">](https://reactjs.org/) [React](https://reactjs.org/)
+- [<img style="height: 1em;" src="devdux/media/babel-logo-minimal.png">](https://babeljs.io/docs/en/babel-parser) [Babel Parser](https://babeljs.io/docs/en/babel-parser)
+- [<img style="height: 1em;" src="devdux/media/mochajs-icon.png">](https://mochajs.org/) [Mocha](https://mochajs.org/)
+- [<img style="height: 1em;" src="devdux/media/chai_icon.png">](https://www.chaijs.com/) [Chai](https://www.chaijs.com/)
+- [<img style="height: 1em;" src="devdux/media/webpack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
 
-## Installation
+### Installation
 
 Installation from VS Code Extension Marketplace:
 
@@ -104,6 +94,7 @@ Installation from VS Code Extension Marketplace:
 
 To install devdux for development, please see the contributing section below.
 
+<br></br>
 ## Getting Started
 
 1. After installing DevDux, open the VS Code command pallete (⌘⇧P). Type in the command "DevDux: Open Root File".
@@ -111,43 +102,85 @@ To install devdux for development, please see the contributing section below.
 2. Your file explorer window will launch. Select an entrypoint. This is typically a file where the parent component for the rest of your application is rendered (App.jsx).
 
 3. Go to the VS Code Explorer tab (⌘⇧E) and a DevDux Sidebar will be presented below your files.
+   <br/><br/>
+   <img src="devdux/media/screenshots-for-readme/sideBarExample.png">
 
-## Usage
+<br></br>
+## About the Extension
+
 Currently DevDux supports a limited amount of React-Redux file structures, see the limitations sections for more details. DevDux the name of the folder a file resides in and the file name. Clicking on a file name opens the collapsable tree view to reveal the following application information :
+
 <ol>
   <li> filePath </li>
   <ul>
-    <li>Complete file path </li>
+    <li>Complete file path for the file you have selected</li>
+    <img  src="devdux/media/screenshots-for-readme/filePathExample.png">
   </ul>
   <li> imports </li>
+    <ul>
+      <li>Displays a list of named items imported in the selected file</li>
+      <li>Selecting a name opens the file path for the selected item</li>
+      <img  src="devdux/media/screenshots-for-readme/importsExample.png">
+    </ul>
   <li> selected </li>
+    <ul>
+      <li>Displays a list of state variables pulled from the store</li>
+      <li>Parser searches for useSelector or useAppSelector</li>
+      <li>The list is based on what the store variables are labeled as in the file</li>
+      <li>Selecting a variable label displays the reducer that the state variable is defined in and the state label</li>
+      <img  src="devdux/media/screenshots-for-readme/selectedExample.png">
+    </ul>
   <li> dispatched </li>
+    <ul>
+      <li>Displays a list of dispatched functions pulled from the store via parsing for occurrences of useDispatch or useAppDispatch</li>
+      <img  src="devdux/media/screenshots-for-readme/dispatchedExample.png">
+    </ul>
   <li> rendered components</li>
+    <ul>
+      <li>Displays a list of components that are rendered in this component file</li>
+      <li>Selecting a componenet displays a list of the props that are passed to the rendered component</li>
+      <li>Selecting a prop displays the value that is passed in as the prop</li>
+      <img  src="devdux/media/screenshots-for-readme/renderedComponentsExample.png">
+    </ul>
 </ol>
-1. filePath
-1. imports
-1. selected
-1. dispatched
-1. renderedComponents
 
+<br></br>
 ## Limitations
 
-### Contributor Usage
+DevDux in its current version is limited in scope and opionionated. This section serves to describe some of DevDux limitations and best practices to ensure DevDux works properly. Currently MacOS is supported for use of DevDux. Currently the following React-Redux file structures are supported:
 
-## Extension Settings
+1.  Functional components using ES6 arrow function definition that is exported seperately.
+1.  Functional components defined using traditonal function declaration and exported in place.
+1.  Functional component defined using a function definition inside of a React.memo top level API call that is exported in place.
 
-## Contributing
+<br></br>
+## Contributions
 
-The open source community thrives on contributions. It allows developers to learn, create, and inspire others. Contributions to DevDux are **appreciated** and **encouraged**.
+Our team **welcomes**, **appreciates**, and **encourages** contributions. Contributions make the the open source community thrive. Building new features in DevDux will allow developers to learn the exsisting codebase, create new features, and inspire others. 
 
+
+### How to make a contribution
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/newFeature`)
 3. Commit your Changes (`git commit -m 'Add some newFeature'`)
 4. Push to the Branch (`git push origin feature/newFeature`)
 5. Open a Pull Request
 
+<br></br>
+## Reporting Issues
+
+Report bugs [here](https://github.com/oslabs-beta/DevDux/issues). When possible provide a screen shot of the item that is not being displayed. Report the following:
+
+1. Type of React component (Class Based, Functional Definition, Arrow function definition)
+1. Location where component was exported. In place or a seperate location.
+1. Information relavant to the item that is not being displayed. What was missing/not displayed? Where is the item located that is not being displayed with relation to the rest of the file.
+
+<br></br>
 ## License
-This project is licensed under the Mozilla Public License. For more information see the LICENSE file in the repository or visit Mozilla's offical page [here](https://www.mozilla.org/en-US/MPL/).
+
+This project is licensed under the Mozilla Public License. For more information see the [`LICENSE`](https://github.com/oslabs-beta/DevDux/blob/main/devdux/LICENSE) file in the repository or visit Mozilla's offical page [here](https://www.mozilla.org/en-US/MPL/).
+
+<br></br>
 ## Creators
 
 - [Kara Chisholm](https://github.com/kkchis)
@@ -157,82 +190,9 @@ This project is licensed under the Mozilla Public License. For more information 
 
 ## Contact
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/twitter-logo.svg">]() Twitter: [@TeamDevDux](https://twitter.com/teamDevDux) | Email: devduxExtension@gmail.com
+[<img style="height: 1em; width: 1em;" src="devdux/media/linkedin.svg">]() LinkedIn: [@devdux-extension](https://www.linkedin.com/company/devdux-extension/) | Email: devduxExtension@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="sapling/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
+[<img style="height: 1em; width: 1em;" src="devdux/media/github-icon.png">]() GitHub: [https://github.com/oslabs-beta/devdux/](https://github.com/oslabs-beta/devdux/)
 
-## Acknowledgements
-
--
-
-# devdux README
-
-This is the README for your extension "devdux". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+<!-- ## Acknowledgements
++ Influenced by [Sapling](https://github.com/oslabs-beta/sapling) -->
